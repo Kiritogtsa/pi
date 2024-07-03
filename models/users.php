@@ -1,5 +1,5 @@
 <?php
-class UserVO {
+class User {
     private $id;
     private $nome;
     private $email;
@@ -10,6 +10,7 @@ class UserVO {
     private $data_adimisao;
     private $telefone;
     private $sexo;
+    private $cpf;
 
     function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo) {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
@@ -37,6 +38,10 @@ class UserVO {
     public function getEmail() {
         return $this->email;
     }
+    public function getCPF() {
+        return $this->cpf;
+    }
+
 
     public function getTrabalho() {
         return $this->trabalho;
@@ -106,6 +111,9 @@ class UserVO {
     public function setSexo($sexo) {
         $this->sexo = $sexo;
     }
+    public function setCPF($cpf) {
+        $this->cpf = $cpf;
+    }
 }
 
 class UserDAO{
@@ -114,9 +122,26 @@ class UserDAO{
         require_once("../config/db.php");
         $this->conn = $pdo;
     }
-    private function insert(UserVO $user){
+    private function insert(User $user){
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf)";
+        $nome = $user->getNome();
+        $email = $user->getEmail(); 
+        $senha=$user->getSenha(); 
+        $data_nascimento=$user->getDataNascimento(); 
+        $data_adimisao=$user->getDataAdimisao(); 
+        $telefone=$user->getTelefone();
+        $cpf=$user->getCpf();
+        $sexo = $user->getSexo();
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam("", $user.getName());
+        $senha = password_hash($senha, PASSWORD_DEFAULT);
+        $stmt->bindParam(":nome", $nome);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":senha", $senha);
+        $stmt->bindParam(":telefone", $telefone);
+        $stmt->bindParam(":cpf", $cpf);
+        $stmt->bindParam(":sexo", $sexo);
+        $stmt->bindParam(":data_nas", $data_nascimento);
+        $stmt->bindParam(":data_ad", $data_adimisao);
+        
     }
 }
