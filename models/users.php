@@ -12,6 +12,8 @@ class User {
     private $sexo;
     private $cpf;
 
+    // thiago.da.silva@
+
     function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo) {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
             throw new Exception("Está faltando um dado");
@@ -214,5 +216,23 @@ class UserDAO{
         $user->setId($dados["id"]);
         return $user; 
     }
-    
+    public function delete($id){
+        try {
+            $this->conn->beginTransaction();
+            
+            $sql = "UPDATE users SET deleted_at = NOW() WHERE ID = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":id", $id);
+            
+            $result = $stmt->execute();
+            
+            $this->conn->commit();
+            
+            return $result;
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            throw $e;
+        }
+    }
+
 }
