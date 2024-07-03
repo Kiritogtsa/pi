@@ -49,7 +49,8 @@ CREATE TABLE `users` (
   `DATA_ADMISSAO` date DEFAULT NULL,
   `SEXO` varchar(10) DEFAULT NULL,
   `SENHA` varchar(60) DEFAULT NULL,
-  `grupo` varchar(12) not null DEFAULT `user`,
+  `GRUPO` varchar(12) not null DEFAULT `user`,
+  `DELETE_AT`DATETIME DEFAULT NULL,
   `TR_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
