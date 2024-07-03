@@ -142,6 +142,76 @@ class UserDAO{
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_nas", $data_nascimento);
         $stmt->bindParam(":data_ad", $data_adimisao);
-        
+        $stmt->execute();
+        $user->setId($this->conn->lastInsertId());
+        return $user;
+    }
+    private function update(User $user) {
+        $sql = "UPDATE users SET 
+            NOME = :nome,
+            EMAIL = :email,
+            TELEFONE = :telefone,
+            DATA_NASCIMENTO = :data_nas,
+            DATA_ADMISSAO = :data_ad,
+            SEXO = :sexo,
+            CPF = :cpf
+        WHERE ID = :id";
+        $id = $user->getId();
+        $nome = $user->getNome();
+        $email = $user->getEmail(); 
+        $data_nascimento = $user->getDataNascimento(); 
+        $data_adimisao = $user->getDataAdimisao(); 
+        $telefone = $user->getTelefone();
+        $cpf = $user->getCpf();
+        $sexo = $user->getSexo();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":nome", $nome);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":telefone", $telefone);
+        $stmt->bindParam(":cpf", $cpf);
+        $stmt->bindParam(":sexo", $sexo);
+        $stmt->bindParam(":data_nas", $data_nascimento);
+        $stmt->bindParam(":data_ad", $data_adimisao);
+        $stmt->execute();
+    }
+    public function persit(User $user){
+        if (!$user->getId()) {
+            return $this->insert($user);
+        } else {
+            return $this->update($user);
+        }
+    }
+    public function getByNome($nome){
+        $sql = "SELECT * FROM users WHERE nome = :nome";
+        $stmt = $this->conn->prepare($sql);
+        echo "<br>";
+        $stmt->bindParam(':nome', $nome);
+        $stmt->execute();
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo "<br>";
+        var_dump($dados);
+        if (!$dados) {
+            throw new Exception("Usuário não encontrado com o nome: " . $nome);
+        }
+        $user = new User($dados["nome"], $dados["email"],$dados["trabalho"],$dados["cpf"], $dados["senha"], $dados["data_nascimento"], $dados["data_adimisao"],$dados["telefone"],$dados["sexo"]);
+        $user->setId($dados["id"]);
+        return $user; 
+    }
+    public function getByEmail($email){
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        echo "<br>";
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo "<br>";
+        var_dump($dados);
+        if (!$dados) {
+            throw new Exception("Usuário não encontrado com o nome: " . $email);
+        }
+        $user = new User($dados["nome"], $dados["email"],$dados["trabalho"],$dados["cpf"], $dados["senha"], $dados["data_nascimento"], $dados["data_adimisao"],$dados["telefone"],$dados["sexo"]);
+        $user->setId($dados["id"]);
+        return $user; 
     }
 }
