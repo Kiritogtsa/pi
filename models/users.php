@@ -24,6 +24,9 @@ class User {
         if (!$this->validarcpf($cpf)) {
             throw new Exception("nao possivel validar o cpf");
         }
+        if (!$this->validaremail($email)) {
+            throw new Exception("o email e invalido");
+        }
         $this->nome = $nome;
         $this->email = $email;
         $this->trabalho = $trabalho;
@@ -33,6 +36,19 @@ class User {
         $this->data_adimisao = $data_adimisao;
         $this->telefone = $telefone;
         $this->sexo = $sexo;
+    }
+    private function validaremail($email) {
+        $conta = "^[a-zA-Z0-9\._-]+@";
+        $domino = "[a-zA-Z0-9\._-]+.";
+        $extensao = "([a-zA-Z]{2,4})$";
+        
+        $pattern = $conta.$domino.$extensao;
+        
+        if (preg_match($pattern, $email)) {
+            return true;
+            } else {
+            return false;
+        }
     }
     private function validarcpf($cpf){
 
