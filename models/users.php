@@ -254,3 +254,24 @@ class UserDAO{
     }
 
 }
+// exemplo de como receber um json
+
+// header('Content-Type: application/json');
+
+// // Obtendo o conteúdo JSON do corpo da solicitação
+// $inputJSON = file_get_contents('php://input');
+
+// // Convertendo o JSON para um array associativo PHP
+// $inputData = json_decode($inputJSON, true);
+
+// // Exemplo de uso dos dados recebidos
+// $nome = $inputData['nome'] ?? 'Desconhecido';
+// $email = $inputData['email'] ?? 'email@example.com';
+
+// $response = [
+//     'success' => true,
+//     'message' => 'Dados recebidos com sucesso!',
+//     'received' => $inputData
+// ];
+
+// echo json_encode($response);
