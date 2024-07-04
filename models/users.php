@@ -135,7 +135,7 @@ class UserDAO{
         $telefone=$user->getTelefone();
         $cpf=$user->getCpf();
         $sexo = $user->getSexo();
-        $tr_id = $user->getTrabalhoid();
+        $tr_id = $user->getTrabalho();
         $stmt = $this->conn->prepare($sql);
         $senha = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->bindParam(":nome", $nome);
