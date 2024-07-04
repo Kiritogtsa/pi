@@ -21,6 +21,7 @@ class User {
         $this->nome = $nome;
         $this->email = $email;
         $this->trabalho = $trabalho;
+        $this->cpf = $cpf;
         $this->senha = $senha;
         $this->data_nascimento = $data_nascimento;
         $this->data_adimisao = $data_adimisao;
@@ -125,7 +126,7 @@ class UserDAO{
         $this->conn = $pdo;
     }
     private function insert(User $user){
-        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf)";
+        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id)";
         $nome = $user->getNome();
         $email = $user->getEmail(); 
         $senha=$user->getSenha(); 
@@ -134,6 +135,7 @@ class UserDAO{
         $telefone=$user->getTelefone();
         $cpf=$user->getCpf();
         $sexo = $user->getSexo();
+        $tr_id = $user->getTrabalhoid();
         $stmt = $this->conn->prepare($sql);
         $senha = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->bindParam(":nome", $nome);
@@ -143,7 +145,9 @@ class UserDAO{
         $stmt->bindParam(":cpf", $cpf);
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_nas", $data_nascimento);
+        $stmt->bindParam(":data_nas", $data_nascimento);
         $stmt->bindParam(":data_ad", $data_adimisao);
+        $stmt->bindParam(":tr_id", $tr_id);
         $stmt->execute();
         $user->setId($this->conn->lastInsertId());
         return $user;
