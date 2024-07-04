@@ -1,5 +1,6 @@
 <?php
 require_once('../models/users.php');
+session_start();
 $botao = filter_var($_POST["submit"], FILTER_SANITIZE_SPECIAL_CHARS);
 
 if($botao == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
@@ -10,7 +11,7 @@ if($botao == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
         $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
         $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
         $data_admissao = filter_var($POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
-        $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT);
+        $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT);// verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
         $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
         $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nasicmento, $data_admissao, $telefone, $sexo);
         $userDAO = new UserDAO();
@@ -50,19 +51,22 @@ else if($submit == "login"){
             $_SESSION['autenticacao']= true;
             header('Location: ../view/welcome.php');
             exit();
-        else{
+        }else{
             $_SESSION["user"]=serialize($user);
             echo json_encode($data);
             $_SESSION['autenticacao']= true;
             header('Location: ../view/perfil.php');
         }
-        }
+    }catch(Exception $e){
+        echo $e->getMessage();
     }
 }
 
+
 # Atualizar
-else if ($submit == "Atualizar") {
+else if ($submit == "Atualizar"){
     try {
+        $user= isset($_SESSION["user"])?unserialize("user") : null;
        $nome = filter_var($_POST['nome'],FILTER_SANITIZE_STRING);
        $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
        $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
@@ -70,12 +74,10 @@ else if ($submit == "Atualizar") {
        $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
        $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_STRING);
        $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
-
-       $user = new UserDAO($nome,$email,$data_nascimento,$data_adimisao,$telefone,$sexo,$cpf);
+       $user-> // chamar os metodos sets para atualizar o user
        $user->setID($id);
        $userDAO = new UserDAO();
-       $user = $userDAO->persist($user;)
-
+       $user = $userDAO->persit($user);
        echo json_encode($data);
     } catch (Exception $e) {
         $_SESSION['mensagem'] = $e->getMessage();
