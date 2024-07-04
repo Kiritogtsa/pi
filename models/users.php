@@ -244,24 +244,7 @@ class UserDAO{
             return $this->update($user);
         }
     }
-    // obtem uma instancia de User com base no nome fonercido
-    public function getByNome($nome){
-        $sql = "SELECT * FROM users WHERE nome = :nome";
-        $stmt = $this->conn->prepare($sql);
-        echo "<br>";
-        $stmt->bindParam(':nome', $nome);
-        $stmt->execute();
-        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo "<br>";
-        var_dump($dados);
-        if (!$dados) {
-            throw new Exception("Usuário não encontrado com o nome: " . $nome);
-        }
-        $user = new User($dados["nome"], $dados["email"],$dados["trabalho"],$dados["cpf"], $dados["senha"], $dados["data_nascimento"], $dados["data_adimisao"],$dados["telefone"],$dados["sexo"]);
-        $user->setId($dados["id"]);
-        return $user; 
-    }
-
+    
     // obtem uma instancia de User com base no email fonercido
     public function getByEmail($email){
         $sql = "SELECT * FROM users WHERE email = :email";
