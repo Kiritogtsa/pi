@@ -48,6 +48,7 @@ class User {
             return false;
         }
     }
+    
     // valida os campos
     private function validarcampos($nome, $email,$trabalho,$cpf,$senha,$sexo){
         if (!$this->validarcpf($cpf)) {
