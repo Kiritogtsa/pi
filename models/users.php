@@ -21,6 +21,12 @@ class User {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
             throw new Exception("Está faltando um dado");
         }
+        if (!$this->validarcpf($cpf)) {
+            throw new Exception("nao possivel validar o cpf");
+        }
+        if (!$this->validaremail($email)) {
+            throw new Exception("o email e invalido");
+        }
         $this->nome = $nome;
         $this->email = $email;
         $this->trabalho = $trabalho;
@@ -30,6 +36,46 @@ class User {
         $this->data_adimisao = $data_adimisao;
         $this->telefone = $telefone;
         $this->sexo = $sexo;
+    }
+    private function validaremail($email) {
+        $conta = "^[a-zA-Z0-9\._-]+@";
+        $domino = "[a-zA-Z0-9\._-]+.";
+        $extensao = "([a-zA-Z]{2,4})$";
+        
+        $pattern = $conta.$domino.$extensao;
+        
+        if (preg_match($pattern, $email)) {
+            return true;
+            } else {
+            return false;
+        }
+    }
+    private function validarcpf($cpf){
+
+    // Extrai somente os números
+    $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+     
+    // Verifica se foi informado todos os digitos corretamente
+    if (strlen($cpf) != 11) {
+        return false;
+    }
+
+    // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+    if (preg_match('/(\d)\1{10}/', $cpf)) {
+        return false;
+    }
+
+    // Faz o calculo para validar o CPF
+    for ($t = 9; $t < 11; $t++) {
+        for ($d = 0, $c = 0; $c < $t; $c++) {
+            $d += $cpf[$c] * (($t + 1) - $c);
+        }
+        $d = ((10 * $d) % 11) % 10;
+        if ($cpf[$c] != $d) {
+            return false;
+        }
+    }
+    return true;
     }
 
     // Getters
@@ -254,3 +300,24 @@ class UserDAO{
     }
 
 }
+// exemplo de como receber um json
+
+// header('Content-Type: application/json');
+
+// // Obtendo o conteúdo JSON do corpo da solicitação
+// $inputJSON = file_get_contents('php://input');
+
+// // Convertendo o JSON para um array associativo PHP
+// $inputData = json_decode($inputJSON, true);
+
+// // Exemplo de uso dos dados recebidos
+// $nome = $inputData['nome'] ?? 'Desconhecido';
+// $email = $inputData['email'] ?? 'email@example.com';
+
+// $response = [
+//     'success' => true,
+//     'message' => 'Dados recebidos com sucesso!',
+//     'received' => $inputData
+// ];
+
+// echo json_encode($response);
