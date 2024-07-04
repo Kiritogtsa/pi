@@ -1,5 +1,8 @@
 <?php
+
+// define uma classe de usuario
 class User {
+    // define os atributos do usuario
     private $id;
     private $nome;
     private $email;
@@ -11,8 +14,8 @@ class User {
     private $telefone;
     private $sexo;
     private $cpf;
-
-    // thiago.da.silva@
+    
+    // o construtor verifica se tem algum campo em branco e se tem gera um erro
 
     function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo) {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
@@ -119,12 +122,16 @@ class User {
     }
 }
 
+// define a classe que trabalha com a tabela relacionada ao usuario
 class UserDAO{
     private $conn;
+    // o contrutor seta a conn para receber a conexao do banco de dados
     function __construct() {
         require_once("../config/db.php");
         $this->conn = $pdo;
     }
+
+    // cria um usuario, ele recebe um usuario e volta o usuario ja com o id do banco de dados
     private function insert(User $user){
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id)";
         $nome = $user->getNome();
@@ -152,6 +159,7 @@ class UserDAO{
         $user->setId($this->conn->lastInsertId());
         return $user;
     }
+    // ele atualiza um usuario
     private function update(User $user) {
         $sql = "UPDATE users SET 
             NOME = :nome,
@@ -181,6 +189,8 @@ class UserDAO{
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->execute();
     }
+
+    // a funçao que decide qual metodo e chamado
     public function persit(User $user){
         if (!$user->getId()) {
             return $this->insert($user);
@@ -188,6 +198,7 @@ class UserDAO{
             return $this->update($user);
         }
     }
+    // obtem uma instancia de User com base no nome fonercido
     public function getByNome($nome){
         $sql = "SELECT * FROM users WHERE nome = :nome";
         $stmt = $this->conn->prepare($sql);
@@ -204,6 +215,8 @@ class UserDAO{
         $user->setId($dados["id"]);
         return $user; 
     }
+
+    // obtem uma instancia de User com base no email fonercido
     public function getByEmail($email){
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
@@ -220,6 +233,7 @@ class UserDAO{
         $user->setId($dados["id"]);
         return $user; 
     }
+    // ele desativa o usuario
     public function delete($id){
         try {
             $this->conn->beginTransaction();
