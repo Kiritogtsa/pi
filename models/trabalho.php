@@ -21,7 +21,7 @@ public function getNome() {
 }
 
 public function getDiscricao() {
-    return $this->;
+    return $this->discricao;
 }
 
 //setters
@@ -34,7 +34,7 @@ public function setNome($nome) {
 }
 
 public function setDiscricao($discricao) {
-    $this-> = $discricao;
+    $this->discricao = $discricao;
 }
 }
 class TrabalhoDAO {
