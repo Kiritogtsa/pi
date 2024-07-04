@@ -21,11 +21,9 @@ class User {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
             throw new Exception("Está faltando um dado");
         }
-        if (!$this->validarcpf($cpf)) {
-            throw new Exception("nao possivel validar o cpf");
-        }
-        if (!$this->validaremail($email)) {
-            throw new Exception("o email e invalido");
+        // chama um metodo para validar os campos, se nao recebr um true  e porque recebeu uma messagem dai gera o erro personalizado
+        if($msg = $this->validarcampos($nome,$email, $trabalho,$cpf,$senha,$sexo)!=true){
+            throw new Exception($msg);
         }
         $this->nome = $nome;
         $this->email = $email;
@@ -48,6 +46,22 @@ class User {
             return true;
             } else {
             return false;
+        }
+    }
+    
+    // valida os campos
+    private function validarcampos($nome, $email,$trabalho,$cpf,$senha,$sexo){
+        if (!$this->validarcpf($cpf)) {
+            return $msg = "cpf invalido";
+        }
+        if (!$this->validaremail($email)) {
+            return $msg = "email invalido";
+        }
+        if (is_numeric($trabalho)){
+            return $msg = "trabalho invalido, recebido um character invalido, era esperado um numero";
+        }
+        if($sexo == "masculino" || $sexo == "feminino"){
+            return $msg =  "sexo incorreto";
         }
     }
     private function validarcpf($cpf){
@@ -244,24 +258,7 @@ class UserDAO{
             return $this->update($user);
         }
     }
-    // obtem uma instancia de User com base no nome fonercido
-    public function getByNome($nome){
-        $sql = "SELECT * FROM users WHERE nome = :nome";
-        $stmt = $this->conn->prepare($sql);
-        echo "<br>";
-        $stmt->bindParam(':nome', $nome);
-        $stmt->execute();
-        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo "<br>";
-        var_dump($dados);
-        if (!$dados) {
-            throw new Exception("Usuário não encontrado com o nome: " . $nome);
-        }
-        $user = new User($dados["nome"], $dados["email"],$dados["trabalho"],$dados["cpf"], $dados["senha"], $dados["data_nascimento"], $dados["data_adimisao"],$dados["telefone"],$dados["sexo"]);
-        $user->setId($dados["id"]);
-        return $user; 
-    }
-
+    
     // obtem uma instancia de User com base no email fonercido
     public function getByEmail($email){
         $sql = "SELECT * FROM users WHERE email = :email";
