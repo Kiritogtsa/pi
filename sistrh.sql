@@ -41,7 +41,7 @@ CREATE TABLE `trabalhos` (
 
 CREATE TABLE `users` (
   `ID` int(11) NOT NULL,
-  `NOME` varchar(50) DEFAULT NULL UNIQUE,
+  `NOME` varchar(50) DEFAULT NULL ,
   `CPF` varchar(11) DEFAULT NULL UNIQUE,
   `EMAIL` varchar(50) DEFAULT NULL UNIQUE,
   `DATA_NASCIMENTO` date DEFAULT NULL,
