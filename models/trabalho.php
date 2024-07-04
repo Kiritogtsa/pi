@@ -1,5 +1,7 @@
 <?php
 
+require_once("./models/users.php");
+
 class Trabalho {
     private $id;
     private $nome;
@@ -39,40 +41,45 @@ class Trabalho {
     }
 }
 
-class TrabalhoDAO {
-    private $conexao;
 
-    public function __construct($conexao) {
-        $this->conexao = $conexao;
+
+
+class TrabalhoDAO {
+    private $conn;
+    // o contrutor seta a conn para receber a conexao do banco de dados
+    function __construct() {
+        require_once("../config/db.php");
+        $this->conn = $pdo;
     }
+
 
     public function salvar(Trabalho $trabalho) {
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
 
-        $sql = "INSERT INTO trabalhos (nome, descricao) VALUES (?, ?)";
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->bind_param("ss", $nome, $descricao);
+        $sql = "INSERT INTO trabalhos (nome, descricao) VALUES (:nome, :descricao)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":nome", $nome);
+        $stmt->bindParam(":descricao", $descricao);
         $stmt->execute();
 
-        $trabalho->setId($stmt->insert_id);
+        $trabalho->setId($this->conn->lastInsertId());
 
         return $trabalho;
     }
 
     public function buscarPorId($id) {
-        $sql = "SELECT * FROM trabalhos WHERE id = ?";
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->bind_param("i", $id);
+        $sql = "SELECT * FROM trabalhos WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id", $id);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($result->num_rows == 0) {
+        if (!$result) {
             return null;
         } else {
-            $row = $result->fetch_assoc();
-            $trabalho = new Trabalho($row['nome'], $row['descricao']);
-            $trabalho->setId($row['id']);
+            $trabalho = new Trabalho($result['nome'], $result['descricao']);
+            $trabalho->setId($result['id']);
             return $trabalho;
         }
     }
@@ -82,18 +89,21 @@ class TrabalhoDAO {
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
 
-        $sql = "UPDATE trabalhos SET nome = ?, descricao = ? WHERE id = ?";
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->bind_param("ssi", $nome, $descricao, $id);
+        $sql = "UPDATE trabalhos SET nome = :nome, descricao = :descricao WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":nome", $nome);
+        $stmt->bindParam(":descricao", $descricao);
+        $stmt->bindParam(":id", $id);
         $stmt->execute();
 
         return $trabalho;
     }
 
     public function deletar($id) {
-        $sql = "DELETE FROM trabalhos WHERE id = ?";
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->bind_param("i", $id);
+        $sql = "DELETE FROM trabalhos WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id", $id);
         $stmt->execute();
     }
 }
+?>
