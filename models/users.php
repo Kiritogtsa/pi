@@ -21,11 +21,9 @@ class User {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
             throw new Exception("Está faltando um dado");
         }
-        if (!$this->validarcpf($cpf)) {
-            throw new Exception("nao possivel validar o cpf");
-        }
-        if (!$this->validaremail($email)) {
-            throw new Exception("o email e invalido");
+        // chama um metodo para validar os campos, se nao recebr um true  e porque recebeu uma messagem dai gera o erro personalizado
+        if($msg = $this->validarcampos($nome,$email, $trabalho,$cpf,$senha,$sexo)!=true){
+            throw new Exception($msg);
         }
         $this->nome = $nome;
         $this->email = $email;
@@ -48,6 +46,21 @@ class User {
             return true;
             } else {
             return false;
+        }
+    }
+    // valida os campos
+    private function validarcampos($nome, $email,$trabalho,$cpf,$senha,$sexo){
+        if (!$this->validarcpf($cpf)) {
+            return $msg = "cpf invalido";
+        }
+        if (!$this->validaremail($email)) {
+            return $msg = "email invalido";
+        }
+        if (is_numeric($trabalho)){
+            return $msg = "trabalho invalido, recebido um character invalido, era esperado um numero";
+        }
+        if($sexo == "masculino" || $sexo == "feminino"){
+            return $msg =  "sexo incorreto";
         }
     }
     private function validarcpf($cpf){
