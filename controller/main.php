@@ -33,7 +33,56 @@ if($botao == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
     echo json_encode($data);
 }
 
+# Login
+else ($submit == "login"){
+    $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
+    $senha = filter_var($_POST['senha'],FILTER_SANITIZE_STRING);
 
+    try{
+        $userDAO = new UserDAO();
+        $user = $userDAO->getByEmail($email);
+        $data = array();
+    
+        if(password_verify($senha,$user->getSenha())){
+            if ( $user -> getTrabalho() == "chefe"|| "auxiliar")
+            $_SESSION["user"]=serialize($user);
+            echo json_encode($data);
+            $_SESSION['autenticacao']= true;
+            header('Location: ../view/welcome.php');
+            exit();
+        else{
+            $_SESSION["user"]=serialize($user);
+            echo json_encode($data);
+            $_SESSION['autenticacao']= true;
+            header('Location: ../view/perfil.php');
+        }
+        }
+    }
+}
+
+# Atualizar
+else if ($submit == "Atualizar") {
+    try {
+       $nome = filter_var($_POST['nome'],FILTER_SANITIZE_STRING);
+       $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
+       $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
+       $data_adimisao = filter_var($_POST['data_adimisao'],FILTER_SANITIZE_NUMBER_INT);
+       $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
+       $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_STRING);
+       $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
+
+       $user = new UserDAO($nome,$email,$data_nascimento,$data_adimisao,$telefone,$sexo,$cpf);
+       $user->setID($id);
+       $userDAO = new UserDAO();
+       $user = $userDAO->persist($user;)
+
+       echo json_encode($data);
+    } catch (Exception $e) {
+        $_SESSION['mensagem'] = $e->getMessage();
+    }
+    header('Location: ');
+    exit();
+}
 
 
 
