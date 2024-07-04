@@ -34,7 +34,7 @@ if($botao == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
 }
 
 # Login
-else ($submit == "login"){
+else if($submit == "login"){
     $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
     $senha = filter_var($_POST['senha'],FILTER_SANITIZE_STRING);
 
