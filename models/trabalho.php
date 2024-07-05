@@ -41,13 +41,14 @@ class Trabalho {
 }
 
 class TrabalhoDAO {
-    private $conn;
+    private $conn; // Armazena a conexão com o banco de dados
 
     function __construct() {
-        require_once("../config/db.php"); // Assuming this file correctly sets $pdo
-        $this->conn = $pdo;
+        require_once("../config/db.php"); // Inclui o arquivo de configuração do banco de dados (assumindo que define $pdo)
+        $this->conn = $pdo; // Inicializa a conexão com o banco de dados
     }
 
+    // Salva um novo trabalho no banco de dados
     public function salvar(Trabalho $trabalho) {
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
@@ -58,11 +59,12 @@ class TrabalhoDAO {
         $stmt->bindParam(":descricao", $descricao);
         $stmt->execute();
 
-        $trabalho->setIdCargo($this->conn->lastInsertId());
+        $trabalho->setIdCargo($this->conn->lastInsertId()); // Define o ID do trabalho com o ID gerado no banco
 
-        return $trabalho;
+        return $trabalho; // Retorna o objeto Trabalho atualizado com o ID
     }
 
+    // Busca um trabalho pelo ID no banco de dados
     public function buscarPorId($id_cargo) {
         $sql = "SELECT * FROM trabalhos WHERE id_cargo = :id_cargo";
         $stmt = $this->conn->prepare($sql);
@@ -71,14 +73,16 @@ class TrabalhoDAO {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$result) {
-            return null;
+            return null; // Retorna nulo se não encontrar o trabalho
         } else {
+            // Cria um objeto Trabalho com os dados do resultado da consulta
             $trabalho = new Trabalho($result['nome'], $result['descricao']);
-            $trabalho->setIdCargo($result['id_cargo']);
-            return $trabalho;
+            $trabalho->setIdCargo($result['id_cargo']); // Define o ID do trabalho
+            return $trabalho; // Retorna o objeto Trabalho encontrado
         }
     }
 
+    // Atualiza um trabalho existente no banco de dados
     public function atualizar(Trabalho $trabalho) {
         $id_cargo = $trabalho->getIdCargo();
         $nome = $trabalho->getNome();
@@ -91,9 +95,10 @@ class TrabalhoDAO {
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
 
-        return $trabalho;
+        return $trabalho; // Retorna o objeto Trabalho atualizado
     }
 
+    // Deleta um trabalho pelo ID no banco de dados
     public function deletar($id_cargo) {
         $sql = "DELETE FROM trabalhos WHERE id_cargo = :id_cargo";
         $stmt = $this->conn->prepare($sql);
@@ -101,6 +106,7 @@ class TrabalhoDAO {
         $stmt->execute();
     }
 
+    // Lista todos os trabalhos presentes no banco de dados
     public function listarCargo() {
         $sql = "SELECT * FROM trabalhos";
         $stmt = $this->conn->prepare($sql);
@@ -109,12 +115,12 @@ class TrabalhoDAO {
 
         $listaTrabalhos = [];
         foreach ($trabalhos as $trabalho) {
+            // Cria objetos Trabalho com os dados de cada resultado da consulta
             $t = new Trabalho($trabalho['nome'], $trabalho['descricao']);
-            $t->setIdCargo($trabalho['id_cargo']);
-            $listaTrabalhos[] = $t;
+            $t->setIdCargo($trabalho['id_cargo']); // Define o ID do trabalho
+            $listaTrabalhos[] = $t; // Adiciona o objeto à lista de trabalhos
         }
 
-        return $listaTrabalhos;
+        return $listaTrabalhos; // Retorna a lista de objetos Trabalho
     }
 }
-
