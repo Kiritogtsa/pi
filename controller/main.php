@@ -65,7 +65,7 @@ else if($submit == "login"){
 # Atualizar
 else if ($submit == "Atualizar"){
     try {
-        $user= isset($_SESSION["user"])?unserialize("user") : null;
+       $user= isset($_SESSION["user"])?unserialize("user") : null;
        $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
        $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
        $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
@@ -83,6 +83,19 @@ else if ($submit == "Atualizar"){
     }
     header('Location: ');
     exit();
+}
+
+else if($submti == "Buscar_cargos"){
+    $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
+    $trabalhoDAO = new TrabalhoDAO();
+    $trabalho = $trabalhoDAO->buscarPorId($id);
+    $_SESSION['trabalho'] = $trabalho;
+    header('Location: ./view');
+}
+
+else if($submit == "Listar_cargos"){
+    $trabalhoDAO = new TrabalhoDAO();
+    $trabalhoDAO->
 }
 
 
