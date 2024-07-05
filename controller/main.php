@@ -108,3 +108,32 @@ else if($submit == "Listar_cargos"){
 
 
 
+else if($submit == "Cadastrar_grupo"){
+    if("axuliar_gerente" || "gerente"){
+        try {
+            $user= isset($_SESSION["user"])?unserialize("user") : null;
+            $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+            $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
+            $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
+            $data_adimisao = filter_var($_POST['data_adimisao'],FILTER_SANITIZE_NUMBER_INT);
+            $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
+            $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
+            $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
+            $user->SetNome($nome);
+            $user->SetEmail($email);
+            $user->SetDataNascimento($data_nascimento);
+            $user->SetDataAdmisao($data_adimisao);
+            $user->SetTelefone($telefone);
+            $user->SetSexo($sexo);
+            $user->SetCpf($cpf);
+            $user->setID($id);
+            $user->setGrupo("axuliar_gerente");
+            $userDAO = new UserDAO();
+            $_SESSION['user'] = $user = $userDAO->insertgrupo($user);
+         } catch (Exception $e) {
+             $_SESSION['mensagem'] = $e->getMessage();
+         }
+         header('Location: ');
+         exit();
+    }
+}
