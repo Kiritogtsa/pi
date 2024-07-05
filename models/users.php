@@ -315,6 +315,7 @@ class UserDAO implements crud{
         }
         $user = new User($dados["nome"], $dados["email"],$dados["trabalho"],$dados["cpf"], $dados["senha"], $dados["data_nascimento"], $dados["data_adimisao"],$dados["telefone"],$dados["sexo"]);
         $user->setId($dados["id"]);
+        $user->setGrupo($dados["grupo"]);
         return $user; 
     }
     // ele desativa o usuario
@@ -365,6 +366,7 @@ class UserDAO implements crud{
                 $row['tr_id']
             );
             $user->setId($row['ID']);
+            $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
 
