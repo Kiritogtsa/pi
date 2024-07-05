@@ -102,7 +102,8 @@ else if($submti == "Buscar_cargos"){
 
 else if($submit == "Listar_cargos"){
     $trabalhoDAO = new TrabalhoDAO();
-    $trabalhoDAO->
+    $lista_cargos = $trabalhoDAO->listarCargo();
+    $_SESSION['cargos'] = $lista_cargos; 
 }
 
 
