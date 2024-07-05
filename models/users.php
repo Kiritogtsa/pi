@@ -1,5 +1,14 @@
 <?php
 
+interface crud{
+    function insert(user $user): user;
+    function update(user $user): user;
+    public function persit(user $user): user;
+    public function getbyemail(string $email): user;
+    public function getbyall(int $min, int $max): array;
+    public function delete(int $id) : bool;
+}
+
 // define uma classe de usuario
 class User {
     // define os atributos do usuario
@@ -183,7 +192,7 @@ class User {
 }
 
 // define a classe que trabalha com a tabela relacionada ao usuario
-class UserDAO{
+class UserDAO implements crud{
     private $conn;
     // o contrutor seta a conn para receber a conexao do banco de dados
     function __construct() {
@@ -192,7 +201,7 @@ class UserDAO{
     }
 
     // cria um usuario, ele recebe um usuario e volta o usuario ja com o id do banco de dados
-    private function insert(User $user){
+    function insert(User $user):User{
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id)";
         $nome = $user->getNome();
         $email = $user->getEmail(); 
@@ -220,7 +229,7 @@ class UserDAO{
         return $user;
     }
     // ele atualiza um usuario
-    private function update(User $user) {
+    function update(User $user):User {
         $sql = "UPDATE users SET 
             NOME = :nome,
             EMAIL = :email,
@@ -248,10 +257,11 @@ class UserDAO{
         $stmt->bindParam(":data_nas", $data_nascimento);
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->execute();
+        return $user;
     }
 
     // a funçao que decide qual metodo e chamado
-    public function persit(User $user){
+    public function persit(User $user):User{
         if (!$user->getId()) {
             return $this->insert($user);
         } else {
@@ -260,7 +270,7 @@ class UserDAO{
     }
     
     // obtem uma instancia de User com base no email fonercido
-    public function getByEmail($email){
+    public function getByEmail($email):User{
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
         echo "<br>";
@@ -277,7 +287,7 @@ class UserDAO{
         return $user; 
     }
     // ele desativa o usuario
-    public function delete($id){
+    public function delete($id):bool{
         try {
             $this->conn->beginTransaction();
             
@@ -294,6 +304,41 @@ class UserDAO{
             $this->conn->rollBack();
             throw $e;
         }
+    }
+    public function getbyall(int $min, int $max): array{
+        $sql = "SELECT * FROM users WHERE id BETWEEN :min AND :max";
+        
+        // Preparar a consulta
+        $stmt = $this->conn->prepare($sql);
+        
+        // Executar a consulta com os parâmetros
+        $stmt->execute([':min' => $min, ':max' => $max]);
+        
+        // Buscar todos os resultados como array associativo
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Array para armazenar os objetos User
+        $users = [];
+        
+        // Iterar pelos resultados e criar objetos User
+        foreach ($results as $row) {
+            $user = new User(
+                $row['NOME'],
+                $row['EMAIL'],
+                $row['SENHA'],
+                $row['TELEFONE'],
+                $row['DATA_NASCIMENTO'],
+                $row['DATA_ADMISSAO'],
+                $row['SEXO'],
+                $row['CPF'],
+                $row['tr_id']
+            );
+            $user->setId($row['ID']);
+            $users[] = $user;
+        }
+
+        // Retornar o array de objetos User
+        return $users;
     }
 
 }
