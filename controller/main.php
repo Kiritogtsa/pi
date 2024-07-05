@@ -14,7 +14,7 @@ if($botao == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
         $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT);// verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
         $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
         $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nasicmento, $data_admissao, $telefone, $sexo);
-        $userDAO = new UserDAO();
+        $userDAO = new UserDAO();    
         $userDAO->persit($user);
         $data = array(); // A partir daqui as mensagem vão ser enviadas por JSON
         header('Content-Type: application/json; charset=utf-8');
@@ -43,7 +43,6 @@ else if($submit == "login"){
         $userDAO = new UserDAO();
         $user = $userDAO->getByEmail($email);
         $data = array();
-    
         if(password_verify($senha,$user->getSenha())){
             if ( $user -> getTrabalho() == "chefe"|| "auxiliar")
             $_SESSION["user"]=serialize($user);
@@ -67,12 +66,12 @@ else if($submit == "login"){
 else if ($submit == "Atualizar"){
     try {
         $user= isset($_SESSION["user"])?unserialize("user") : null;
-       $nome = filter_var($_POST['nome'],FILTER_SANITIZE_STRING);
+       $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
        $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
        $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
        $data_adimisao = filter_var($_POST['data_adimisao'],FILTER_SANITIZE_NUMBER_INT);
        $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
-       $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_STRING);
+       $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
        $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
        $user-> // chamar os metodos sets para atualizar o user
        $user->SetNome($nome);
