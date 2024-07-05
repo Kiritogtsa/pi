@@ -1,12 +1,11 @@
 <?php
 
 interface crud{
-    function insert(user $user): user;
-    function update(user $user): user;
     public function persit(user $user): user;
     public function getbyemail(string $email): user;
     public function getbyall(int $min, int $max): array;
     public function delete(int $id) : bool;
+    public function insertgrupo(User $user):User;
 }
 
 // define uma classe de usuario
@@ -201,7 +200,7 @@ class UserDAO implements crud{
     }
 
     // cria um usuario, ele recebe um usuario e volta o usuario ja com o id do banco de dados
-    function insert(User $user):User{
+    private function insert(User $user):User{
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id)";
         $nome = $user->getNome();
         $email = $user->getEmail(); 
@@ -228,8 +227,40 @@ class UserDAO implements crud{
         $user->setId($this->conn->lastInsertId());
         return $user;
     }
+    public function insertgrupo(User $user):User{
+        if (empty($user->getGrupo())){
+            throw new Exception(" nao tem um grupo");
+        }
+        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id,GRUPO) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo)";
+        $nome = $user->getNome();
+        $email = $user->getEmail(); 
+        $senha=$user->getSenha(); 
+        $data_nascimento=$user->getDataNascimento(); 
+        $data_adimisao=$user->getDataAdimisao(); 
+        $telefone=$user->getTelefone();
+        $cpf=$user->getCpf();
+        $sexo = $user->getSexo();
+        $tr_id = $user->getTrabalho();
+        $grupo = $user->getGrupo();
+        $stmt = $this->conn->prepare($sql);
+        $senha = password_hash($senha, PASSWORD_DEFAULT);
+        $stmt->bindParam(":nome", $nome);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":senha", $senha);
+        $stmt->bindParam(":telefone", $telefone);
+        $stmt->bindParam(":cpf", $cpf);
+        $stmt->bindParam(":sexo", $sexo);
+        $stmt->bindParam(":data_nas", $data_nascimento);
+        $stmt->bindParam(":data_nas", $data_nascimento);
+        $stmt->bindParam(":data_ad", $data_adimisao);
+        $stmt->bindParam(":tr_id", $tr_id);
+        $stmt->bindParam(":grupo", $grupo);
+        $stmt->execute();
+        $user->setId($this->conn->lastInsertId());
+        return $user;
+    }
     // ele atualiza um usuario
-    function update(User $user):User {
+    private function update(User $user):User {
         $sql = "UPDATE users SET 
             NOME = :nome,
             EMAIL = :email,
