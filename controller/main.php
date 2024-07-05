@@ -74,6 +74,13 @@ else if ($submit == "Atualizar"){
        $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
        $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
        $user-> // chamar os metodos sets para atualizar o user
+       $user->SetNome($nome);
+       $user->SetEmail($email);
+       $user->SetDataNascimento($data_nascimento);
+       $user->SetDataAdmisao($data_adimisao);
+       $user->SetTelefone($telefone);
+       $user->SetSexo($sexo);
+       $user->SetCpf($cpf);
        $user->setID($id);
        $userDAO = new UserDAO();
        $user = $userDAO->persit($user);
