@@ -1,50 +1,4 @@
 <?php
-
-require_once("./models/users.php");
-
-class Trabalho {
-    private $id_cargo;
-    private $nome;
-    private $descricao;
-
-    public function __construct($nome, $descricao) {
-        if (empty($nome) || empty($descricao)) {
-            throw new Exception("Está faltando um dado");
-        }
-        $this->nome = $nome;
-        $this->descricao = $descricao;
-        $this->id_cargo = null; // Inicializa o ID como null
-    }
-
-    public function getId() {
-        return $this->id_cargo;
-    }
-
-    public function getNome() {
-        return $this->nome;
-    }
-
-    public function getDescricao() {
-        return $this->descricao;
-    }
-
-    public function setId($id_cargo) {
-        $this->id_cargo = $id_cargo;
-    }
-
-    public function setNome($nome) {
-        $this->nome = $nome;
-    }
-
-    public function setDescricao($descricao) {
-        $this->descricao = $descricao;
-    }
-}
-
-
-
-<?php
-
 require_once("./models/users.php");
 
 class Trabalho {
@@ -163,4 +117,4 @@ class TrabalhoDAO {
         return $listaTrabalhos;
     }
 }
-?>
+
