@@ -124,7 +124,7 @@ else if($submit == "Listar_cargos"){
 
 else if($submit == "Cadastrar_grupo"){
     // adicione a deserialize o usuario para verificar o grupo
-    $usuario = isset($_SESSION["user"]) : unserialize["user"] : null;
+    $usuario = isset($_SESSION["user"]) ? unserialize("user") : null;
     // teste corretemente agora
     if("axuliar_gerente" || "gerente"){
         try {
