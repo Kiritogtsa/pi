@@ -35,62 +35,76 @@ if($botao == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
 }
 
 # Login
-else if($submit == "login"){
-    $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
-    $senha = filter_var($_POST['senha'],FILTER_SANITIZE_STRING);
+else if ($submit == "login") {
+    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
+    $senha = filter_var($_POST['senha'], FILTER_SANITIZE_STRING); // Filtra a senha recebida
 
-    try{
-        $userDAO = new UserDAO();
-        $user = $userDAO->getByEmail($email);
+    try {
+        $userDAO = new UserDAO(); // Instancia o DAO de usuário
+        $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
         $data = array();
-        if(password_verify($senha,$user->getSenha())){
-            if ( $user -> getTrabalho() == "chefe"|| "auxiliar")
-            $_SESSION["user"]=serialize($user);
+
+        // Verifica se a senha fornecida corresponde à senha hash armazenada
+        if (password_verify($senha, $user->getSenha())) {
+            // Verifica o tipo de trabalho do usuário
+            // coisa demais aqui, o if e inutil aqui
+            if ($user->getTrabalho() == "chefe" || $user->getTrabalho() == "auxiliar") {
+                $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
+                echo json_encode($data);
+                $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+                header('Location: ../view/welcome.php'); // Redireciona para a página de boas-vindas
+                exit();
+            } else {
+                $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
+                echo json_encode($data);
+                $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+                header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
+                exit();
+            }
+        } else {
+            // Caso a senha não corresponda, redireciona para o perfil
+            $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
             echo json_encode($data);
-            $_SESSION['autenticacao']= true;
-            header('Location: ../view/welcome.php');
+            $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+            header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
             exit();
-        }else{
-            $_SESSION["user"]=serialize($user);
-            echo json_encode($data);
-            $_SESSION['autenticacao']= true;
-            header('Location: ../view/perfil.php');
         }
-    }catch(Exception $e){
-        echo $e->getMessage();
+    } catch (Exception $e) {
+        echo $e->getMessage(); // Em caso de exceção, imprime a mensagem de erro
     }
 }
-
 
 # Atualizar
-else if ($submit == "Atualizar"){
+else if ($submit == "Atualizar") {
     try {
-       $user= isset($_SESSION["user"])?unserialize("user") : null;
-       $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
-       $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
-       $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
-       $data_adimisao = filter_var($_POST['data_adimisao'],FILTER_SANITIZE_NUMBER_INT);
-       $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
-       $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
-       $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
-       $user-> // chamar os metodos sets para atualizar o user
-       $user->SetNome($nome);
-       $user->SetEmail($email);
-       $user->SetDataNascimento($data_nascimento);
-       $user->SetDataAdmisao($data_adimisao);
-       $user->SetTelefone($telefone);
-       $user->SetSexo($sexo);
-       $user->SetCpf($cpf);
-       $user->setID($id);
-       $userDAO = new UserDAO();
-       $user = $userDAO->persit($user);
-       echo json_encode($data);
+        $user = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null; // Recupera o usuário da sessão
+        $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra o nome
+        $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Valida o email
+        $data_nascimento = filter_var($_POST['data_nascimento'], FILTER_SANITIZE_NUMBER_INT); // Filtra a data de nascimento
+        $data_adimisao = filter_var($_POST['data_adimisao'], FILTER_SANITIZE_NUMBER_INT); // Filtra a data de admissão
+        $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_NUMBER_INT); // Filtra o telefone
+        $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra o sexo
+        $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_NUMBER_INT); // Filtra o CPF
+
+        // Define os novos valores para o usuário
+        $user->setNome($nome);
+        $user->setEmail($email);
+        $user->setDataNascimento($data_nascimento);
+        $user->setDataAdmissao($data_adimisao);
+        $user->setTelefone($telefone);
+        $user->setSexo($sexo);
+        $user->setCpf($cpf);
+
+        $userDAO = new UserDAO(); // Instancia o DAO de usuário
+        $user = $userDAO->persist($user); // Persiste as alterações do usuário no banco de dados
+        echo json_encode($data);
     } catch (Exception $e) {
-        $_SESSION['mensagem'] = $e->getMessage();
+        $_SESSION['mensagem'] = $e->getMessage(); // Em caso de exceção, define a mensagem de erro na sessão
     }
-    header('Location: ');
+    header('Location: '); // Redireciona de volta para a página atual (provavelmente para a página de perfil)
     exit();
 }
+
 
 else if($submti == "Buscar_cargos"){
     $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
@@ -109,6 +123,9 @@ else if($submit == "Listar_cargos"){
 
 
 else if($submit == "Cadastrar_grupo"){
+    // adicione a deserialize o usuario para verificar o grupo
+    $usuario = isset($_SESSION["user"]) : unserialize["user"] : null;
+    // teste corretemente agora
     if("axuliar_gerente" || "gerente"){
         try {
             $user= isset($_SESSION["user"])?unserialize("user") : null;
