@@ -1,5 +1,4 @@
 <?php
-require_once("./models/users.php");
 
 class Trabalho {
     private $id_cargo;
@@ -53,7 +52,7 @@ class TrabalhoDAO {
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
 
-        $sql = "INSERT INTO trabalhos (nome, descricao) VALUES (:nome, :descricao)";
+        $sql = "INSERT INTO trabalhos (NOME, DESCRICAO) VALUES (:nome, :descricao)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":descricao", $descricao);
@@ -116,8 +115,8 @@ class TrabalhoDAO {
         $listaTrabalhos = [];
         foreach ($trabalhos as $trabalho) {
             // Cria objetos Trabalho com os dados de cada resultado da consulta
-            $t = new Trabalho($trabalho['nome'], $trabalho['descricao']);
-            $t->setIdCargo($trabalho['id_cargo']); // Define o ID do trabalho
+            $t = new Trabalho($trabalho['NOME'], $trabalho['DESCRICAO']);
+            $t->setIdCargo($trabalho['ID']); // Define o ID do trabalho
             $listaTrabalhos[] = $t; // Adiciona o objeto à lista de trabalhos
         }
 

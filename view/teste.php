@@ -9,6 +9,7 @@ var_dump($_POST);
     <title>Document</title>
 </head>
 <body>
+    <a href="../view/listar.html">aqui</a>
     <form id="form" method="POST" action="../controller/main.php" class="pessoa">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>

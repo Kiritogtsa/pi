@@ -1,9 +1,12 @@
 <?php
 require_once('../models/users.php');
+require_once('../models/trabalho.php');
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
-$botao = filter_var($_POST["submit"], FILTER_SANITIZE_SPECIAL_CHARS);
-
-if($botao == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
+$submit = filter_var($_POST["submit"], FILTER_SANITIZE_SPECIAL_CHARS);
+var_dump($_POST);
+if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
     try{
         $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
         $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -17,21 +20,21 @@ if($botao == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
         $userDAO = new UserDAO();    
         $userDAO->persit($user);
         $data = array(); // A partir daqui as mensagem vão ser enviadas por JSON
-        header('Content-Type: application/json; charset=utf-8');
+        // header('Content-Type: application/json; charset=utf-8');
         echo json_encode($data);
 }catch(Exception $e){
     echo $e->getMessage();
 }
 
-}else if($botao == "Criar_cargo"){ // Cria um cargo na tabela TRABALHOS
+}else if($submit == "Criar_cargo"){ // Cria um cargo na tabela TRABALHOS
     $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
     $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
     $trabalho = new Trabalho($nome, $descricao);
     $trabalhoDAO = new TrabalhoDAO();
     $trabalhoDAO->salvar($trabalho);
     $data = array(); // A partir daqui as mensagem vão ser enviadas por JSON
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($data);
+    // header('Content-Type: application/json; charset=utf-8');
+    // echo json_encode($data);
 }
 
 # Login
@@ -45,30 +48,30 @@ else if ($submit == "login") {
         $data = array();
 
         // Verifica se a senha fornecida corresponde à senha hash armazenada
-        if (password_verify($senha, $user->getSenha())) {
-            // Verifica o tipo de trabalho do usuário
-            // coisa demais aqui, o if e inutil aqui
-            if ($user->getTrabalho() == "chefe" || $user->getTrabalho() == "auxiliar") {
-                $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
-                echo json_encode($data);
-                $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-                header('Location: ../view/welcome.php'); // Redireciona para a página de boas-vindas
-                exit();
-            } else {
-                $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
-                echo json_encode($data);
-                $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-                header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
-                exit();
-            }
-        } else {
-            // Caso a senha não corresponda, redireciona para o perfil
-            $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
-            echo json_encode($data);
-            $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-            header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
-            exit();
-        }
+        // if (password_verify($senha, $user->getSenha())) {
+        //     // Verifica o tipo de trabalho do usuário
+        //     // coisa demais aqui, o if e inutil aqui
+        //     if ($user->getTrabalho() == "chefe" || $user->getTrabalho() == "auxiliar") {
+        //         $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
+        //         echo json_encode($data);
+        //         $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+        //         header('Location: ../view/welcome.php'); // Redireciona para a página de boas-vindas
+        //         exit();
+        //     } else {
+        //         $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
+        //         echo json_encode($data);
+        //         $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+        //         header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
+        //         exit();
+        //     }
+        // } else {
+        //     // Caso a senha não corresponda, redireciona para o perfil
+        //     $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
+        //     echo json_encode($data);
+        //     $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+        //     header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
+        //     exit();
+        // }
     } catch (Exception $e) {
         echo $e->getMessage(); // Em caso de exceção, imprime a mensagem de erro
     }
@@ -96,28 +99,30 @@ else if ($submit == "Atualizar") {
         $user->setCpf($cpf);
 
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
-        $user = $userDAO->persist($user); // Persiste as alterações do usuário no banco de dados
+        $user = $userDAO->persit($user); // Persiste as alterações do usuário no banco de dados
         echo json_encode($data);
     } catch (Exception $e) {
         $_SESSION['mensagem'] = $e->getMessage(); // Em caso de exceção, define a mensagem de erro na sessão
     }
-    header('Location: '); // Redireciona de volta para a página atual (provavelmente para a página de perfil)
-    exit();
+    // header('Location: '); // Redireciona de volta para a página atual (provavelmente para a página de perfil)
+    // exit();
 }
 
 
-else if($submti == "Buscar_cargos"){
+else if($submit == "Buscar_cargos"){
     $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
     $trabalhoDAO = new TrabalhoDAO();
     $trabalho = $trabalhoDAO->buscarPorId($id);
     $_SESSION['trabalho'] = $trabalho;
-    header('Location: ./view');
+    // header('Location: ./view');
 }
 
 else if($submit == "Listar_cargos"){
+    echo "vem aqui";
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
     $_SESSION['cargos'] = $lista_cargos; 
+    var_dump($lista_cargos);
 }
 
 
@@ -150,7 +155,7 @@ else if($submit == "Cadastrar_grupo"){
          } catch (Exception $e) {
              $_SESSION['mensagem'] = $e->getMessage();
          }
-         header('Location: ');
-         exit();
+        //  header('Location: ');
+        //  exit();
     }
 }
