@@ -73,7 +73,6 @@ else if ($submit == "Atualizar"){
        $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
        $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
        $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
-       $user-> // chamar os metodos sets para atualizar o user
        $user->SetNome($nome);
        $user->SetEmail($email);
        $user->SetDataNascimento($data_nascimento);
