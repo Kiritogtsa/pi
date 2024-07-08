@@ -44,6 +44,27 @@ else if ($submit == "login") {
     $senha = filter_var($_POST['senha'], FILTER_SANITIZE_STRING); // Filtra a senha recebida
 
     try {
+<<<<<<< HEAD
+       $user= isset($_SESSION["user"])?unserialize("user") : null;
+       $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+       $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
+       $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
+       $data_adimisao = filter_var($_POST['data_adimisao'],FILTER_SANITIZE_NUMBER_INT);
+       $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
+       $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
+       $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
+       $user->SetNome($nome);
+       $user->SetEmail($email);
+       $user->SetDataNascimento($data_nascimento);
+       $user->SetDataAdmisao($data_adimisao);
+       $user->SetTelefone($telefone);
+       $user->SetSexo($sexo);
+       $user->SetCpf($cpf);
+       $user->setID($id);
+       $userDAO = new UserDAO();
+       $user = $userDAO->persit($user);
+       echo json_encode($data);
+=======
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
         $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
         $data = array();
@@ -75,6 +96,7 @@ else if ($submit == "login") {
         //     header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
         //     exit();
         // }
+>>>>>>> 823998f74c56d5a1bf74a6c0a19a6465627a03ac
     } catch (Exception $e) {
         echo $e->getMessage(); // Em caso de exceção, imprime a mensagem de erro
     }
