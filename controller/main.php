@@ -11,13 +11,14 @@ if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
     try{
         $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
         $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $sexo = filter_var($POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
         $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
         $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
-        $data_admissao = filter_var($POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
+        $data_admissao = filter_var($_POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
+        $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_SPECIAL_CHARS);
         $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT);// verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
         $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nasicmento, $data_admissao, $telefone, $sexo);
+        $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
         $userDAO = new UserDAO();    
         $userDAO->persit($user);
         $data = array(); // A partir daqui as mensagem vão ser enviadas por JSON
@@ -56,8 +57,7 @@ else if ($submit == "login") {
             // Caso a senha não corresponda, redireciona para o perfil
              // Armazena o usuário na sessão
             $_SESSION['autenticacao'] =  false; // Define a autenticação como verdadeira
-            header('Location: ../view/login.php'); // Redireciona para o perfil do usuário
-            
+            header('Location: ../view/login.php'); // Redireciona para o perfil do usuário=
             exit();
         }
     } catch (Exception $e) {
