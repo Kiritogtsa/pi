@@ -1,11 +1,12 @@
 <?php
 require_once('../models/users.php');
 require_once('../models/trabalho.php');
+// adicinei na ultima um jeito de fazer mais verificaçoes usando o init_set eo erro_reporting
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 $submit = filter_var($_POST["submit"], FILTER_SANITIZE_SPECIAL_CHARS);
-var_dump($_POST);
+
 if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
     try{
         $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -48,8 +49,10 @@ else if ($submit == "login") {
         $data = array();
 
         // Verifica se a senha fornecida corresponde à senha hash armazenada
+
         // if (password_verify($senha, $user->getSenha())) {
         //     // Verifica o tipo de trabalho do usuário
+        //     // tem verificaçoes desnecessárias
         //     // coisa demais aqui, o if e inutil aqui
         //     if ($user->getTrabalho() == "chefe" || $user->getTrabalho() == "auxiliar") {
         //         $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
@@ -77,7 +80,7 @@ else if ($submit == "login") {
     }
 }
 
-# Atualizar
+# Atualizar pelo usuario
 else if ($submit == "Atualizar") {
     try {
         $user = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null; // Recupera o usuário da sessão
@@ -130,7 +133,8 @@ else if($submit == "Listar_cargos"){
 else if($submit == "Cadastrar_grupo"){
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION["user"]) ? unserialize("user") : null;
-    // teste corretemente agora
+    // teste corretemente agora, o if nao ta comparando os literais com nada
+    // depois coloca os headers de volta pelo momento
     if("axuliar_gerente" || "gerente"){
         try {
             $user= isset($_SESSION["user"])?unserialize("user") : null;
