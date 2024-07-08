@@ -106,11 +106,24 @@ else if($submit == "Buscar_cargos"){
 }
 
 else if($submit == "Listar_cargos"){
-    echo "vem aqui";
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
-    $_SESSION['cargos'] = $lista_cargos; 
-    var_dump($lista_cargos);
+    if ($lista_cargos) {
+        $response = [
+            'success' => true,
+            'message' => 'Dados recebidos com sucesso!',
+            'cargos' => $lista_cargos
+        ];
+    } else {
+        $response = [
+            'success' => false,
+            'message' => 'Erro ao obter lista de cargos.',
+            'cargos' => []
+        ];
+    }
+    header('Content-Type: application/json; charset=utf-8');
+
+    echo json_encode($response);
 }
 
 
