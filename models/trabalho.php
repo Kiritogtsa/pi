@@ -65,6 +65,7 @@ class TrabalhoDAO {
 
     // Busca um trabalho pelo ID no banco de dados
     public function buscarPorId($id_cargo) {
+        // a busca ta buscando por uma coluna que nao existe na tabela
         $sql = "SELECT * FROM trabalhos WHERE id_cargo = :id_cargo";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id_cargo", $id_cargo);
