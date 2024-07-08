@@ -1,9 +1,9 @@
 <?php
 
 class Trabalho {
-    private $id_cargo;
-    private $nome;
-    private $descricao;
+    public $id_cargo;
+    public $nome;
+    public $descricao;
 
     public function __construct($nome, $descricao) {
         if (empty($nome) || empty($descricao)) {
