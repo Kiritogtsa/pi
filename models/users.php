@@ -202,7 +202,7 @@ class UserDAO implements crud{
     // cria um usuario, ele recebe um usuario e volta o usuario ja com o id do banco de dados
     private function insert(User $user):User{
         echo "vem aqui insert"."\n";
-        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id)";
+        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id)";
         $nome = $user->getNome();
         $email = $user->getEmail(); 
         $senha=$user->getSenha(); 
@@ -223,7 +223,6 @@ class UserDAO implements crud{
         $stmt->bindParam(":cpf", $cpf);
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_nas", $data_nascimento);
-        
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->bindValue(":tr_id", $tr_id);
         $stmt->execute();
