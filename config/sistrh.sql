@@ -49,9 +49,9 @@ CREATE TABLE `users` (
   `DATA_ADMISSAO` date,
   `SEXO` varchar(10),
   `SENHA` varchar(60),
-  `GRUPO` varchar(12),
+  `GRUPO` varchar(12), /* USADO PARA DEFINIR SE ELE PODE ACESSAR AS OUTRAS PÁGINAS ALÉM DA DELE*/
   `DELETE_AT`DATETIME,
-  `TR_ID` int(11)
+  `TR_ID` int(11) /* DIZ O TRABALHO DO USUÁRIO*/
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -101,10 +101,19 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 
+insert into trabalhos( DESCRICAO, NOME)
+VALUES('ajuda o gerente','gerente');
 
 insert into trabalhos( DESCRICAO, NOME)
 VALUES('ajuda o gerente','axiliar gerente');
-select * from trabalhos t ;
+
 /* alter table trabalhos AUTO_INCREMENT=1;
  * delete from trabalhos ;
+ * senha 123
  */
+
+insert into users(NOME, CPF, EMAIL, DATA_NASCIMENTO, TELEFONE, DATA_ADMISSAO, SEXO,SENHA, GRUPO, TR_ID)
+VALUES("FULANO","05346585498","MATHEUS@GMAIL.COM","24/05/9999", "55981447752","24/09/5555","MASCULINO","$2y$10$yWbj3ojEM.BChIuHyiGwZe8EFfY/qDsPMhNCO5HS4jaTSCciHbhp2","gerente",1);
+
+
+delete  from users where id = 6;

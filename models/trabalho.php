@@ -115,10 +115,11 @@ class TrabalhoDAO {
 
         $listaTrabalhos = [];
         foreach ($trabalhos as $trabalho) {
-            // Cria objetos Trabalho com os dados de cada resultado da consulta
-            $t = new Trabalho($trabalho['NOME'], $trabalho['DESCRICAO']);
-            $t->setIdCargo($trabalho['ID']); // Define o ID do trabalho
-            $listaTrabalhos[] = $t; // Adiciona o objeto à lista de trabalhos
+            if ($trabalho["NOME"]!="axiliar gerente"){
+                $t = new Trabalho($trabalho['NOME'], $trabalho['DESCRICAO']);
+                $t->setIdCargo($trabalho['ID']); // Define o ID do trabalho
+                $listaTrabalhos[] = $t; // Adiciona o objeto à lista de trabalhos
+            }
         }
 
         return $listaTrabalhos; // Retorna a lista de objetos Trabalho

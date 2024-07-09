@@ -320,14 +320,13 @@ class UserDAO implements crud{
         $stmt->execute();
         echo "getemail executa o sql"."\n";
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        var_dump($dados);
         if (!$dados) {
             throw new Exception("Usuário não encontrado com o nome: " . $email);
         }
-    var_dump($dados);
+        var_dump($dados);
         $user = new User($dados["NOME"], $dados["EMAIL"],$dados["TR_ID"],$dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"],$dados["TELEFONE"],$dados["SEXO"]);
         $user->setId($dados["ID"]);
-        $user->setGrupo($dados["grupo"]);
+        $user->setGrupo($dados["GRUPO"]);
         echo "getemail termina retornado uma instacia"."\n";
         return $user; 
     }

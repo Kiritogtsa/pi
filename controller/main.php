@@ -48,6 +48,8 @@ else if ($submit == "login") {
     try {
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
         $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
+        echo "<br><br><br><br><br>";
+        var_dump($user);
         $data = array();
         if (password_verify($senha, $user->getSenha())) {
                 $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
@@ -127,26 +129,28 @@ else if($submit == "Listar_cargos"){
     echo json_encode($response);
 }
 
-
-
 else if($submit == "Cadastrar_grupo"){
+    echo "nao vem";
     // adicione a deserialize o usuario para verificar o grupo
-    $usuario = isset($_SESSION["user"]) ? unserialize("user") : null;
+    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    var_dump($usuario);
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if($usuario->getGrup() == "auxiliar_gerente" || $usuario->getGrup() == "gerente"){
+    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
         try {
+            echo "\n"."vem aqui";
             $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
-            $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
-            $data_adimisao = filter_var($_POST['data_adimisao'],FILTER_SANITIZE_NUMBER_INT);
+            $data_nascimento = filter_var($_POST['datanascimento'],FILTER_SANITIZE_NUMBER_INT);
+            $data_adimisao = filter_var($_POST['dataadmissao'],FILTER_SANITIZE_NUMBER_INT);
             $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
             $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
             $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
-            $user = new User($nome, $email,"1",$cpf, $senha,$data_nascimento, $data_adimisao,$telefone, $sexo);
+            $user = new User($nome, $email,"2",$cpf, $senha,$data_nascimento, $data_adimisao,$telefone, $sexo);
+            $user->setGrupo("auxiliar");
             $userDAO = new UserDAO();
-            $_SESSION['user'] = serialize($userDAO->insertgrupo($user));
+            $userDAO->insertgrupo($user);
          } catch (Exception $e) {
              $_SESSION['mensagem'] = $e->getMessage();
          }
