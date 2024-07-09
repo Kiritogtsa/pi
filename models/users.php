@@ -62,9 +62,9 @@ class User {
         if (!$this->validarcpf($cpf)) {
             return $msg = "cpf invalido";
         }
-        if (!$this->validaremail($email)) {
-            return $msg = "email invalido";
-        }
+        // if (!$this->validaremail($email)) {
+        //     return $msg = "email invalido";
+        // }
         if (is_numeric($trabalho)){
             return $msg = "trabalho invalido, recebido um character invalido, era esperado um numero";
         }
@@ -202,7 +202,7 @@ class UserDAO implements crud{
     // cria um usuario, ele recebe um usuario e volta o usuario ja com o id do banco de dados
     private function insert(User $user):User{
         echo "vem aqui insert"."\n";
-        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id)";
+        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id)";
         $nome = $user->getNome();
         $email = $user->getEmail(); 
         $senha=$user->getSenha(); 
@@ -214,6 +214,7 @@ class UserDAO implements crud{
         $tr_id = $user->getTrabalho();
         $stmt = $this->conn->prepare($sql);
         echo "insert prepara o sql"."\n";
+        var_dump($tr_id);
         $senha = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
@@ -222,9 +223,9 @@ class UserDAO implements crud{
         $stmt->bindParam(":cpf", $cpf);
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_nas", $data_nascimento);
-        $stmt->bindParam(":data_nas", $data_nascimento);
+        
         $stmt->bindParam(":data_ad", $data_adimisao);
-        $stmt->bindParam(":tr_id", $tr_id);
+        $stmt->bindValue(":tr_id", $tr_id);
         $stmt->execute();
         echo "insert executa o sql"."\n";
         $user->setId($this->conn->lastInsertId());
