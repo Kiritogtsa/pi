@@ -324,8 +324,9 @@ class UserDAO implements crud{
         if (!$dados) {
             throw new Exception("Usuário não encontrado com o nome: " . $email);
         }
-        $user = new User($dados["nome"], $dados["email"],$dados["trabalho"],$dados["cpf"], $dados["senha"], $dados["data_nascimento"], $dados["data_adimisao"],$dados["telefone"],$dados["sexo"]);
-        $user->setId($dados["id"]);
+    var_dump($dados);
+        $user = new User($dados["NOME"], $dados["EMAIL"],$dados["TR_ID"],$dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"],$dados["TELEFONE"],$dados["SEXO"]);
+        $user->setId($dados["ID"]);
         $user->setGrupo($dados["grupo"]);
         echo "getemail termina retornado uma instacia"."\n";
         return $user; 

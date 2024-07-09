@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("model/users.php");
+require_once("../models /users.php");
 try{
     if(isset($_SESSION["autenticacao"])){
         if(!$_SESSION["autenticacao"]){
