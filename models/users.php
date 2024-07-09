@@ -235,7 +235,7 @@ class UserDAO implements crud{
             throw new Exception(" nao tem um grupo");
         }
         echo "chega no insertgrupo"."\n";
-        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id,GRUPO) values(:nome,:email,:senha,:telefone,data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo)";
+        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id,GRUPO) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo)";
         $nome = $user->getNome();
         $email = $user->getEmail(); 
         $senha=$user->getSenha(); 
