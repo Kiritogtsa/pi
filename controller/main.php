@@ -24,7 +24,6 @@ if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
         $data = array(); 
         $_SESSION["user"] = serialize($user);
         $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-        header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
 }catch(Exception $e){
     echo $e->getMessage();
 }

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../models /users.php");
+require_once("../models/users.php");
 try{
     if(isset($_SESSION["autenticacao"])){
         if(!$_SESSION["autenticacao"]){
@@ -12,11 +12,7 @@ try{
     }
 }catch (Exception $e){
     $_SESSION["mensagem"] = $e->getMessage();
-    if(__FILE__ == ""){
-        header("Location: ../view");
-    }else{
-        header("Location: ../view");
-    }
+    header('Location: ../view/login.html');
 }finally{
     $user = unserialize($_SESSION["user"]);
 }
