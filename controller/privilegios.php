@@ -6,4 +6,6 @@ if (isset($_SESSION["user"])){
     if ($user->getGrupo() != "axuliar_gerente" || $user->getGrupo() != "gerente"){
         header("");
     }
+}else{
+    header("");
 }
