@@ -134,9 +134,8 @@ else if($submit == "Cadastrar_grupo"){
     $usuario = isset($_SESSION["user"]) ? unserialize("user") : null;
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if("axuliar_gerente" || "gerente"){
+    if($usuario->getGrup() == "auxiliar_gerente" || $usuario->getGrup() == "gerente"){
         try {
-            $user= isset($_SESSION["user"])?unserialize("user") : null;
             $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
             $data_nascimento = filter_var($_POST['data_nascimento'],FILTER_SANITIZE_NUMBER_INT);
@@ -144,17 +143,10 @@ else if($submit == "Cadastrar_grupo"){
             $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
             $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
-            $user->SetNome($nome);
-            $user->SetEmail($email);
-            $user->SetDataNascimento($data_nascimento);
-            $user->SetDataAdmisao($data_adimisao);
-            $user->SetTelefone($telefone);
-            $user->SetSexo($sexo);
-            $user->SetCpf($cpf);
-            $user->setID($id);
-            $user->setGrupo("axuliar_gerente");
+            $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
+            $user = new User($nome, $email,"1",$cpf, $senha,$data_nascimento, $data_adimisao,$telefone, $sexo);
             $userDAO = new UserDAO();
-            $_SESSION['user'] = $user = $userDAO->insertgrupo($user);
+            $_SESSION['user'] = serialize($userDAO->insertgrupo($user));
          } catch (Exception $e) {
              $_SESSION['mensagem'] = $e->getMessage();
          }

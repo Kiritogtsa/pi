@@ -101,3 +101,10 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 
+
+insert into trabalhos( DESCRICAO, NOME)
+VALUES('ajuda o gerente','axiliar gerente');
+select * from trabalhos t ;
+/* alter table trabalhos AUTO_INCREMENT=1;
+ * delete from trabalhos ;
+ */
