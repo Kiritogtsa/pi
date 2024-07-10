@@ -170,4 +170,33 @@ else if($submit == "Cadastrar_grupo"){
               exit();
          }
     }
+}else if($submit == "Atualizar o usuario"){
+    echo "nao vem";
+    // adicione a deserialize o usuario para verificar o grupo
+    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    var_dump($usuario);
+    // teste corretemente agora, o if nao ta comparando os literais com nada
+    // depois coloca os headers de volta pelo momento
+    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        try {
+            echo "\n"."vem aqui";
+            $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+            $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
+            $data_nascimento = filter_var($_POST['datanascimento'],FILTER_SANITIZE_NUMBER_INT);
+            $data_adimisao = filter_var($_POST['dataadmissao'],FILTER_SANITIZE_NUMBER_INT);
+            $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
+            $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
+            $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
+            $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
+            $user = new User($nome, $email,"2",$cpf, $senha,$data_nascimento, $data_adimisao,$telefone, $sexo);
+            $user->setGrupo("auxiliar");
+            $userDAO = new UserDAO();
+            $userDAO->persit($user);
+         } catch (Exception $e) {
+             $_SESSION['mensagem'] = $e->getMessage();
+         }finally{
+              header('Location: ');
+              exit();
+         }
+    }
 }
