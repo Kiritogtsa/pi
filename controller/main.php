@@ -8,7 +8,9 @@ session_start();
 $submit = filter_var($_POST["submit"], FILTER_SANITIZE_SPECIAL_CHARS);
 
 if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
-    try{
+    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    try{// colocar analise se é gerente ou aux
+        if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
         $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
         $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
         $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -22,8 +24,9 @@ if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
         $userDAO = new UserDAO();    
         $userDAO->persit($user);
         $data = array(); 
-        $_SESSION["user"] = serialize($user);
-        $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+        }else{
+            header("Location: ./view/welcome");
+        }
 }catch(Exception $e){
     echo $e->getMessage();
 }
@@ -65,31 +68,28 @@ else if ($submit == "login") {
         echo $e->getMessage(); // Em caso de exceção, imprime a mensagem de erro
     }
 }
-
-# Atualizar pelo usuario
-else if ($submit == "Atualizar") {
-    try {
-        $user = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null; // Recupera o usuário da sessão
-        $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra o nome
-        $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Valida o email
-        $data_nascimento = filter_var($_POST['data_nascimento'], FILTER_SANITIZE_NUMBER_INT); // Filtra a data de nascimento
-        $data_adimisao = filter_var($_POST['data_adimisao'], FILTER_SANITIZE_NUMBER_INT); // Filtra a data de admissão
-        $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_NUMBER_INT); // Filtra o telefone
-        $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra o sexo
-        $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_NUMBER_INT); // Filtra o CPF
-
-        // Define os novos valores para o usuário
-        $user->setNome($nome);
-        $user->setEmail($email);
-        $user->setDataNascimento($data_nascimento);
-        $user->setDataAdmissao($data_adimisao);
-        $user->setTelefone($telefone);
-        $user->setSexo($sexo);
-        $user->setCpf($cpf);
-
-        $userDAO = new UserDAO(); // Instancia o DAO de usuário
-        $user = $userDAO->persit($user); // Persiste as alterações do usuário no banco de dados
-        echo json_encode($data);
+else if ($submit == "Atualizar_usuario") {
+    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    try {// analisar se é getente ou auxiliar_gerente
+        if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+            $id = filter_var($_POST['id'], FILTER_SANITIZE_SPECIAL_CHARS); 
+            $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra o nome
+            $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Valida o email
+            $data_nascimento = filter_var($_POST['data_nascimento'], FILTER_SANITIZE_NUMBER_INT); // NÃO PODE MUDAR O DATA NASCIMENTO
+            $data_adimisao = filter_var($_POST['data_adimisao'], FILTER_SANITIZE_NUMBER_INT); // Filtra a data de admissão
+            $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_NUMBER_INT); // Filtra o telefone
+            $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS); // NÃO PODE MUDAR O SEXO
+            $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_NUMBER_INT); // NÃO PODE MUDAR O CPF
+            $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT);
+            $user= new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
+            $user->setId($id);
+            $userDAO = new UserDAO(); // Instancia o DAO de usuário
+            $user = $userDAO->persit($user); // Persiste as alterações do usuário no banco de dados
+            echo json_encode($data);
+        }
+        else{
+            header("Location: ./view/welcome");
+        }    
     } catch (Exception $e) {
         $_SESSION['mensagem'] = $e->getMessage(); // Em caso de exceção, define a mensagem de erro na sessão
     }
