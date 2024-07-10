@@ -99,16 +99,24 @@ else if ($submit == "Atualizar") {
     // exit();
 }
 
-
+// volta um json com uma messagem 
 else if($submit == "Buscar_cargos"){
     $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
     $trabalhoDAO = new TrabalhoDAO();
     $trabalho = $trabalhoDAO->buscarPorId($id);
+    if ($trabalho != null){
+        $response = [
+            "success" => true,
+            "messagem"=>"obtetido com sucesso",
+            "cargo" => $trabalho
+        ];
+    }else{
     $response = [
-    "success" => true,
-    "messagem"=>"obtetido com sucesso",
-    "cargo" => $trabalho
-    ];
+    "success" => false,
+    "messagem"=>"sem sucesso",
+    "cargo" => null
+    ];   
+    }
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response);
 }
