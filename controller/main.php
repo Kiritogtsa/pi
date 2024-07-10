@@ -165,8 +165,9 @@ else if($submit == "Cadastrar_grupo"){
             $userDAO->insertgrupo($user);
          } catch (Exception $e) {
              $_SESSION['mensagem'] = $e->getMessage();
+         }finally{
+              header('Location: ');
+              exit();
          }
-        //  header('Location: ');
-        //  exit();
     }
 }
