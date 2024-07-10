@@ -188,8 +188,11 @@ else if($submit == "Cadastrar_grupo"){
             $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
             $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
+            $id = filter_var($_POST['id'],FILTER_SANITIZE_NUMBER_INT);
+            $grupo = filter_var($_POST['grupo'],FILTER_SANITIZE_SPECIAL_CHARS);
             $user = new User($nome, $email,"2",$cpf, $senha,$data_nascimento, $data_adimisao,$telefone, $sexo);
-            $user->setGrupo("auxiliar");
+            $user->setGrupo($grupo);
+            $user->setId($id);
             $userDAO = new UserDAO();
             $userDAO->persit($user);
          } catch (Exception $e) {
