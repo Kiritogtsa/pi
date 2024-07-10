@@ -48,8 +48,6 @@ else if ($submit == "login") {
     try {
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
         $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
-        echo "<br><br><br><br><br>";
-        var_dump($user);
         $data = array();
         if (password_verify($senha, $user->getSenha())) {
                 $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
@@ -150,7 +148,6 @@ else if($submit == "Cadastrar_grupo"){
     // depois coloca os headers de volta pelo momento
     if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
         try {
-            echo "\n"."vem aqui";
             $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
             $data_nascimento = filter_var($_POST['datanascimento'],FILTER_SANITIZE_NUMBER_INT);
