@@ -24,7 +24,7 @@ require_once("autenticacao.php");
         <h3><?php echo (isset($_SESSION["mensagem"])) ? $_SESSION["mensagem"] : ""; ?></h3>
     </div>
     <div class="link">
-        <a href="logout.php">Logout</a>
+        <a href="../controller/logout.php">Logout</a>
     </div>
 </body>
 </html>
