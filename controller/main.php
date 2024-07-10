@@ -170,7 +170,7 @@ else if($submit == "Cadastrar_grupo"){
               exit();
          }
     }
-}else if($submit == "Atualizar o estado do usuario de ativado para desativado"){
+}else if($submit == "Atualizar o estado"){
     echo "nao vem";
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
