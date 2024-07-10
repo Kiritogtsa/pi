@@ -190,4 +190,24 @@ else if($submit == "Cadastrar_grupo"){
               exit();
          }
     }
+}else if($submit == "ativar o usuario"){
+    echo "nao vem";
+    // adicione a deserialize o usuario para verificar o grupo
+    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    var_dump($usuario);
+    // teste corretemente agora, o if nao ta comparando os literais com nada
+    // depois coloca os headers de volta pelo momento
+    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        try {
+            echo "\n"."vem aqui";
+            // adiconem
+            $userDAO = new UserDAO();
+            $userDAO->aiivacao($id);
+         } catch (Exception $e) {
+             $_SESSION['mensagem'] = $e->getMessage();
+         }finally{
+              header('Location: ');
+              exit();
+         }
+    }
 }
