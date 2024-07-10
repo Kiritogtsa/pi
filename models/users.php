@@ -375,7 +375,7 @@ class UserDAO implements crud{
             throw $e;
         }
     }
-    public function getbyall(int $min, int $max): array{
+    public function getbyall(int $min, int $max): array{ // seleciona todos os usuarios ativados
         $sql = "SELECT * FROM users WHERE  BETWEEN :min AND :max";
         echo "chega no getbyall"."\n";
         // Preparar a consulta
@@ -413,7 +413,7 @@ class UserDAO implements crud{
         // Retornar o array de objetos User
         return $users;
     }
-public function getbyallon(int $min, int $max): array{
+public function getbyallon(int $min, int $max): array{ // Seleciona todos os usuarios, ativados ou não
     $sql = "SELECT * FROM users WHERE DELETE_AT IS NULL AND ID BETWEEN :min AND :max";
 
         echo "chega no getbyall"."\n";
