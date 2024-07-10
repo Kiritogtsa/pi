@@ -22,6 +22,7 @@ class User {
     private $telefone;
     private $sexo;
     private $cpf;
+    private $delete_at;
     
     // o construtor verifica se tem algum campo em branco e se tem gera um erro
 
@@ -104,7 +105,9 @@ class User {
     public function getId() {
         return $this->id;
     }
-
+    public function getdelete(){
+        return $this->delete_at;
+    }
     public function getNome() {
         return $this->nome;
     }
@@ -149,7 +152,9 @@ class User {
     public function setId($id) {
         $this->id = $id;
     }
-
+    public function setdelete($data){
+        $this->delete_at = $data;
+    }
     public function setNome($nome) {
         $this->nome = $nome;
     }
@@ -326,6 +331,7 @@ class UserDAO implements crud{
         var_dump($dados);
         $user = new User($dados["NOME"], $dados["EMAIL"],$dados["TR_ID"],$dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"],$dados["TELEFONE"],$dados["SEXO"]);
         $user->setId($dados["ID"]);
+        $user->setdelete($dados["DELETE_AT"]);
         $user->setGrupo($dados["GRUPO"]);
         echo "getemail termina retornado uma instacia"."\n";
         return $user; 
@@ -350,8 +356,27 @@ class UserDAO implements crud{
             throw $e;
         }
     }
+    public function aiivacao($id):bool{
+        try {
+            $this->conn->beginTransaction();
+            echo "chega no delete"."\n";
+            $sql = "UPDATE users SET DELETE_AT = null WHERE ID = :id";
+            $stmt = $this->conn->prepare($sql);
+            echo "prepara o sql"."\n";
+            $stmt->bindParam(":id", $id);
+            
+            $result = $stmt->execute();
+            echo "executa o sql"."\n";
+            $this->conn->commit();
+            return $result;
+        } catch (Exception $e) {
+            echo "deu um erro"."\n";
+            $this->conn->rollBack();
+            throw $e;
+        }
+    }
     public function getbyall(int $min, int $max): array{
-        $sql = "SELECT * FROM users WHERE id BETWEEN :min AND :max";
+        $sql = "SELECT * FROM users WHERE  BETWEEN :min AND :max";
         echo "chega no getbyall"."\n";
         // Preparar a consulta
         $stmt = $this->conn->prepare($sql);
@@ -380,6 +405,7 @@ class UserDAO implements crud{
                 $row['tr_id']
             );
             $user->setId($row['ID']);
+            $user->setdelete($row["DELETE_AT"]);
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
@@ -387,7 +413,45 @@ class UserDAO implements crud{
         // Retornar o array de objetos User
         return $users;
     }
+public function getbyallon(int $min, int $max): array{
+    $sql = "SELECT * FROM users WHERE DELETE_AT IS NULL AND ID BETWEEN :min AND :max";
 
+        echo "chega no getbyall"."\n";
+        // Preparar a consulta
+        $stmt = $this->conn->prepare($sql);
+        echo "prepara o sql"."\n";
+        
+        // Executar a consulta com os parâmetros
+        $stmt->execute([':min' => $min, ':max' => $max]);
+        echo "executa o sql"."\n";
+        // Buscar todos os resultados como array associativo
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo "obtem os dados"."\n";
+        // Array para armazenar os objetos User
+        $users = [];
+        
+        // Iterar pelos resultados e criar objetos User
+        foreach ($results as $row) {
+            $user = new User(
+                $row['NOME'],
+                $row['EMAIL'],
+                $row['SENHA'],
+                $row['TELEFONE'],
+                $row['DATA_NASCIMENTO'],
+                $row['DATA_ADMISSAO'],
+                $row['SEXO'],
+                $row['CPF'],
+                $row['tr_id']
+            );
+            $user->setId($row['ID']);
+            $user->setdelete($row["DELETE_AT"]);
+            $user->setGrupo($row["GRUPO"]);
+            $users[] = $user;
+        }
+        echo "retorna os dados"."\n";
+        // Retornar o array de objetos User
+        return $users;
+    }
 }
 // exemplo de como receber um json
 
