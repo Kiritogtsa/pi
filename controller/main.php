@@ -104,9 +104,13 @@ else if($submit == "Buscar_cargos"){
     $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
     $trabalhoDAO = new TrabalhoDAO();
     $trabalho = $trabalhoDAO->buscarPorId($id);
-    $_SESSION['trabalho'] = $trabalho;
-    // header('Location: ./view');
-    // json
+    $response = [
+    "success" => true,
+    "messagem"=>"obtetido com sucesso",
+    "cargo" => $trabalho
+    ];
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($response);
 }
 
 else if($submit == "Listar_cargos"){
