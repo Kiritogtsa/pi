@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 $submit = filter_var($_POST["submit"], FILTER_SANITIZE_SPECIAL_CHARS);
-$userjson = ["nome"=>$user->]
+// $userjson = ["nome"=>$user->getnome()]
 if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
     try{// colocar analise se é gerente ou aux
