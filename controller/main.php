@@ -30,7 +30,6 @@ if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
 }catch(Exception $e){
     echo $e->getMessage();
 }
-
 }else if($submit == "Criar_cargo"){ // Cria um cargo na tabela TRABALHOS
     try{
         if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
@@ -47,10 +46,9 @@ if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
             header("Location: ./view/welcome");
         }
     }catch(Exception $e){
-    echo $e->getMessage();
+        echo $e->getMessage();
+    }
 }
-}
-
 # Login
 else if ($submit == "login") {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
@@ -104,7 +102,6 @@ else if ($submit == "Atualizar_usuario") {
     // header('Location: '); // Redireciona de volta para a página atual (provavelmente para a página de perfil)
     // exit();
 }
-
 // volta um json com uma messagem 
 else if($submit == "Buscar_cargos"){
     $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
@@ -126,7 +123,6 @@ else if($submit == "Buscar_cargos"){
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response);
 }
-
 else if($submit == "Listar_cargos"){
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
@@ -146,7 +142,6 @@ else if($submit == "Listar_cargos"){
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response);
 }
-
 else if($submit == "Cadastrar_grupo"){
     echo "nao vem";
     // adicione a deserialize o usuario para verificar o grupo
