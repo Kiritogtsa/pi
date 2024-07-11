@@ -157,7 +157,7 @@ else if($submit == "Cadastrar_grupo"){
             $data_adimisao = filter_var($_POST['dataadmissao'],FILTER_SANITIZE_NUMBER_INT);
             $telefone = filter_var($_POST['telefone'],FILTER_SANITIZE_NUMBER_INT);
             $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
-            $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_NUMBER_INT);
+            $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_SPECIAL_CHARS);
             $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
             $user = new User($nome, $email,"2",$cpf, $senha,$data_nascimento, $data_adimisao,$telefone, $sexo);
             $user->setGrupo("auxiliar");
@@ -203,6 +203,42 @@ else if($submit == "Cadastrar_grupo"){
             // adiconem
             $userDAO = new UserDAO();
             $userDAO->aiivacao($id);
+         } catch (Exception $e) {
+             $_SESSION['mensagem'] = $e->getMessage();
+         }finally{
+              header('Location: ');
+              exit();
+         }
+    }
+}else if($submit == "users"){
+    echo "nao vem";
+    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT); 
+    $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT); 
+    if($usuario->getGrupo() == "gerente") {
+        try {
+            echo "\n"."vem aqui";
+            $userDAO = new UserDAO();
+            $users= $userDAO->getbyall($min,$max);
+            $dados = [];
+            foreach($users as $user){
+                $user=[
+                    "Nome"=>$user->getNOME(),
+                    "Cpf"=>$user->getCPF(),
+                    "Email"=>$user->getEmail(),
+                    "senha"=>$user->getSenha(),
+                    "data_nas"=>$user->getDataNascimento(),
+                    "data_at"=>$user->getDataAdimisao(),
+                    "telefone"=>$user->getTelefone(),
+                    "grupo"=>$user->getGrupo(),
+                    "sexo"=>$user->getSexo(),
+                    "trabalho"=>$user->getTrabalho(),
+                    "id"=>$user->getID(),
+                    "delete"=>$user->getDelete()
+                ];
+                $dados[]=$user;
+            }
+            echo json_encode($dados);
          } catch (Exception $e) {
              $_SESSION['mensagem'] = $e->getMessage();
          }finally{
