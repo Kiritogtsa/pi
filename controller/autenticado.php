@@ -1,18 +1,18 @@
 <?php
 session_start();
-require_once("../models/users.php");
+require_once('../models/users.php');
 try{
-    if(isset($_SESSION["autenticacao"])){
-        if(!$_SESSION["autenticacao"]){
+    if(isset($_SESSION['autenticacao'])){
+        if(!$_SESSION['autenticacao']){
             // usuário não autenticado
-            throw new Exception("Usuário não autenticado!");
+            throw new Exception('Usuário não autenticado!');
         }
     }else{
-        throw new Exception("Falha de autenticação!");
+        throw new Exception('Falha de autenticação!');
     }
 }catch (Exception $e){
-    $_SESSION["mensagem"] = $e->getMessage();
+    $_SESSION['mensagem'] = $e->getMessage();
     header('Location: ../view/login.html');
 }finally{
-    $user = unserialize($_SESSION["user"]);
+    $user = unserialize($_SESSION['user']);
 }

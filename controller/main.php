@@ -5,12 +5,12 @@ require_once('../models/trabalho.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-$submit = filter_var($_POST["submit"], FILTER_SANITIZE_SPECIAL_CHARS);
-// $userjson = ["nome"=>$user->getnome()]
-if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
-    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+$submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
+// $userjson = ['nome'=>$user->getnome()]
+if($submit == 'Cadatrar_user'){ // Cadastra os colaboradores na tabela users
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     try{// colocar analise se é gerente ou aux
-        if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        if($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
         $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
         $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
         $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -25,32 +25,32 @@ if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
         $userDAO->persit($user);
         $data = array(); 
         }else{
-            header("Location: ./view/welcome");
+            header('Location: ./view/welcome');
         }
 }catch(Exception $e){
     echo $e->getMessage();
 }
-}else if($submit == "Criar_cargo"){ // Cria um cargo na tabela TRABALHOS
+}else if($submit == 'Criar_cargo'){ // Cria um cargo na tabela TRABALHOS
     try{
-        if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        if($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
         $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
         $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
         $trabalho = new Trabalho($nome, $descricao);
         $trabalhoDAO = new TrabalhoDAO();
         $trabalhoDAO->salvar($trabalho);
-        $data = array("messagem"=>"sucesso"); 
+        $data = array('messagem'=>'sucesso'); 
         //A partir daqui as mensagem vão ser enviadas por JSON
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($data);
         }else{
-            header("Location: ./view/welcome");
+            header('Location: ./view/welcome');
         }
     }catch(Exception $e){
         echo $e->getMessage();
     }
 }
 # Login
-else if ($submit == "login") {
+else if ($submit == 'login') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
     $senha = filter_var($_POST['senha'], FILTER_SANITIZE_STRING); // Filtra a senha recebida
 
@@ -59,7 +59,7 @@ else if ($submit == "login") {
         $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
         $data = array();
         if (password_verify($senha, $user->getSenha())) {
-                $_SESSION["user"] = serialize($user); // Armazena o usuário na sessão
+                $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
                 $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
                 header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
                 exit();
@@ -74,10 +74,10 @@ else if ($submit == "login") {
         echo $e->getMessage(); // Em caso de exceção, imprime a mensagem de erro
     }
 }
-else if ($submit == "Atualizar_usuario") {
-    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+else if ($submit == 'Atualizar_usuario') {
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     try {// analisar se é getente ou auxiliar_gerente
-        if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        if($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
             $id = filter_var($_POST['id'], FILTER_SANITIZE_SPECIAL_CHARS); 
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra o nome
             $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Valida o email
@@ -94,7 +94,7 @@ else if ($submit == "Atualizar_usuario") {
             echo json_encode($data);
         }
         else{
-            header("Location: ./view/welcome");
+            header('Location: ./view/welcome');
         }    
     } catch (Exception $e) {
         $_SESSION['mensagem'] = $e->getMessage(); // Em caso de exceção, define a mensagem de erro na sessão
@@ -103,27 +103,27 @@ else if ($submit == "Atualizar_usuario") {
     // exit();
 }
 // volta um json com uma messagem 
-else if($submit == "Buscar_cargos"){
+else if($submit == 'Buscar_cargos'){
     $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
     $trabalhoDAO = new TrabalhoDAO();
     $trabalho = $trabalhoDAO->buscarPorId($id);
     if ($trabalho != null){
         $response = [
-            "success" => true,
-            "messagem"=>"obtetido com sucesso",
-            "cargo" => $trabalho
+            'success' => true,
+            'messagem'=>'obtetido com sucesso',
+            'cargo' => $trabalho
         ];
     }else{
     $response = [
-    "success" => false,
-    "messagem"=>"sem sucesso",
-    "cargo" => null
+    'success' => false,
+    'messagem'=>'sem sucesso',
+    'cargo' => null
     ];   
     }
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response);
 }
-else if($submit == "Listar_cargos"){
+else if($submit == 'Listar_cargos'){
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
     if ($lista_cargos) {
@@ -142,14 +142,14 @@ else if($submit == "Listar_cargos"){
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response);
 }
-else if($submit == "Cadastrar_grupo"){
-    echo "nao vem";
+else if($submit == 'Cadastrar_grupo'){
+    echo 'nao vem';
     // adicione a deserialize o usuario para verificar o grupo
-    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     var_dump($usuario);
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+    if($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
         try {
             $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
@@ -159,8 +159,8 @@ else if($submit == "Cadastrar_grupo"){
             $sexo = filter_var($_POST['sexo'],FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'],FILTER_SANITIZE_SPECIAL_CHARS);
             $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
-            $user = new User($nome, $email,"2",$cpf, $senha,$data_nascimento, $data_adimisao,$telefone, $sexo);
-            $user->setGrupo("auxiliar");
+            $user = new User($nome, $email,'2',$cpf, $senha,$data_nascimento, $data_adimisao,$telefone, $sexo);
+            $user->setGrupo('auxiliar');
             $userDAO = new UserDAO();
             $userDAO->insertgrupo($user);
          } catch (Exception $e) {
@@ -170,16 +170,16 @@ else if($submit == "Cadastrar_grupo"){
               exit();
          }
     }
-}else if($submit == "Atualizar o estado"){
-    echo "nao vem";
+}else if($submit == 'Atualizar o estado'){
+    echo 'nao vem';
     // adicione a deserialize o usuario para verificar o grupo
-    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     var_dump($usuario);
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if($usuario->getGrupo() == "gerente"){
+    if($usuario->getGrupo() == 'gerente'){
         try {
-            echo "\n"."vem aqui";
+            echo '\n'.'vem aqui';
             // adiconem
             $userDAO = new UserDAO();
             $userDAO->delete($id);
@@ -190,16 +190,16 @@ else if($submit == "Cadastrar_grupo"){
               exit();
          }
     }
-}else if($submit == "ativar o usuario"){
-    echo "nao vem";
+}else if($submit == 'ativar o usuario'){
+    echo 'nao vem';
     // adicione a deserialize o usuario para verificar o grupo
-    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     var_dump($usuario);
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if($usuario->getGrupo() == "gerente"){
+    if($usuario->getGrupo() == 'gerente'){
         try {
-            echo "\n"."vem aqui";
+            echo '\n'.'vem aqui';
             // adiconem
             $userDAO = new UserDAO();
             $userDAO->aiivacao($id);
@@ -210,31 +210,31 @@ else if($submit == "Cadastrar_grupo"){
               exit();
          }
     }
-}else if($submit == "users"){
-    echo "nao vem";
-    $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
+}else if($submit == 'users'){
+    echo 'nao vem';
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT); 
     $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT); 
-    if($usuario->getGrupo() == "gerente") {
+    if($usuario->getGrupo() == 'gerente') {
         try {
-            echo "\n"."vem aqui";
+            echo '\n'.'vem aqui';
             $userDAO = new UserDAO();
             $users= $userDAO->getbyall($min,$max);
             $dados = [];
             foreach($users as $user){
                 $user=[
-                    "Nome"=>$user->getNOME(),
-                    "Cpf"=>$user->getCPF(),
-                    "Email"=>$user->getEmail(),
-                    "senha"=>$user->getSenha(),
-                    "data_nas"=>$user->getDataNascimento(),
-                    "data_at"=>$user->getDataAdimisao(),
-                    "telefone"=>$user->getTelefone(),
-                    "grupo"=>$user->getGrupo(),
-                    "sexo"=>$user->getSexo(),
-                    "trabalho"=>$user->getTrabalho(),
-                    "id"=>$user->getID(),
-                    "delete"=>$user->getDelete()
+                    'Nome'=>$user->getNOME(),
+                    'Cpf'=>$user->getCPF(),
+                    'Email'=>$user->getEmail(),
+                    'senha'=>$user->getSenha(),
+                    'data_nas'=>$user->getDataNascimento(),
+                    'data_at'=>$user->getDataAdimisao(),
+                    'telefone'=>$user->getTelefone(),
+                    'grupo'=>$user->getGrupo(),
+                    'sexo'=>$user->getSexo(),
+                    'trabalho'=>$user->getTrabalho(),
+                    'id'=>$user->getID(),
+                    'delete'=>$user->getDelete()
                 ];
                 $dados[]=$user;
             }
