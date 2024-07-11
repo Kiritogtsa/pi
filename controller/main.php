@@ -38,10 +38,10 @@ if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
         $trabalho = new Trabalho($nome, $descricao);
         $trabalhoDAO = new TrabalhoDAO();
         $trabalhoDAO->salvar($trabalho);
-        $data = array(); 
-        // A partir daqui as mensagem vão ser enviadas por JSON
-        // header('Content-Type: application/json; charset=utf-8');
-        // echo json_encode($data);
+        $data = array("messagem"=>"sucesso"); 
+        //A partir daqui as mensagem vão ser enviadas por JSON
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data);
         }else{
             header("Location: ./view/welcome");
         }
