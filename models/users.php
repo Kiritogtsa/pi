@@ -376,7 +376,7 @@ class UserDAO implements crud{
         }
     }
     public function getbyall(int $min, int $max): array{ // seleciona todos os usuarios ativados
-        $sql = "SELECT * FROM users WHERE  BETWEEN :min AND :max";
+        $sql = "SELECT * FROM users ID  BETWEEN :min AND :max";
         echo "chega no getbyall"."\n";
         // Preparar a consulta
         $stmt = $this->conn->prepare($sql);
