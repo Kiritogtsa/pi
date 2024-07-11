@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 $submit = filter_var($_POST["submit"], FILTER_SANITIZE_SPECIAL_CHARS);
-
+$userjson = ["nome"=>$user->]
 if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION["user"]) ? unserialize($_SESSION["user"]) : null;
     try{// colocar analise se é gerente ou aux
@@ -32,15 +32,23 @@ if($submit == "Cadatrar_user"){ // Cadastra os colaboradores na tabela users
 }
 
 }else if($submit == "Criar_cargo"){ // Cria um cargo na tabela TRABALHOS
-    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
-    $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
-    $trabalho = new Trabalho($nome, $descricao);
-    $trabalhoDAO = new TrabalhoDAO();
-    $trabalhoDAO->salvar($trabalho);
-    $data = array(); 
-    // A partir daqui as mensagem vão ser enviadas por JSON
-    // header('Content-Type: application/json; charset=utf-8');
-    // echo json_encode($data);
+    try{
+        if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $trabalho = new Trabalho($nome, $descricao);
+        $trabalhoDAO = new TrabalhoDAO();
+        $trabalhoDAO->salvar($trabalho);
+        $data = array(); 
+        // A partir daqui as mensagem vão ser enviadas por JSON
+        // header('Content-Type: application/json; charset=utf-8');
+        // echo json_encode($data);
+        }else{
+            header("Location: ./view/welcome");
+        }
+    }catch(Exception $e){
+    echo $e->getMessage();
+}
 }
 
 # Login
@@ -174,7 +182,7 @@ else if($submit == "Cadastrar_grupo"){
     var_dump($usuario);
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+    if($usuario->getGrupo() == "gerente"){
         try {
             echo "\n"."vem aqui";
             // adiconem
@@ -194,7 +202,7 @@ else if($submit == "Cadastrar_grupo"){
     var_dump($usuario);
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+    if($usuario->getGrupo() == "gerente"){
         try {
             echo "\n"."vem aqui";
             // adiconem

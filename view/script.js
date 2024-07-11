@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // pai
     const cargoSelect = document.getElementById("cargoSelect");
 
     // Função para buscar cargos
@@ -24,7 +25,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function populateCargos(cargos) {
         console.log(cargos)
+        
         cargos.forEach(cargo => {
+            // filho
             const option = document.createElement("option");
             option.value = cargo.id_cargo;  // Supondo que cada cargo tem um campo id
             option.textContent = cargo.nome;  // Supondo que cada cargo tem um campo nome
