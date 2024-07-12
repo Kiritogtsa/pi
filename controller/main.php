@@ -52,7 +52,7 @@ if($submit == 'Cadatrar_user'){ // Cadastra os colaboradores na tabela users
 # Login
 else if ($submit == 'login') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
-    $senha = filter_var($_POST['senha'], FILTER_SANITIZE_STRING); // Filtra a senha recebida
+    $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra a senha recebida
 
     try {
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
