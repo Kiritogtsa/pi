@@ -235,6 +235,7 @@ class UserDAO implements crud{
         $user->setId($this->conn->lastInsertId());
         return $user;
     }
+    // um insert que adiciona um grupo
     public function insertgrupo(User $user):User{
         if (empty($user->getGrupo())){
             throw new Exception(" nao tem um grupo");
@@ -356,6 +357,8 @@ class UserDAO implements crud{
             throw $e;
         }
     }
+
+    // ele ativa o usuario denovo
     public function aiivacao($id):bool{
         try {
             $this->conn->beginTransaction();

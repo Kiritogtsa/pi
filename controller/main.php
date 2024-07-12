@@ -10,6 +10,9 @@ $submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 if($submit == 'Cadatrar_user'){ // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     try{// colocar analise se é gerente ou aux
+        // devo dizer que colocar '' nas views sao initeis? e tb devo dizer que colocar aspas simples em algo que a gente ta criando ou mandado messagens tb e initil?
+        // qual o sentido de dar um echo '' com aspas simples? nao sentido, mais ja que mudaram ok, mais isso nao faz difença, aspas simples e so para os
+        // valores que a gente recebe das views pelos formularios, pq dai nao da para criar uma variavel ou acessar uma pela aspas simples mais e so isso mesmo
         if($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
         $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
         $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -21,7 +24,8 @@ if($submit == 'Cadatrar_user'){ // Cadastra os colaboradores na tabela users
         $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT);// verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
         $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
         $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
-        $userDAO = new UserDAO();    
+        $userDAO = new UserDAO();   
+        // nao era pra enviar uma messagens dizendo que foi um sucesso? 
         $userDAO->persit($user);
         $data = array(); 
         }else{
