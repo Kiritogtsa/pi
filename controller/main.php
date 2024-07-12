@@ -24,7 +24,8 @@ if($submit == 'Cadatrar_user'){ // Cadastra os colaboradores na tabela users
         $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT);// verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
         $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
         $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
-        $userDAO = new UserDAO();    
+        $userDAO = new UserDAO();   
+        // nao era pra enviar uma messagens dizendo que foi um sucesso? 
         $userDAO->persit($user);
         $data = array(); 
         }else{
