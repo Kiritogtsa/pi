@@ -27,7 +27,9 @@ if($submit == 'Cadatrar_user'){ // Cadastra os colaboradores na tabela users
         $userDAO = new UserDAO();   
         // nao era pra enviar uma messagens dizendo que foi um sucesso? 
         $userDAO->persit($user);
-        $data = array(); 
+        $data = array("messagem"=>"foi um sucesso");
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data);
         }else{
             header('Location: ./view/welcome');
         }
