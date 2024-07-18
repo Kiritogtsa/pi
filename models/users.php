@@ -34,15 +34,16 @@ class User implements userit
 
     // o construtor verifica se tem algum campo em branco e se tem gera um erro
 
-    function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, Salario $salario = null)
+    function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, Salario $salario)
     {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
             throw new Exception("Está faltando um dado");
         }
         // chama um metodo para validar os campos, se nao recebr um true  e porque recebeu uma messagem dai gera o erro personalizado
-        if ($msg = $this->validarcampos($nome, $email, $trabalho, $cpf, $senha, $sexo) != true) {
+        if ($msg = $this->validarcampos($nome, $email, $trabalho, $cpf, $senha, $sexo, $salario) != true) {
             throw new Exception($msg);
         }
+
         $this->nome = $nome;
         $this->email = $email;
         $this->trabalho = $trabalho;
@@ -74,20 +75,24 @@ class User implements userit
             ->getMes());
     }
     // valida os campos
-    private function validarcampos($nome, $email, $trabalho, $cpf, $senha, $sexo)
+    private function validarcampos($nome, $email, $trabalho, $cpf, $senha, $sexo, $salario)
     {
         if (!$this->validarcpf($cpf)) {
-            return $msg = "cpf invalido";
+            return "cpf invalido";
         }
         // if (!$this->validaremail($email)) {
         //     return $msg = "email invalido";
         // }
         if (is_numeric($trabalho)) {
-            return $msg = "trabalho invalido, recebido um character invalido, era esperado um numero";
+            return "trabalho invalido, recebido um character invalido, era esperado um numero";
         }
-        if ($sexo == "masculino" || $sexo == "feminino") {
-            return $msg =  "sexo incorreto";
+        if ($sexo != "masculino" || $sexo != "feminino") {
+            return  "sexo incorreto";
         }
+        if ($salario == null || empty($salario)) {
+            return "sem um salario";
+        }
+        return true;
     }
     private function validarcpf($cpf)
     {
