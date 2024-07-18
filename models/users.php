@@ -1,15 +1,17 @@
 <?php
 require_once("salario.php");
-interface crud{
+interface crud
+{
     public function persit(user $user): user;
     public function getbyemail(string $email): user;
     public function getbyall(int $min, int $max): array;
-    public function delete(int $id) : bool;
-    public function insertgrupo(User $user):User;
+    public function delete(int $id): bool;
+    public function insertgrupo(User $user): User;
 }
 
 // define uma classe de usuario
-class User {
+class User
+{
     // define os atributos do usuario
     private $id;
     private $nome;
@@ -24,15 +26,16 @@ class User {
     private $cpf;
     private $delete_at;
     private Salario  $salario;
-    
+
     // o construtor verifica se tem algum campo em branco e se tem gera um erro
 
-    function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo) {
+    function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, Salario $salario = null)
+    {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
             throw new Exception("Está faltando um dado");
         }
         // chama um metodo para validar os campos, se nao recebr um true  e porque recebeu uma messagem dai gera o erro personalizado
-        if($msg = $this->validarcampos($nome,$email, $trabalho,$cpf,$senha,$sexo)!=true){
+        if ($msg = $this->validarcampos($nome, $email, $trabalho, $cpf, $senha, $sexo) != true) {
             throw new Exception($msg);
         }
         $this->nome = $nome;
@@ -44,182 +47,217 @@ class User {
         $this->data_adimisao = $data_adimisao;
         $this->telefone = $telefone;
         $this->sexo = $sexo;
+        $this->salario = $salario;
     }
-    private function validaremail($email) {
+    private function validaremail($email)
+    {
         $conta = "^[a-zA-Z0-9\._-]+@";
         $domino = "[a-zA-Z0-9\._-]+.";
         $extensao = "([a-zA-Z]{2,4})$";
-        
-        $pattern = $conta.$domino.$extensao;
-        
+
+        $pattern = $conta . $domino . $extensao;
+
         if (preg_match($pattern, $email)) {
             return true;
-            } else {
+        } else {
             return false;
         }
     }
-    
+    public function getsalario()
+    {
+        $this->salario->calcsalarLiquid($this->salario->getSalariobruto(), $this->salario->getIr(), $this->salario->getInss(), $this->salario->getAdicional(), $this->salario
+            ->getMes());
+    }
     // valida os campos
-    private function validarcampos($nome, $email,$trabalho,$cpf,$senha,$sexo){
+    private function validarcampos($nome, $email, $trabalho, $cpf, $senha, $sexo)
+    {
         if (!$this->validarcpf($cpf)) {
             return $msg = "cpf invalido";
         }
         // if (!$this->validaremail($email)) {
         //     return $msg = "email invalido";
         // }
-        if (is_numeric($trabalho)){
+        if (is_numeric($trabalho)) {
             return $msg = "trabalho invalido, recebido um character invalido, era esperado um numero";
         }
-        if($sexo == "masculino" || $sexo == "feminino"){
+        if ($sexo == "masculino" || $sexo == "feminino") {
             return $msg =  "sexo incorreto";
         }
     }
-    private function validarcpf($cpf){
+    private function validarcpf($cpf)
+    {
 
-    // Extrai somente os números
-    $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
-     
-    // Verifica se foi informado todos os digitos corretamente
-    if (strlen($cpf) != 11) {
-        return false;
-    }
+        // Extrai somente os números
+        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
-    // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
-    if (preg_match('/(\d)\1{10}/', $cpf)) {
-        return false;
-    }
-
-    // Faz o calculo para validar o CPF
-    for ($t = 9; $t < 11; $t++) {
-        for ($d = 0, $c = 0; $c < $t; $c++) {
-            $d += $cpf[$c] * (($t + 1) - $c);
-        }
-        $d = ((10 * $d) % 11) % 10;
-        if ($cpf[$c] != $d) {
+        // Verifica se foi informado todos os digitos corretamente
+        if (strlen($cpf) != 11) {
             return false;
         }
-    }
-    return true;
+
+        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+
+        // Faz o calculo para validar o CPF
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Getters
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
-    public function getdelete(){
+    public function getdelete()
+    {
         return $this->delete_at;
     }
-    public function getNome() {
+    public function getNome()
+    {
         return $this->nome;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
-    public function getCPF() {
+    public function getCPF()
+    {
         return $this->cpf;
     }
 
 
-    public function getTrabalho() {
+    public function getTrabalho()
+    {
         return $this->trabalho;
     }
 
-    public function getGrupo() {
+    public function getGrupo()
+    {
         return $this->grupo;
     }
 
-    public function getSenha() {
+    public function getSenha()
+    {
         return $this->senha;
     }
 
-    public function getDataNascimento() {
+    public function getDataNascimento()
+    {
         return $this->data_nascimento;
     }
 
-    public function getDataAdimisao() {
+    public function getDataAdimisao()
+    {
         return $this->data_adimisao;
     }
 
-    public function getTelefone() {
+    public function getTelefone()
+    {
         return $this->telefone;
     }
 
-    public function getSexo() {
+    public function getSexo()
+    {
         return $this->sexo;
     }
 
     // Setters
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
-    public function setdelete($data){
+    public function setdelete($data)
+    {
         $this->delete_at = $data;
     }
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
 
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    public function setTrabalho($trabalho) {
+    public function setTrabalho($trabalho)
+    {
         $this->trabalho = $trabalho;
     }
 
-    public function setGrupo($grupo) {
+    public function setGrupo($grupo)
+    {
         $this->grupo = $grupo;
     }
 
-    public function setSenha($senha) {
+    public function setSenha($senha)
+    {
         $this->senha = $senha;
     }
 
-    public function setDataNascimento($data_nascimento) {
+    public function setDataNascimento($data_nascimento)
+    {
         $this->data_nascimento = $data_nascimento;
     }
 
-    public function setDataAdimisao($data_adimisao) {
+    public function setDataAdimisao($data_adimisao)
+    {
         $this->data_adimisao = $data_adimisao;
     }
 
-    public function setTelefone($telefone) {
+    public function setTelefone($telefone)
+    {
         $this->telefone = $telefone;
     }
 
-    public function setSexo($sexo) {
+    public function setSexo($sexo)
+    {
         $this->sexo = $sexo;
     }
-    public function setCPF($cpf) {
+    public function setCPF($cpf)
+    {
         $this->cpf = $cpf;
     }
 }
 
 // define a classe que trabalha com a tabela relacionada ao usuario
-class UserDAO implements crud{
+class UserDAO implements crud
+{
     private $conn;
     // o contrutor seta a conn para receber a conexao do banco de dados
-    function __construct() {
+    function __construct()
+    {
         require_once("../config/db.php");
         $this->conn = $pdo;
     }
 
     // cria um usuario, ele recebe um usuario e volta o usuario ja com o id do banco de dados
-    private function insert(User $user):User{
-        echo "vem aqui insert"."\n";
+    private function insert(User $user): User
+    {
+        echo "vem aqui insert" . "\n";
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id)";
         $nome = $user->getNome();
-        $email = $user->getEmail(); 
-        $senha=$user->getSenha(); 
-        $data_nascimento=$user->getDataNascimento(); 
-        $data_adimisao=$user->getDataAdimisao(); 
-        $telefone=$user->getTelefone();
-        $cpf=$user->getCpf();
+        $email = $user->getEmail();
+        $senha = $user->getSenha();
+        $data_nascimento = $user->getDataNascimento();
+        $data_adimisao = $user->getDataAdimisao();
+        $telefone = $user->getTelefone();
+        $cpf = $user->getCpf();
         $sexo = $user->getSexo();
         $tr_id = $user->getTrabalho();
         $stmt = $this->conn->prepare($sql);
-        echo "insert prepara o sql"."\n";
+        echo "insert prepara o sql" . "\n";
         var_dump($tr_id);
         $senha = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->bindParam(":nome", $nome);
@@ -232,29 +270,30 @@ class UserDAO implements crud{
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->bindValue(":tr_id", $tr_id);
         $stmt->execute();
-        echo "insert executa o sql"."\n";
+        echo "insert executa o sql" . "\n";
         $user->setId($this->conn->lastInsertId());
         return $user;
     }
     // um insert que adiciona um grupo
-    public function insertgrupo(User $user):User{
-        if (empty($user->getGrupo())){
+    public function insertgrupo(User $user): User
+    {
+        if (empty($user->getGrupo())) {
             throw new Exception(" nao tem um grupo");
         }
-        echo "chega no insertgrupo"."\n";
+        echo "chega no insertgrupo" . "\n";
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id,GRUPO) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo)";
         $nome = $user->getNome();
-        $email = $user->getEmail(); 
-        $senha=$user->getSenha(); 
-        $data_nascimento=$user->getDataNascimento(); 
-        $data_adimisao=$user->getDataAdimisao(); 
-        $telefone=$user->getTelefone();
-        $cpf=$user->getCpf();
+        $email = $user->getEmail();
+        $senha = $user->getSenha();
+        $data_nascimento = $user->getDataNascimento();
+        $data_adimisao = $user->getDataAdimisao();
+        $telefone = $user->getTelefone();
+        $cpf = $user->getCpf();
         $sexo = $user->getSexo();
         $tr_id = $user->getTrabalho();
         $grupo = $user->getGrupo();
         $stmt = $this->conn->prepare($sql);
-        echo "insertgrupo prepara o sql"."\n";
+        echo "insertgrupo prepara o sql" . "\n";
         $senha = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
@@ -268,13 +307,14 @@ class UserDAO implements crud{
         $stmt->bindParam(":tr_id", $tr_id);
         $stmt->bindParam(":grupo", $grupo);
         $stmt->execute();
-        echo "insertgrupo executa o sql"."\n";
+        echo "insertgrupo executa o sql" . "\n";
         $user->setId($this->conn->lastInsertId());
         return $user;
     }
     // ele atualiza um usuario
-    private function update(User $user):User {
-        echo "chega aqui no update"."\n";
+    private function update(User $user): User
+    {
+        echo "chega aqui no update" . "\n";
         $sql = "UPDATE users SET 
             NOME = :nome,
             EMAIL = :email,
@@ -286,14 +326,14 @@ class UserDAO implements crud{
         WHERE ID = :id";
         $id = $user->getId();
         $nome = $user->getNome();
-        $email = $user->getEmail(); 
-        $data_nascimento = $user->getDataNascimento(); 
-        $data_adimisao = $user->getDataAdimisao(); 
+        $email = $user->getEmail();
+        $data_nascimento = $user->getDataNascimento();
+        $data_adimisao = $user->getDataAdimisao();
         $telefone = $user->getTelefone();
         $cpf = $user->getCpf();
         $sexo = $user->getSexo();
         $stmt = $this->conn->prepare($sql);
-        echo "update prepara o sql"."\n";
+        echo "update prepara o sql" . "\n";
         $stmt->bindParam(":id", $id);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
@@ -303,100 +343,106 @@ class UserDAO implements crud{
         $stmt->bindParam(":data_nas", $data_nascimento);
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->execute();
-        echo "update executa o sql"."\n";
+        echo "update executa o sql" . "\n";
         return $user;
     }
 
     // a funçao que decide qual metodo e chamado
-    public function persit(User $user):User{
-        echo "Chega no persit"."\n";
+    public function persit(User $user): User
+    {
+        echo "Chega no persit" . "\n";
         if (!$user->getId()) {
             return $this->insert($user);
         } else {
             return $this->update($user);
         }
     }
-    
+
     // obtem uma instancia de User com base no email fonercido
-    public function getByEmail($email):User{
+    public function getByEmail($email): User
+    {
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
-        echo "getemail prepara o sql"."\n";
+        echo "getemail prepara o sql" . "\n";
         echo "<br>";
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-        echo "getemail executa o sql"."\n";
+        echo "getemail executa o sql" . "\n";
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$dados) {
             throw new Exception("Usuário não encontrado com o nome: " . $email);
         }
         var_dump($dados);
-        $user = new User($dados["NOME"], $dados["EMAIL"],$dados["TR_ID"],$dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"],$dados["TELEFONE"],$dados["SEXO"]);
+        $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], null);
         $user->setId($dados["ID"]);
         $user->setdelete($dados["DELETE_AT"]);
         $user->setGrupo($dados["GRUPO"]);
-        echo "getemail termina retornado uma instacia"."\n";
-        return $user; 
+        echo "getemail termina retornado uma instacia" . "\n";
+        return $user;
     }
     // ele desativa o usuario
-    public function delete($id):bool{
+    public function delete($id): bool
+    {
         try {
             $this->conn->beginTransaction();
-            echo "chega no delete"."\n";
+            echo "chega no delete" . "\n";
             $sql = "UPDATE users SET deleted_at = NOW() WHERE ID = :id";
             $stmt = $this->conn->prepare($sql);
-            echo "prepara o sql"."\n";
+            echo "prepara o sql" . "\n";
             $stmt->bindParam(":id", $id);
-            
+
             $result = $stmt->execute();
-            echo "executa o sql"."\n";
+            echo "executa o sql" . "\n";
             $this->conn->commit();
             return $result;
         } catch (Exception $e) {
-            echo "deu um erro"."\n";
+            echo "deu um erro" . "\n";
             $this->conn->rollBack();
             throw $e;
         }
     }
 
     // ele ativa o usuario denovo
-    public function aiivacao($id):bool{
+    public function aiivacao($id): bool
+    {
         try {
             $this->conn->beginTransaction();
-            echo "chega no delete"."\n";
+            echo "chega no delete" . "\n";
             $sql = "UPDATE users SET DELETE_AT = null WHERE ID = :id";
             $stmt = $this->conn->prepare($sql);
-            echo "prepara o sql"."\n";
+            echo "prepara o sql" . "\n";
             $stmt->bindParam(":id", $id);
-            
+
             $result = $stmt->execute();
-            echo "executa o sql"."\n";
+            echo "executa o sql" . "\n";
             $this->conn->commit();
             return $result;
         } catch (Exception $e) {
-            echo "deu um erro"."\n";
+            echo "deu um erro" . "\n";
             $this->conn->rollBack();
             throw $e;
         }
     }
-    public function getbyall(int $min, int $max): array{ // seleciona todos os usuarios ativados
+    public function getbyall(int $min, int $max): array
+    { // seleciona todos os usuarios ativados
         $sql = "SELECT * FROM users ID  BETWEEN :min AND :max";
-        echo "chega no getbyall"."\n";
+        echo "chega no getbyall" . "\n";
         // Preparar a consulta
         $stmt = $this->conn->prepare($sql);
-        echo "prepara o sql"."\n";
-        
+        echo "prepara o sql" . "\n";
+
         // Executar a consulta com os parâmetros
         $stmt->execute([':min' => $min, ':max' => $max]);
-        echo "executa o sql"."\n";
+        echo "executa o sql" . "\n";
         // Buscar todos os resultados como array associativo
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo "obtem os dados"."\n";
+        echo "obtem os dados" . "\n";
         // Array para armazenar os objetos User
         $users = [];
-        
+
         // Iterar pelos resultados e criar objetos User
         foreach ($results as $row) {
+            // adicionar instacia de salario antes 
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
@@ -406,34 +452,36 @@ class UserDAO implements crud{
                 $row['DATA_ADMISSAO'],
                 $row['SEXO'],
                 $row['CPF'],
-                $row['tr_id']
+                $row['tr_id'],
+                null
             );
             $user->setId($row['ID']);
             $user->setdelete($row["DELETE_AT"]);
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
-        echo "retorna os dados"."\n";
+        echo "retorna os dados" . "\n";
         // Retornar o array de objetos User
         return $users;
     }
-public function getbyallon(int $min, int $max): array{ // Seleciona todos os usuarios, ativados ou não
-    $sql = "SELECT * FROM users WHERE DELETE_AT IS NULL AND ID BETWEEN :min AND :max";
+    public function getbyallon(int $min, int $max): array
+    { // Seleciona todos os usuarios, ativados ou não
+        $sql = "SELECT * FROM users WHERE DELETE_AT IS NULL AND ID BETWEEN :min AND :max";
 
-        echo "chega no getbyall"."\n";
+        echo "chega no getbyall" . "\n";
         // Preparar a consulta
         $stmt = $this->conn->prepare($sql);
-        echo "prepara o sql"."\n";
-        
+        echo "prepara o sql" . "\n";
+
         // Executar a consulta com os parâmetros
         $stmt->execute([':min' => $min, ':max' => $max]);
-        echo "executa o sql"."\n";
+        echo "executa o sql" . "\n";
         // Buscar todos os resultados como array associativo
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo "obtem os dados"."\n";
+        echo "obtem os dados" . "\n";
         // Array para armazenar os objetos User
         $users = [];
-        
+
         // Iterar pelos resultados e criar objetos User
         foreach ($results as $row) {
             $user = new User(
@@ -445,14 +493,15 @@ public function getbyallon(int $min, int $max): array{ // Seleciona todos os usu
                 $row['DATA_ADMISSAO'],
                 $row['SEXO'],
                 $row['CPF'],
-                $row['tr_id']
+                $row['tr_id'],
+                null
             );
             $user->setId($row['ID']);
             $user->setdelete($row["DELETE_AT"]);
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
-        echo "retorna os dados"."\n";
+        echo "retorna os dados" . "\n";
         // Retornar o array de objetos User
         return $users;
     }
