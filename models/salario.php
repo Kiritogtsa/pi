@@ -1,5 +1,7 @@
 <?php
-class Salario {
+// pesando melhor e melhor ter um crud bem basico aqui para separar reponsabiladade
+class Salario
+{
     private $id;
     private $salariobruto;
     private $ir;
@@ -18,7 +20,7 @@ class Salario {
         if ($mes < 1 || $mes > 12) {
             throw new Exception("Mês inválido!");
         }
-        if ($mes == 7 || $mes == 12){
+        if ($mes == 7 || $mes == 12) {
             $decimo = 0.5;
         }
         $this->id = $id;
@@ -29,7 +31,6 @@ class Salario {
         $this->salarioliquido = $salarioliquido;
         $this->mes = $mes;
         $this->decimo = $decimo;
-
     }
 
     public function setId($id)
@@ -133,81 +134,84 @@ class Salario {
         return $this->ano;
     }
 
-    public function descIR($salariobruto, $mes, $decimo) {
-        if($mes == 7 || $mes == 12){
+    public function descIR($salariobruto, $mes, $decimo)
+    {
+        if ($mes == 7 || $mes == 12) {
             $salariobruto = $salariobruto * $decimo;
-            if ($salariobruto < 2259.20) {
-                    return $this->ir = 0;
-                } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
-                    return $this->ir = $salariobruto * 0.075;
-                } else if ($salariobruto >= 2826.66 && $salariobruto <= 3751.05) {
-                    return $this->ir = $salariobruto * 0.15;
-                } else if ($salariobruto >= 3751.06 && $salariobruto <= 4664.68) {
-                    return $this->ir = $salariobruto * 0.225;
-                } else if ($salariobruto > 4664.68) {
-                    return $this->ir = $salariobruto * 0.275;
-                } else {
-                    throw new Exception("Salário bruto inválido!");
-                }
-        }else{
             if ($salariobruto < 2259.20) {
                 return $this->ir = 0;
-                } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
-                    return $this->ir = $salariobruto * 0.075;
-                } else if ($salariobruto >= 2826.66 && $salariobruto <= 3751.05) {
-                    return $this->ir = $salariobruto * 0.15;
-                } else if ($salariobruto >= 3751.06 && $salariobruto <= 4664.68) {
-                    return $this->ir = $salariobruto * 0.225;
-                } else if ($salariobruto > 4664.68) {
-                    return $this->ir = $salariobruto * 0.275;
-                } else {
-                    throw new Exception("Salário bruto inválido!");
-                }
+            } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
+                return $this->ir = $salariobruto * 0.075;
+            } else if ($salariobruto >= 2826.66 && $salariobruto <= 3751.05) {
+                return $this->ir = $salariobruto * 0.15;
+            } else if ($salariobruto >= 3751.06 && $salariobruto <= 4664.68) {
+                return $this->ir = $salariobruto * 0.225;
+            } else if ($salariobruto > 4664.68) {
+                return $this->ir = $salariobruto * 0.275;
+            } else {
+                throw new Exception("Salário bruto inválido!");
+            }
+        } else {
+            if ($salariobruto < 2259.20) {
+                return $this->ir = 0;
+            } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
+                return $this->ir = $salariobruto * 0.075;
+            } else if ($salariobruto >= 2826.66 && $salariobruto <= 3751.05) {
+                return $this->ir = $salariobruto * 0.15;
+            } else if ($salariobruto >= 3751.06 && $salariobruto <= 4664.68) {
+                return $this->ir = $salariobruto * 0.225;
+            } else if ($salariobruto > 4664.68) {
+                return $this->ir = $salariobruto * 0.275;
+            } else {
+                throw new Exception("Salário bruto inválido!");
+            }
+        }
     }
-    }
-    public function descINSS($salariobruto, $decimo, $mes) {
-        if($mes == 7 || $mes == 12){
+    public function descINSS($salariobruto, $decimo, $mes)
+    {
+        if ($mes == 7 || $mes == 12) {
             $salariobruto = $salariobruto * $decimo;
             if ($salariobruto <= 1412.00) {
-                    return $this->inss = $salariobruto * 0.075;
-                } else if ($salariobruto >= 1412.01 && $salariobruto <= 2666.68) {
-                    return $this->inss = $salariobruto * 0.09;
-                } else if ($salariobruto >= 2666.69 && $salariobruto <= 4000.03) {
-                    return $this->inss = $salariobruto * 0.12;
-                } else if ($salariobruto >= 4000.04 && $salariobruto <= 7786.02) {
-                    return $this->inss = $salariobruto * 0.14;
-                } else if ($salariobruto > 7786.02) {
-                    return $this->inss = 7786.02 * 0.14;
-                } else {
-                    throw new Exception("Salário bruto inválido!");
-                }
-    }else{
+                return $this->inss = $salariobruto * 0.075;
+            } else if ($salariobruto >= 1412.01 && $salariobruto <= 2666.68) {
+                return $this->inss = $salariobruto * 0.09;
+            } else if ($salariobruto >= 2666.69 && $salariobruto <= 4000.03) {
+                return $this->inss = $salariobruto * 0.12;
+            } else if ($salariobruto >= 4000.04 && $salariobruto <= 7786.02) {
+                return $this->inss = $salariobruto * 0.14;
+            } else if ($salariobruto > 7786.02) {
+                return $this->inss = 7786.02 * 0.14;
+            } else {
+                throw new Exception("Salário bruto inválido!");
+            }
+        } else {
             if ($salariobruto <= 1412.00) {
                 return $this->inss = $salariobruto * 0.075;
-                } else if ($salariobruto >= 1412.01 && $salariobruto <= 2666.68) {
-                    return $this->inss = $salariobruto * 0.09;
-                } else if ($salariobruto >= 2666.69 && $salariobruto <= 4000.03) {
-                    return $this->inss = $salariobruto * 0.12;
-                } else if ($salariobruto >= 4000.04 && $salariobruto <= 7786.02) {
-                    return $this->inss = $salariobruto * 0.14;
-                } else if ($salariobruto > 7786.02) {
-                    return $this->inss = 7786.02 * 0.14;
-                } else {
-                    throw new Exception("Salário bruto inválido!");
-                }
-    }
-}
-    public function calcsalarLiquid($salariobruto, $ir, $inss, $adicional, $mes) {
-    $salarioComAdicional = $salariobruto + ($salariobruto * ($adicional / 100));
-    if ($mes == 7 || $mes == 12) {
-         $salarioComAdicional += $salariobruto * $this->decimo;
+            } else if ($salariobruto >= 1412.01 && $salariobruto <= 2666.68) {
+                return $this->inss = $salariobruto * 0.09;
+            } else if ($salariobruto >= 2666.69 && $salariobruto <= 4000.03) {
+                return $this->inss = $salariobruto * 0.12;
+            } else if ($salariobruto >= 4000.04 && $salariobruto <= 7786.02) {
+                return $this->inss = $salariobruto * 0.14;
+            } else if ($salariobruto > 7786.02) {
+                return $this->inss = 7786.02 * 0.14;
+            } else {
+                throw new Exception("Salário bruto inválido!");
+            }
         }
-    $salarioliquido = $salarioComAdicional - $ir - $inss;
-    return $this->salarioliquido = $salarioliquido;
     }
-
-   
+    public function calcsalarLiquid($salariobruto, $ir, $inss, $adicional, $mes)
+    {
+        $salarioComAdicional = $salariobruto + ($salariobruto * ($adicional / 100));
+        if ($mes == 7 || $mes == 12) {
+            $salarioComAdicional += $salariobruto * $this->decimo;
+        }
+        $salarioliquido = $salarioComAdicional - $ir - $inss;
+        return $this->salarioliquido = $salarioliquido;
+    }
 }
+
+
 
 // class SalarioDAO{
 //     public function getsalarioid($id){ // Lista os salários pelo ID
@@ -273,4 +277,3 @@ class Salario {
 //     INT ano,
 //     FOREIGN KEY (id) REFERENCES user (id);
 // )
-?>

@@ -1,5 +1,6 @@
 <?php
 require_once("salario.php");
+
 interface crud
 {
     public function persit(user $user): user;
@@ -9,8 +10,12 @@ interface crud
     public function insertgrupo(User $user): User;
 }
 
+interface userit
+{
+    public function getsalario(): int;
+}
 // define uma classe de usuario
-class User
+class User implements userit
 {
     // define os atributos do usuario
     private $id;
@@ -63,9 +68,9 @@ class User
             return false;
         }
     }
-    public function getsalario()
+    public function getsalario(): int
     {
-        $this->salario->calcsalarLiquid($this->salario->getSalariobruto(), $this->salario->getIr(), $this->salario->getInss(), $this->salario->getAdicional(), $this->salario
+        return $this->salario->calcsalarLiquid($this->salario->getSalariobruto(), $this->salario->getIr(), $this->salario->getInss(), $this->salario->getAdicional(), $this->salario
             ->getMes());
     }
     // valida os campos
