@@ -1,5 +1,5 @@
 <?php
-
+require_once("salario.php");
 interface crud{
     public function persit(user $user): user;
     public function getbyemail(string $email): user;
@@ -23,6 +23,7 @@ class User {
     private $sexo;
     private $cpf;
     private $delete_at;
+    private Salario  $salario;
     
     // o construtor verifica se tem algum campo em branco e se tem gera um erro
 

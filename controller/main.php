@@ -25,7 +25,7 @@ if($submit == 'Cadatrar_user'){ // Cadastra os colaboradores na tabela users
         $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
         $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
         $userDAO = new UserDAO();   
-        // nao era pra enviar uma messagens dizendo que foi um sucesso? 
+        // nao era pra enviar uma mess3agens dizendo que foi um sucesso? 
         $userDAO->persit($user);
         $data = array("messagem"=>"foi um sucesso");
         header('Content-Type: application/json; charset=utf-8');
