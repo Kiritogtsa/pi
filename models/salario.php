@@ -29,7 +29,6 @@ class Salario {
         $this->salarioliquido = $salarioliquido;
         $this->mes = $mes;
         $this->decimo = $decimo;
-
     }
 
     public function setId($id)
