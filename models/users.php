@@ -34,7 +34,7 @@ class User implements userit
 
     // o construtor verifica se tem algum campo em branco e se tem gera um erro
 
-    function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, Salario $salario)
+    function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, Salario $salario = null)
     {
         if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
             throw new Exception("Está faltando um dado");
