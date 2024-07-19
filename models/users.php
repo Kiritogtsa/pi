@@ -1,6 +1,6 @@
 <?php
 require_once("salario.php");
-
+// add functions for crud from saalrios
 interface crud
 {
     public function persit(user $user): user;
@@ -9,12 +9,22 @@ interface crud
     public function delete(int $id): bool;
     public function insertgrupo(User $user): User;
 }
-
+// a interface for user from adding contracts 
+// the contracts require what be implements in strucs or  class
 interface userit
 {
     public function getsalario(): int;
 }
 // define uma classe de usuario
+// difine a class what implements the interface
+// ceate a abstract class for share responsabilidade
+// abstract class teste implements userit
+// {
+//     public function getsalario(): int
+//     {
+//         return 1;
+//     }
+// }
 class User implements userit
 {
     // define os atributos do usuario
