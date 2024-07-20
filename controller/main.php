@@ -5,6 +5,9 @@ require_once('../models/trabalho.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
+// use o metodo de persit ao criar o usuario com grupo por arrumei e planejo remover o outro metodo se possivel, acabei de terminal mais so menos 
+// o usuario com o salario, alias eu pensei que e melhor o usaurio ter uma refencia ao seu salario do que o salario ter uma refencia ao usuario
+// pode arrumar o sql depois?
 $submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 // adicione os metodos do salario dao, para ficar melhor e mais modular depois, e tb mais facil de adicionar novas coisas, so precisa criar o dao
 // que eu faço o resto no usuario dao para chamar o salario, dai o usuario controla o solario, sem mudar muitas coisas, isso e uma idei

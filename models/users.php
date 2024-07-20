@@ -1,18 +1,7 @@
 <?php
 require_once("salario.php");
 // add functions for crud from salarios
-// CREATE TABLE salario(
-//     ID INT PRIMARY KEY NOT NULL,
-//     FLOAT salariobruto,
-//     FLOAT ir,
-//     FLOAT inss,
-//     FLOAT adicional,
-//     FLOAT salarioliquido,
-//     INT mes,
-//     FLOAT decimo,
-//     INT ano,
-//     FOREIGN KEY (id) REFERENCES user (id);
-// )
+
 interface crud
 {
     public function persit(user $user): user;
@@ -30,39 +19,41 @@ interface userit
 // define uma classe de usuario
 // difine a class what implements the interface
 // ceate a abstract class for share responsabilidade
-// abstract class teste implements userit
-// {
-//     public function getsalario(): int
-//     {
-//         return 1;
-//     }
-// }
-class User implements userit
+
+abstract class UserAbstract implements UserIT
 {
-    // define os atributos do usuario
-    private $id;
-    private $nome;
-    private $email;
-    private $trabalho;
-    private $grupo;
-    private $senha;
-    private $data_nascimento;
-    private $data_adimisao;
-    private $telefone;
-    private $sexo;
-    private $cpf;
-    private $delete_at;
-    private Salario  $salario;
+    protected $id;
+    protected $nome;
+    protected $email;
+    protected $trabalho;
+    protected $grupo;
+    protected $senha;
+    protected $dataNascimento;
+    protected $dataAdmissao;
+    protected $telefone;
+    protected $sexo;
+    protected $cpf;
+    protected $deletedAt;
+    protected Salario $salario;
 
-    // o construtor verifica se tem algum campo em branco e se tem gera um erro
-
-    function __construct($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, Salario $salario = null)
-    {
-        if (empty($nome) || empty($email) || empty($senha) || empty($data_nascimento) || empty($data_adimisao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
+    // Construtor na classe abstrata
+    public function __construct(
+        $nome,
+        $email,
+        $trabalho,
+        $cpf,
+        $senha,
+        $dataNascimento,
+        $dataAdmissao,
+        $telefone,
+        $sexo,
+        $salario = null
+    ) {
+        if (empty($nome) || empty($email) || empty($senha) || empty($dataNascimento) || empty($dataAdmissao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
             throw new Exception("Está faltando um dado");
         }
-        // chama um metodo para validar os campos, se nao recebr um true  e porque recebeu uma messagem dai gera o erro personalizado
-        if ($msg = $this->validarcampos($nome, $email, $trabalho, $cpf, $senha, $sexo, $salario) != true) {
+
+        if (($msg = $this->validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo)) !== true) {
             throw new Exception($msg);
         }
 
@@ -71,68 +62,55 @@ class User implements userit
         $this->trabalho = $trabalho;
         $this->cpf = $cpf;
         $this->senha = $senha;
-        $this->data_nascimento = $data_nascimento;
-        $this->data_adimisao = $data_adimisao;
+        $this->dataNascimento = $dataNascimento;
+        $this->dataAdmissao = $dataAdmissao;
         $this->telefone = $telefone;
         $this->sexo = $sexo;
         $this->salario = $salario;
     }
-    private function validaremail($email)
-    {
-        $conta = "^[a-zA-Z0-9\._-]+@";
-        $domino = "[a-zA-Z0-9\._-]+.";
-        $extensao = "([a-zA-Z]{2,4})$";
 
-        $pattern = $conta . $domino . $extensao;
+    private function validarEmail($email)
+    {
+        $pattern = "^[a-zA-Z0-9\._-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]{2,4}$";
+        return preg_match($pattern, $email) ? true : false;
+    }
 
-        if (preg_match($pattern, $email)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public function getsalario(): int
+    abstract public function getSalario(): int;
+
+    private function validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo)
     {
-        return $this->salario->calcsalarLiquid($this->salario->getSalariobruto(), $this->salario->getIr(), $this->salario->getInss(), $this->salario->getAdicional(), $this->salario
-            ->getMes());
-    }
-    // valida os campos
-    private function validarcampos($nome, $email, $trabalho, $cpf, $senha, $sexo, $salario)
-    {
-        if (!$this->validarcpf($cpf)) {
-            return "cpf invalido";
+        if (!$this->validarCpf($cpf)) {
+            return "CPF inválido";
         }
-        // if (!$this->validaremail($email)) {
-        //     return $msg = "email invalido";
+        //
+        // if (!$this->validarEmail($email)) {
+        //     return "Email inválido";
         // }
-        if (is_numeric($trabalho)) {
-            return "trabalho invalido, recebido um character invalido, era esperado um numero";
+
+        if (!is_numeric($trabalho)) {
+            return "Trabalho inválido, recebido um valor não numérico";
         }
-        if ($sexo != "masculino" || $sexo != "feminino") {
-            return  "sexo incorreto";
+
+        if ($sexo != "masculino" && $sexo != "feminino") {
+            return "nao existe esse sexo de nascença, por favor repensar a sua vida, o genero tb e so dois, o resto e tudo perferencia sexual
+                o retardado";
         }
-        if ($salario == null || empty($salario)) {
-            return "sem um salario";
+
+        if (empty($salario)) {
+            return "Salário não fornecido";
         }
+
         return true;
     }
-    private function validarcpf($cpf)
-    {
 
-        // Extrai somente os números
+    private function validarCpf($cpf)
+    {
         $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
-        // Verifica se foi informado todos os digitos corretamente
-        if (strlen($cpf) != 11) {
+        if (strlen($cpf) != 11 || preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
         }
 
-        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
-        if (preg_match('/(\d)\1{10}/', $cpf)) {
-            return false;
-        }
-
-        // Faz o calculo para validar o CPF
         for ($t = 9; $t < 11; $t++) {
             for ($d = 0, $c = 0; $c < $t; $c++) {
                 $d += $cpf[$c] * (($t + 1) - $c);
@@ -145,15 +123,17 @@ class User implements userit
         return true;
     }
 
-    // Getters
+    // Getters e Setters
     public function getId()
     {
         return $this->id;
     }
-    public function getdelete()
+
+    public function getDeletedAt()
     {
-        return $this->delete_at;
+        return $this->deletedAt;
     }
+
     public function getNome()
     {
         return $this->nome;
@@ -163,11 +143,11 @@ class User implements userit
     {
         return $this->email;
     }
-    public function getCPF()
+
+    public function getCpf()
     {
         return $this->cpf;
     }
-
 
     public function getTrabalho()
     {
@@ -186,12 +166,12 @@ class User implements userit
 
     public function getDataNascimento()
     {
-        return $this->data_nascimento;
+        return $this->dataNascimento;
     }
 
-    public function getDataAdimisao()
+    public function getDataAdmissao()
     {
-        return $this->data_adimisao;
+        return $this->dataAdmissao;
     }
 
     public function getTelefone()
@@ -204,15 +184,16 @@ class User implements userit
         return $this->sexo;
     }
 
-    // Setters
     public function setId($id)
     {
         $this->id = $id;
     }
-    public function setdelete($data)
+
+    public function setDeletedAt($data)
     {
-        $this->delete_at = $data;
+        $this->deletedAt = $data;
     }
+
     public function setNome($nome)
     {
         $this->nome = $nome;
@@ -238,14 +219,14 @@ class User implements userit
         $this->senha = $senha;
     }
 
-    public function setDataNascimento($data_nascimento)
+    public function setDataNascimento($dataNascimento)
     {
-        $this->data_nascimento = $data_nascimento;
+        $this->dataNascimento = $dataNascimento;
     }
 
-    public function setDataAdimisao($data_adimisao)
+    public function setDataAdmissao($dataAdmissao)
     {
-        $this->data_adimisao = $data_adimisao;
+        $this->dataAdmissao = $dataAdmissao;
     }
 
     public function setTelefone($telefone)
@@ -257,11 +238,26 @@ class User implements userit
     {
         $this->sexo = $sexo;
     }
-    public function setCPF($cpf)
+
+    public function setCpf($cpf)
     {
         $this->cpf = $cpf;
     }
+    public function getslario(): Salario
+    {
+        return $this->salario;
+    }
 }
+
+// Classe concreta que implementa a interface e herda da classe abstrata
+class User extends UserAbstract
+{
+    public function getSalario(): int
+    {
+        return $this->salario->calcsalarLiquid($this->salario->getSalarioBruto(), $this->salario->getIr(), $this->salario->getInss(), $this->salario->getAdicional(), $this->salario->getMes());
+    }
+}
+
 
 // define a classe que trabalha com a tabela relacionada ao usuario
 class UserDAO implements crud
@@ -277,13 +273,18 @@ class UserDAO implements crud
     // cria um usuario, ele recebe um usuario e volta o usuario ja com o id do banco de dados
     private function insert(User $user): User
     {
+        $result = $this->insertsalario($user->getslario());
+        if ($result == false) {
+            throw new Exception("deu um erro ao criar o salario");
+        }
+        $grupo = $user->getGrupo() == "" ? "user" : $user->getGrupo();
         echo "vem aqui insert" . "\n";
-        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id)";
+        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID,GRUPO,salarioid) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo,:salarioid)";
         $nome = $user->getNome();
         $email = $user->getEmail();
         $senha = $user->getSenha();
         $data_nascimento = $user->getDataNascimento();
-        $data_adimisao = $user->getDataAdimisao();
+        $data_adimisao = $user->getDataAdmissao();
         $telefone = $user->getTelefone();
         $cpf = $user->getCpf();
         $sexo = $user->getSexo();
@@ -300,11 +301,51 @@ class UserDAO implements crud
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_nas", $data_nascimento);
         $stmt->bindParam(":data_ad", $data_adimisao);
-        $stmt->bindValue(":tr_id", $tr_id);
+        $stmt->bindParam(":tr_id", $tr_id);
+        $stmt->bindParam(":grupo", $grupo);
+        $stmt->bindParam(":salarioid", $result);
         $stmt->execute();
         echo "insert executa o sql" . "\n";
         $user->setId($this->conn->lastInsertId());
         return $user;
+    }
+    // CREATE TABLE salario(
+    //     ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    //     FLOAT salariobruto,
+    //     FLOAT ir,
+    //     FLOAT inss,
+    //     FLOAT adicional,
+    //     FLOAT salarioliquido,
+    //     INT mes,
+    //     FLOAT decimo,
+    //     INT ano
+    // ) 
+    private function insertsalario(Salario $salario)
+    {
+        $sql = "insert into salario(salariobruto,ir,adicional,salarioliquido,decimo,ano,mes) values(:salariobruto,:ir,:adicional,:salarioliquido,:decimo,:ano,:mes)";
+        $salariobruto = $salario->getSalariobruto();
+        $ir = $salario->getIr();
+        $adicional = $salario->getAdicional();
+        $salarioliquido = $salario->getSalarioliquido();
+        $decimo = $salario->getDecimo();
+        $ano = $salario->getAno();
+        $mes = $salario->getMes();
+        echo "se nao apareceu a outra messagem depois, tem um erro na linha 316";
+        $stmt = $this->conn->prepare($sql);
+        echo "se nao apareceu a outra messagem depois, tem algum erro nos bind param do salario";
+        $stmt->bindParam(":salariobruto", $salariobruto);
+        $stmt->bindParam(":ir", $ir);
+        $stmt->bindParam("adicional", $adicional);
+        $stmt->bindParam(":salarioliquido", $salarioliquido);
+        $stmt->bindParam(":decimo", $decimo);
+        $stmt->bindParam(":ano", $ano);
+        $stmt->bindParam(":mes", $mes);
+        echo "se nao apareceu a outra messagem depois, tem um erro na linha 333";
+        $result = $stmt->execute();
+        if (!$result) {
+            return false;
+        }
+        return $this->conn->lastInsertId();
     }
     // um insert que adiciona um grupo
     public function insertgrupo(User $user): User
@@ -318,7 +359,7 @@ class UserDAO implements crud
         $email = $user->getEmail();
         $senha = $user->getSenha();
         $data_nascimento = $user->getDataNascimento();
-        $data_adimisao = $user->getDataAdimisao();
+        $data_adimisao = $user->getDataAdmissao();
         $telefone = $user->getTelefone();
         $cpf = $user->getCpf();
         $sexo = $user->getSexo();
@@ -351,16 +392,15 @@ class UserDAO implements crud
             NOME = :nome,
             EMAIL = :email,
             TELEFONE = :telefone,
-            DATA_NASCIMENTO = :data_nas,
             DATA_ADMISSAO = :data_ad,
             SEXO = :sexo,
-            CPF = :cpf
+        CPF = :cpf,
+        Salarioid = :salarioid
         WHERE ID = :id";
         $id = $user->getId();
         $nome = $user->getNome();
         $email = $user->getEmail();
-        $data_nascimento = $user->getDataNascimento();
-        $data_adimisao = $user->getDataAdimisao();
+        $data_adimisao = $user->getDataAdmissao();
         $telefone = $user->getTelefone();
         $cpf = $user->getCpf();
         $sexo = $user->getSexo();
@@ -374,6 +414,7 @@ class UserDAO implements crud
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_nas", $data_nascimento);
         $stmt->bindParam(":data_ad", $data_adimisao);
+        $stmt->bindParam(":salarioid", $user->getslario()->getId());
         $stmt->execute();
         echo "update executa o sql" . "\n";
         return $user;
@@ -407,7 +448,7 @@ class UserDAO implements crud
         var_dump($dados);
         $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], null);
         $user->setId($dados["ID"]);
-        $user->setdelete($dados["DELETE_AT"]);
+        $user->setDeletedAt($dados["DELETE_AT"]);
         $user->setGrupo($dados["GRUPO"]);
         echo "getemail termina retornado uma instacia" . "\n";
         return $user;
@@ -488,7 +529,7 @@ class UserDAO implements crud
                 null
             );
             $user->setId($row['ID']);
-            $user->setdelete($row["DELETE_AT"]);
+            $user->setDeletedAt($row["DELETE_AT"]);
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
@@ -529,7 +570,7 @@ class UserDAO implements crud
                 null
             );
             $user->setId($row['ID']);
-            $user->setdelete($row["DELETE_AT"]);
+            $user->setDeletedAt($row["DELETE_AT"]);
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
