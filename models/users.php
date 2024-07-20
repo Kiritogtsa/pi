@@ -16,9 +16,7 @@ interface userit
 {
     public function getsalario(): int;
 }
-// define uma classe de usuario
-// difine a class what implements the interface
-// ceate a abstract class for share responsabilidade
+// ceate a abstract class for share responsabilidade and implements for interface
 
 abstract class UserAbstract implements UserIT
 {
@@ -53,7 +51,7 @@ abstract class UserAbstract implements UserIT
             throw new Exception("Está faltando um dado");
         }
 
-        if (($msg = $this->validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo)) !== true) {
+        if (($msg = $this->validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo, $salario)) !== true) {
             throw new Exception($msg);
         }
 
@@ -77,7 +75,7 @@ abstract class UserAbstract implements UserIT
 
     abstract public function getSalario(): int;
 
-    private function validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo)
+    private function validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo, $salario)
     {
         if (!$this->validarCpf($cpf)) {
             return "CPF inválido";
@@ -86,7 +84,9 @@ abstract class UserAbstract implements UserIT
         // if (!$this->validarEmail($email)) {
         //     return "Email inválido";
         // }
-
+        if (!$salario = null) {
+            return "nao existe um salario";
+        }
         if (!is_numeric($trabalho)) {
             return "Trabalho inválido, recebido um valor não numérico";
         }
