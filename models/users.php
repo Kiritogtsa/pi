@@ -215,7 +215,7 @@ abstract class UserAbstract implements UserIT
     }
 
     public function setSenha($senha)
-    // {
+    {
         $this->senha = $senha;
     }
 
