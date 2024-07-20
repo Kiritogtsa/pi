@@ -47,7 +47,7 @@ abstract class UserAbstract implements UserIT
         $sexo,
         $salario = null
     ) {
-        if (empty($nome) || empty($email) || empty($senha) || empty($dataNascimento) || empty($dataAdmissao) || empty($telefone) || empty($sexo) || empty($trabalho)) {
+        if (empty($nome) || empty($email) || empty($senha) || empty($dataNascimento) || empty($dataAdmissao) || empty($telefone) || empty($sexo) || empty($trabalho) || empty($salario)) {
             throw new Exception("Está faltando um dado");
         }
 
@@ -80,10 +80,10 @@ abstract class UserAbstract implements UserIT
         if (!$this->validarCpf($cpf)) {
             return "CPF inválido";
         }
-        //
-        // if (!$this->validarEmail($email)) {
-        //     return "Email inválido";
-        // }
+
+        if (!$this->validarEmail($email)) {
+            return "Email inválido";
+        }
         if (!$salario = null) {
             return "nao existe um salario";
         }
@@ -215,7 +215,7 @@ abstract class UserAbstract implements UserIT
     }
 
     public function setSenha($senha)
-    {
+    // {
         $this->senha = $senha;
     }
 
@@ -434,6 +434,7 @@ class UserDAO implements crud
     // obtem uma instancia de User com base no email fonercido
     public function getByEmail($email): User
     {
+        // deois de confimar como vamo fazer o sql adicionar aqui o salario
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
         echo "getemail prepara o sql" . "\n";
@@ -498,6 +499,7 @@ class UserDAO implements crud
     }
     public function getbyall(int $min, int $max): array
     { // seleciona todos os usuarios ativados
+        // deois de confimar como vamo fazer o sql adicionar aqui o salario
         $sql = "SELECT * FROM users ID  BETWEEN :min AND :max";
         echo "chega no getbyall" . "\n";
         // Preparar a consulta
@@ -539,6 +541,7 @@ class UserDAO implements crud
     }
     public function getbyallon(int $min, int $max): array
     { // Seleciona todos os usuarios, ativados ou não
+        // deois de confimar como vamo fazer o sql adicionar aqui o salario
         $sql = "SELECT * FROM users WHERE DELETE_AT IS NULL AND ID BETWEEN :min AND :max";
 
         echo "chega no getbyall" . "\n";
