@@ -1,4 +1,5 @@
 <?php
+// criar yma uma tabela para endereço, fazer o dao dela tb
 require_once("salario.php");
 // add functions for crud from salarios
 
