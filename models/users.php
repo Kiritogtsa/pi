@@ -2,6 +2,10 @@
 // criar yma uma tabela para endereço, fazer o dao dela tb
 require_once("salario.php");
 // add functions for crud from salarios
+class endereco {}
+interface crudendereco {}
+abstract class enderecoa {}
+class enderecodao extends enderecoa {}
 
 interface crud
 {
