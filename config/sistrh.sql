@@ -38,20 +38,31 @@ CREATE TABLE `trabalhos` (
 --
 -- Estrutura para tabela `users`
 --
-
+CREATE TABLE salario(
+        ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        salariobruto FLOAT,
+        ir  FLOAT,
+        inss float,
+        adicional float,
+        salarioliquido float,
+        mes int,
+        decimo float,
+        ano int
+    ); 
 CREATE TABLE `users` (
-  `ID` int(11) NOT NULL,
-  `NOME` varchar(50) ,
-  `CPF` varchar(11) UNIQUE,
+  `ID`    int(11) NOT NULL,
+  `NOME`  varchar(50) ,
+  `CPF`   varchar(11) UNIQUE,
   `EMAIL` varchar(50) UNIQUE,
   `DATA_NASCIMENTO` date NULL,
   `TELEFONE` varchar(15) UNIQUE,
   `DATA_ADMISSAO` date,
   `SEXO` varchar(10),
   `SENHA` varchar(60),
-  `GRUPO` varchar(12), /* USADO PARA DEFINIR SE ELE PODE ACESSAR AS OUTRAS PÁGINAS ALÉM DA DELE*/
+  `GRUPO` varchar(12), /* USADO PARA DEFINIR SE ELE PODE ACESSAR AS OUTRAS PÁGINAS ALÉM DA DELE*/
   `DELETE_AT`DATETIME,
-  `TR_ID` int(11) /* DIZ O TRABALHO DO USUÁRIO*/
+  `TR_ID` int(11),
+  `SALARIO_ID` int(11)/* DIZ O TRABALHO DO USUÁRIO*/
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -69,7 +80,8 @@ ALTER TABLE `trabalhos`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `TR_ID` (`TR_ID`);
+  ADD KEY `TR_ID` (`TR_ID`),
+  add KEY `SALARIO_ID`;
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -96,6 +108,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`TR_ID`) REFERENCES `trabalhos` (`ID`);
+  add CONSTRAINT `users_ibfk_1` foreion key (`SALARIO_ID`) REFERENCES `salario`(`ID`)
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

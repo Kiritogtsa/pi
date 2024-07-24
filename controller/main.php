@@ -18,6 +18,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
         // devo dizer que colocar '' nas views sao initeis? e tb devo dizer que colocar aspas simples em algo que a gente ta criando ou mandado messagens tb e initil?
         // qual o sentido de dar um echo '' com aspas simples? nao sentido, mais ja que mudaram ok, mais isso nao faz difença, aspas simples e so para os
         // valores que a gente recebe das views pelos formularios, pq dai nao da para criar uma variavel ou acessar uma pela aspas simples mais e so isso mesmo
+        // adicionar o recebimento do salario e tb ja passar o salario
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);

@@ -1,4 +1,5 @@
 <?php
+// testar o codigo e corrigir erros aqui e na mains
 // criar yma uma tabela para endereço, fazer o dao dela tb
 require_once("salario.php");
 // add functions for crud from salarios
@@ -97,8 +98,7 @@ abstract class UserAbstract implements UserIT
         }
 
         if ($sexo != "masculino" && $sexo != "feminino") {
-            return "nao existe esse sexo de nascença, por favor repensar a sua vida, o genero tb e so dois, o resto e tudo perferencia sexual
-                o retardado";
+            return "sexo errado";
         }
 
         if (empty($salario)) {
@@ -284,7 +284,7 @@ class UserDAO implements crud
         }
         $grupo = $user->getGrupo() == "" ? "user" : $user->getGrupo();
         echo "vem aqui insert" . "\n";
-        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID,GRUPO,salarioid) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo,:salarioid)";
+        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID,GRUPO,SALARIO_ID) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo,:salarioid)";
         $nome = $user->getNome();
         $email = $user->getEmail();
         $senha = $user->getSenha();
@@ -400,7 +400,7 @@ class UserDAO implements crud
             DATA_ADMISSAO = :data_ad,
             SEXO = :sexo,
         CPF = :cpf,
-        Salarioid = :salarioid
+        SALARIO_ID = :salarioid
         WHERE ID = :id";
         $id = $user->getId();
         $nome = $user->getNome();
@@ -417,7 +417,6 @@ class UserDAO implements crud
         $stmt->bindParam(":telefone", $telefone);
         $stmt->bindParam(":cpf", $cpf);
         $stmt->bindParam(":sexo", $sexo);
-        $stmt->bindParam(":data_nas", $data_nascimento);
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->bindParam(":salarioid", $user->getslario()->getId());
         $stmt->execute();
@@ -523,6 +522,7 @@ class UserDAO implements crud
         // Iterar pelos resultados e criar objetos User
         foreach ($results as $row) {
             // adicionar instacia de salario antes 
+            $salario = new Salario($row["ID"], $row["salariobruto"], $row["ir"], $row["inss"],$row["adicional"],$row["salarioliquido"],$row["mes"],$row["decimo"]);
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
@@ -533,7 +533,7 @@ class UserDAO implements crud
                 $row['SEXO'],
                 $row['CPF'],
                 $row['tr_id'],
-                null
+                $salario
             );
             $user->setId($row['ID']);
             $user->setDeletedAt($row["DELETE_AT"]);
@@ -565,6 +565,7 @@ class UserDAO implements crud
 
         // Iterar pelos resultados e criar objetos User
         foreach ($results as $row) {
+            $salario = new Salario($row["ID"], $row["salariobruto"], $row["ir"], $row["inss"],$row["adicional"],$row["salarioliquido"],$row["mes"],$row["decimo"]);
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
@@ -575,7 +576,7 @@ class UserDAO implements crud
                 $row['SEXO'],
                 $row['CPF'],
                 $row['tr_id'],
-                null
+                $salario
             );
             $user->setId($row['ID']);
             $user->setDeletedAt($row["DELETE_AT"]);
