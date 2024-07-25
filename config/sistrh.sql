@@ -130,3 +130,4 @@ VALUES("FULANO","05346585498","MATHEUS@GMAIL.COM","24/05/9999", "55981447752","2
 
 
 delete  from users where id = 6;
+"$2y$10$yWbj3ojEM.BChIuHyiGwZe8EFfY/qDsPMhNCO5HS4jaTSCciHbhp2"

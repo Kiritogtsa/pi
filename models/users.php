@@ -439,7 +439,7 @@ class UserDAO implements crud
     public function getByEmail($email): User
     {
         // deois de confimar como vamo fazer o sql adicionar aqui o salario
-        $sql = "SELECT * FROM users WHERE email = :email";
+        $sql = "SELECT * FROM users u inner join salario s on u.SALARIO_ID = s.ID WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
         echo "getemail prepara o sql" . "\n";
         echo "<br>";
@@ -451,7 +451,17 @@ class UserDAO implements crud
             throw new Exception("Usuário não encontrado com o nome: " . $email);
         }
         var_dump($dados);
-        $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], null);
+        $salario = new Salario(
+                $dados["SALARIO_ID"],
+                $dados["salariobruto"],
+                $dados["ir"],
+                $dados["inss"],
+                $dados["adicional"],
+                $dados["salarioliquido"],
+                $dados["mes"],
+                $dados["decimo"],
+        );
+        $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], $salario);
         $user->setId($dados["ID"]);
         $user->setDeletedAt($dados["DELETE_AT"]);
         $user->setGrupo($dados["GRUPO"]);
