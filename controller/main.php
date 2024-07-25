@@ -14,11 +14,7 @@ $submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 // $userjson = ['nome'=>$user->getnome()]
 if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    try { // colocar analise se é gerente ou aux
-        // devo dizer que colocar '' nas views sao initeis? e tb devo dizer que colocar aspas simples em algo que a gente ta criando ou mandado messagens tb e initil?
-        // qual o sentido de dar um echo '' com aspas simples? nao sentido, mais ja que mudaram ok, mais isso nao faz difença, aspas simples e so para os
-        // valores que a gente recebe das views pelos formularios, pq dai nao da para criar uma variavel ou acessar uma pela aspas simples mais e so isso mesmo
-        // adicionar o recebimento do salario e tb ja passar o salario
+    try { 
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -103,6 +99,7 @@ else if ($submit == 'login') {
             $user->setId($id);
             $userDAO = new UserDAO(); // Instancia o DAO de usuário
             $user = $userDAO->persit($user); // Persiste as alterações do usuário no banco de dados
+            header('Content-Type: application/json; charset=utf-8');
             echo json_encode($data);
         } else {
             header('Location: ./view/welcome');
@@ -224,35 +221,46 @@ else if ($submit == 'Buscar_cargos') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
     $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
+  
     if ($usuario->getGrupo() == 'gerente') {
-        try {
-            echo '\n' . 'vem aqui';
+        try {       
             $userDAO = new UserDAO();
             $users = $userDAO->getbyall($min, $max);
-            $dados = [];
+            $dados = array();
             foreach ($users as $user) {
-                $user = [
-                    'Nome' => $user->getNOME(),
-                    'Cpf' => $user->getCPF(),
+                $usera = [
+                    'Nome' => $user->getNome(),
+                    'Cpf' => $user->getCpf(),
                     'Email' => $user->getEmail(),
-                    'senha' => $user->getSenha(),
-                    'data_nas' => $user->getDataNascimento(),
-                    'data_at' => $user->getDataAdimisao(),
-                    'telefone' => $user->getTelefone(),
-                    'grupo' => $user->getGrupo(),
-                    'sexo' => $user->getSexo(),
-                    'trabalho' => $user->getTrabalho(),
-                    'id' => $user->getID(),
-                    'delete' => $user->getDelete()
+                    'Senha' => $user->getSenha(),
+                    'DataNascimento' => $user->getDataNascimento(),
+                    'DataAdmissao' => $user->getDataAdmissao(),
+                    'Telefone' => $user->getTelefone(),
+                    'Grupo' => $user->getGrupo(),
+                    'Sexo' => $user->getSexo(),
+                    'Trabalho' => $user->getTrabalho(),
+                    'Id' => $user->getId(),
+                    'Delete' => $user->getDeletedAt()
                 ];
-                $dados[] = $user;
+                $dados[] = $usera;
             }
-            echo json_encode($dados);
+            $response = [
+                'success' => true,
+                'message' => 'Dados recebidos com sucesso!',
+                'cargos' => $dados
+            ];
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response);
+            exit();
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
-        } finally {
-            header('Location: ');
-            exit();
-        }
+        } 
     }
+} else if ($submit == "teste") {
+    $reponse = [
+        "status" => 200,
+        'messagem' => "vem aqui"
+    ];
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($reponse);
 }

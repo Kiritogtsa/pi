@@ -57,7 +57,7 @@ abstract class UserAbstract implements UserIT
             throw new Exception("Está faltando um dado");
         }
 
-        if (($msg = $this->validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo, $salario)) !== true) {
+        if (($msg = $this->validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo)) != true) {
             throw new Exception($msg);
         }
 
@@ -81,15 +81,15 @@ abstract class UserAbstract implements UserIT
 
     abstract public function getSalario(): int;
 
-    private function validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo, $salario)
+    private function validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo)
     {
-        if (!$this->validarCpf($cpf)) {
-            return "CPF inválido";
-        }
+        // if (!$this->validarCpf($cpf)) {
+        //     return "CPF inválido";
+        // }
 
-        if (!$this->validarEmail($email)) {
-            return "Email inválido";
-        }
+        // if (!$this->validarEmail($email)) {
+        //     return "Email inválido";
+        // }
         if (!$salario = null) {
             return "nao existe um salario";
         }
@@ -504,90 +504,100 @@ class UserDAO implements crud
     public function getbyall(int $min, int $max): array
     { // seleciona todos os usuarios ativados
         // deois de confimar como vamo fazer o sql adicionar aqui o salario
-        $sql = "SELECT * FROM users ID  BETWEEN :min AND :max";
-        echo "chega no getbyall" . "\n";
-        // Preparar a consulta
+        $sql = "SELECT * FROM users u 
+        INNER JOIN salario s ON u.SALARIO_ID = s.ID 
+        WHERE u.ID BETWEEN :min AND :max";
         $stmt = $this->conn->prepare($sql);
-        echo "prepara o sql" . "\n";
-
-        // Executar a consulta com os parâmetros
         $stmt->execute([':min' => $min, ':max' => $max]);
         echo "executa o sql" . "\n";
-        // Buscar todos os resultados como array associativo
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo "obtem os dados" . "\n";
-        // Array para armazenar os objetos User
         $users = [];
-
-        // Iterar pelos resultados e criar objetos User
         foreach ($results as $row) {
-            // adicionar instacia de salario antes 
-            $salario = new Salario($row["ID"], $row["salariobruto"], $row["ir"], $row["inss"],$row["adicional"],$row["salarioliquido"],$row["mes"],$row["decimo"]);
+            $salario = new Salario(
+                $row["SALARIO_ID"],
+                $row["salariobruto"],
+                $row["ir"],
+                $row["inss"],
+                $row["adicional"],
+                $row["salarioliquido"],
+                $row["mes"],
+                $row["decimo"],
+            );
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
+                $row['TR_ID'],
+                $row['CPF'],
                 $row['SENHA'],
-                $row['TELEFONE'],
+                
                 $row['DATA_NASCIMENTO'],
                 $row['DATA_ADMISSAO'],
+             
+                $row['TELEFONE'],
+               
                 $row['SEXO'],
-                $row['CPF'],
-                $row['tr_id'],
                 $salario
             );
+
             $user->setId($row['ID']);
             $user->setDeletedAt($row["DELETE_AT"]);
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
+
         echo "retorna os dados" . "\n";
-        // Retornar o array de objetos User
         return $users;
     }
     public function getbyallon(int $min, int $max): array
     { // Seleciona todos os usuarios, ativados ou não
-        // deois de confimar como vamo fazer o sql adicionar aqui o salario
-        $sql = "SELECT * FROM users WHERE DELETE_AT IS NULL AND ID BETWEEN :min AND :max";
+        $sql = "SELECT * FROM users u 
+        INNER JOIN salario s ON u.SALARIO_ID = s.ID 
+        WHERE u.DELETE_AT IS NULL AND u.ID BETWEEN :min AND :max";
 
-        echo "chega no getbyall" . "\n";
-        // Preparar a consulta
         $stmt = $this->conn->prepare($sql);
-        echo "prepara o sql" . "\n";
-
-        // Executar a consulta com os parâmetros
         $stmt->execute([':min' => $min, ':max' => $max]);
         echo "executa o sql" . "\n";
-        // Buscar todos os resultados como array associativo
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo "obtem os dados" . "\n";
-        // Array para armazenar os objetos User
         $users = [];
-
-        // Iterar pelos resultados e criar objetos User
         foreach ($results as $row) {
-            $salario = new Salario($row["ID"], $row["salariobruto"], $row["ir"], $row["inss"],$row["adicional"],$row["salarioliquido"],$row["mes"],$row["decimo"]);
+            $salario = new Salario(
+                $row["SALARIO_ID"],
+                $row["salariobruto"],
+                $row["ir"],
+                $row["inss"],
+                $row["adicional"],
+                $row["salarioliquido"],
+                $row["mes"],
+                $row["decimo"],
+            );
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
+                $row['TR_ID'],
+                $row['CPF'],
                 $row['SENHA'],
-                $row['TELEFONE'],
+                
                 $row['DATA_NASCIMENTO'],
                 $row['DATA_ADMISSAO'],
+             
+                $row['TELEFONE'],
+               
                 $row['SEXO'],
-                $row['CPF'],
-                $row['tr_id'],
                 $salario
             );
+
             $user->setId($row['ID']);
             $user->setDeletedAt($row["DELETE_AT"]);
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
         echo "retorna os dados" . "\n";
-        // Retornar o array de objetos User
-        return $users;
+        return $users;    // Retornar o array de objetos User
     }
 }
+
 // exemplo de como receber um json
 
 // header('Content-Type: application/json');
