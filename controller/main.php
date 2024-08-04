@@ -209,43 +209,49 @@ else if ($submit == 'Buscar_cargos') {
         }
     }
 } else if ($submit == 'Atualizar o estado') {
-    echo 'nao vem';
+    // arrumei o comportamento
+    // ta funcionado agora, tava faltado pegar o id do POST
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    var_dump($usuario);
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if ($usuario->getGrupo() == 'gerente') {
+    if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
         try {
-            echo '\n' . 'vem aqui';
             // adiconem
             $userDAO = new UserDAO();
             $userDAO->delete($id);
+            $response = [
+                'success' => true,
+                'message' => 'foi deletado o usuario',
+            ];
+            http_response_code(200);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response);
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
-        } finally {
-            header('Location: ');
-            exit();
         }
     }
 } else if ($submit == 'ativar o usuario') {
-    echo 'nao vem';
-    // adicione a deserialize o usuario para verificar o grupo
+    // se a gente vai usar o um javascript do meu jeito, a gente meio que pode remover o redirecionamento de algumas coisas
+    // ta funcionado agora, tava faltado pegar o id do POS, a verificaçao tava meio incompleta
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    var_dump($usuario);
-    // teste corretemente agora, o if nao ta comparando os literais com nada
-    // depois coloca os headers de volta pelo momento
-    if ($usuario->getGrupo() == 'gerente') {
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
+    if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
         try {
-            echo '\n' . 'vem aqui';
             // adiconem
             $userDAO = new UserDAO();
             $userDAO->aiivacao($id);
+            $response = [
+                'success' => true,
+                'message' => 'foi um susseso',
+                'status' => 201
+            ];
+            http_response_code(201);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response);
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
-        } finally {
-            header('Location: ');
-            exit();
         }
     }
 } else if ($submit == 'users') {

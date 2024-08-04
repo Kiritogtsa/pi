@@ -3,19 +3,14 @@
 // criar yma uma tabela para endereço, fazer o dao dela tb
 require_once("salario.php");
 // add functions for crud from salarios
-class endereco
-{
-}
-interface crudendereco
-{
-}
-abstract class enderecoa
-{
-}
-class enderecodao extends enderecoa
-{
-}
+// vai ser bem simples essa parte, mais primeiro quero verificar algumas outras coisas de fazer essa parte
+class endereco {}
+interface crudendereco {}
+abstract class enderecoa {}
+class enderecodao extends enderecoa {}
 
+
+// so fiz isso pq sim, tava etediado com o jeito normal
 interface crud
 {
     public function persit(user $user): user;
@@ -31,7 +26,7 @@ interface userit
     public function getsalario(): int;
 }
 // ceate a abstract class for share responsabilidade and implements for interface
-
+// so fiz isso pq sim, tava etediado com o jeito normal
 abstract class UserAbstract implements UserIT
 {
     protected $id;
@@ -294,14 +289,13 @@ class UserDAO implements crud
     private function insert(User $user): User
     {
         $this->conn->beginTransaction();
-        echo "aquisalario";
-        // nao lembro se ainda funciona
         $result = $this->insertsalario($user->getslario());
         if ($result == false) {
             throw new Exception("deu um erro ao criar o salario");
         }
+        var_dump($user);
         $grupo = $user->getGrupo() == "" ? "user" : $user->getGrupo();
-        echo "vem aqui insert" . "\n";
+        var_dump($grupo);
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID,GRUPO,SALARIO_ID) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo,:salarioid)";
         $nome = $user->getNome();
         $email = $user->getEmail();
@@ -313,8 +307,6 @@ class UserDAO implements crud
         $sexo = $user->getSexo();
         $tr_id = $user->getTrabalho();
         $stmt = $this->conn->prepare($sql);
-        echo "insert prepara o sql" . "\n";
-        var_dump($tr_id);
         $senha = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
@@ -328,22 +320,15 @@ class UserDAO implements crud
         $stmt->bindParam(":grupo", $grupo);
         $stmt->bindParam(":salarioid", $result);
         $stmt->execute();
-        echo "insert executa o sql" . "\n";
         $user->setId($this->conn->lastInsertId());
         $this->conn->commit();
         return $user;
     }
-    // CREATE TABLE salario(
-    //     ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    //     FLOAT salariobruto,
-    //     FLOAT ir,
-    //     FLOAT inss,
-    //     FLOAT adicional,
-    //     FLOAT salarioliquido,
-    //     INT mes,
-    //     FLOAT decimo,
-    //     INT ano
-    // ) 
+    // adiciona o salario, a gente pode adicionar mais coisas aqui, ou a gente nao precisa salvar algumas
+    // por que, aluns atributos sao o que o chefe da
+    // dai a gente pode ver esse tipo de atibutos, ja que e por mes
+    // se quiserem ou a gente pode deixar mais padrao  e deixar so um valor 
+    // ces que sabem
     private function insertsalario(Salario $salario): int
     {
         $sql = "insert into salario(salariobruto,mes) values(:salariobruto,:mes)";
@@ -473,9 +458,9 @@ class UserDAO implements crud
     public function delete($id): bool
     {
         try {
+            // foi corrigindo o sql
             $this->conn->beginTransaction();
-            echo "chega no delete" . "\n";
-            $sql = "UPDATE users SET deleted_at = NOW() WHERE ID = :id";
+            $sql = "UPDATE users SET DELETE_AT = NOW() WHERE ID = :id";
             $stmt = $this->conn->prepare($sql);
             echo "prepara o sql" . "\n";
             $stmt->bindParam(":id", $id);
@@ -485,7 +470,7 @@ class UserDAO implements crud
             $this->conn->commit();
             return $result;
         } catch (Exception $e) {
-            echo "deu um erro" . "\n";
+            echo "deu um erro" . $e->getMessage() . "\n";
             $this->conn->rollBack();
             throw $e;
         }
@@ -495,6 +480,7 @@ class UserDAO implements crud
     public function aiivacao($id): bool
     {
         try {
+            // foi corrigindo o sql
             $this->conn->beginTransaction();
             echo "chega no delete" . "\n";
             $sql = "UPDATE users SET DELETE_AT = null WHERE ID = :id";
@@ -545,7 +531,6 @@ class UserDAO implements crud
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
-
         return $users;
     }
     public function getbyallon(int $min, int $max): array
