@@ -32,7 +32,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
             $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT); // verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
             $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $salario_bruto = $_POST['salario_bruto'];
+            $salario_bruto = $_POST['bruto'];
             $mes = date('m');
             $salario = new Salario($salario_bruto, $mes);
             $mes = date('m');
@@ -188,7 +188,7 @@ else if ($submit == 'Buscar_cargos') {
             $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
             $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $salario_bruto = $_POST['salario_bruto'];
+            $salario_bruto = $_POST['bruto'];
             $mes = date('m');
             $salario = new Salario($salario_bruto, $mes);
             $user = new User($nome, $email, '2', $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, $salario);
