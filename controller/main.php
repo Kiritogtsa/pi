@@ -8,13 +8,20 @@ session_start();
 // use o metodo de persit ao criar o usuario com grupo por arrumei e planejo remover o outro metodo se possivel, acabei de terminal mais so menos 
 // o usuario com o salario, alias eu pensei que e melhor o usaurio ter uma refencia ao seu salario do que o salario ter uma refencia ao usuario
 // pode arrumar o sql depois?
-$submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
+// isto ta me dando um odio
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
+} else if ($_SERVER['REQUEST_METHOD'] == "GET") {
+    $submit = filter_var($_GET['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
+}
 // adicione os metodos do salario dao, para ficar melhor e mais modular depois, e tb mais facil de adicionar novas coisas, so precisa criar o dao
 // que eu faço o resto no usuario dao para chamar o salario, dai o usuario controla o solario, sem mudar muitas coisas, isso e uma idei
 // $userjson = ['nome'=>$user->getnome()]
 if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    try { 
+    try {
+        // foi adicionados as variaveis para obter um salario minimo
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -25,7 +32,11 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
             $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT); // verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
             $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
+            $salario_bruto = $_POST['salario_bruto'];
+            $mes = date('m');
+            $salario = new Salario($salario_bruto, $mes);
+            $mes = date('m');
+            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
             $userDAO = new UserDAO();
             // nao era pra enviar uma mess3agens dizendo que foi um sucesso? 
             $userDAO->persit($user);
@@ -33,6 +44,16 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($data);
         } else {
+            $userDAO->conn->rollBack();
+            $response = [
+                'success' => true,
+                'message' => 'deu algum erro',
+                'erro' => $e->getMessage()
+            ];
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response);
+            $_SESSION['mensagem'] = $e->getMessage();
+            exit();
             header('Location: ./view/welcome');
         }
     } catch (Exception $e) {
@@ -111,10 +132,12 @@ else if ($submit == 'login') {
     // exit();
 }
 // volta um json com uma messagem 
+// ta uma vazia este buscar cargo
+// agora ta correto, aqui tb tinha um erro, que era, pq tava passado o $id? sendo que nao existia a variavel?,
 else if ($submit == 'Buscar_cargos') {
     $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
     $trabalhoDAO = new TrabalhoDAO();
-    $trabalho = $trabalhoDAO->buscarPorId($id);
+    $trabalho = $trabalhoDAO->buscarPorId($id_cargo);
     if ($trabalho != null) {
         $response = [
             'success' => true,
@@ -125,7 +148,7 @@ else if ($submit == 'Buscar_cargos') {
         $response = [
             'success' => false,
             'messagem' => 'sem sucesso',
-            'cargo' => null
+            'erro' => null
         ];
     }
     header('Content-Type: application/json; charset=utf-8');
@@ -149,14 +172,14 @@ else if ($submit == 'Buscar_cargos') {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response);
 } else if ($submit == 'Cadastrar_grupo') {
-    echo 'nao vem';
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    var_dump($usuario);
+    echo $usuario->getGrupo();
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
     if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
         try {
+            var_dump($_POST);
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
             $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
@@ -165,69 +188,90 @@ else if ($submit == 'Buscar_cargos') {
             $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
             $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $user = new User($nome, $email, '2', $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo);
+            $salario_bruto = $_POST['salario_bruto'];
+            $mes = date('m');
+            $salario = new Salario($salario_bruto, $mes);
+            $user = new User($nome, $email, '2', $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, $salario);
             $user->setGrupo('auxiliar');
+            $usuario->setSalario($salario);
             $userDAO = new UserDAO();
             $userDAO->insertgrupo($user);
         } catch (Exception $e) {
+            $response = [
+                'success' => true,
+                'message' => 'deu algum erro',
+                'erro' => $e->getMessage()
+            ];
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response);
             $_SESSION['mensagem'] = $e->getMessage();
-        } finally {
-            header('Location: ');
             exit();
         }
     }
 } else if ($submit == 'Atualizar o estado') {
-    echo 'nao vem';
+    // arrumei o comportamento
+    // ta funcionado agora, tava faltado pegar o id do POST
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    var_dump($usuario);
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if ($usuario->getGrupo() == 'gerente') {
+    if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
         try {
-            echo '\n' . 'vem aqui';
             // adiconem
             $userDAO = new UserDAO();
             $userDAO->delete($id);
+            $response = [
+                'success' => true,
+                'message' => 'foi deletado o usuario',
+            ];
+            http_response_code(200);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response);
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
-        } finally {
-            header('Location: ');
-            exit();
         }
     }
 } else if ($submit == 'ativar o usuario') {
-    echo 'nao vem';
-    // adicione a deserialize o usuario para verificar o grupo
+    // se a gente vai usar o um javascript do meu jeito, a gente meio que pode remover o redirecionamento de algumas coisas
+    // ta funcionado agora, tava faltado pegar o id do POS, a verificaçao tava meio incompleta
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    var_dump($usuario);
-    // teste corretemente agora, o if nao ta comparando os literais com nada
-    // depois coloca os headers de volta pelo momento
-    if ($usuario->getGrupo() == 'gerente') {
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
+    if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
         try {
-            echo '\n' . 'vem aqui';
             // adiconem
             $userDAO = new UserDAO();
             $userDAO->aiivacao($id);
+            $response = [
+                'success' => true,
+                'message' => 'foi um susseso',
+                'status' => 201
+            ];
+            http_response_code(201);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response);
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
-        } finally {
-            header('Location: ');
-            exit();
         }
     }
 } else if ($submit == 'users') {
-    echo 'nao vem';
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
-    $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
-  
-    if ($usuario->getGrupo() == 'gerente') {
-        try {       
+    $min = filter_var($_GET['min'], FILTER_SANITIZE_NUMBER_INT);
+    $max = filter_var($_GET['max'], FILTER_SANITIZE_NUMBER_INT);
+
+
+    if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+        echo "entra aqui";
+        try {
             $userDAO = new UserDAO();
             $users = $userDAO->getbyall($min, $max);
             $dados = array();
             foreach ($users as $user) {
+                $salario = $user->getissalario();
+                $salariojson = [
+                    "salario_liquido" => $salario->getSalarioliquido(),
+                    "salario_bruto" => $salario->getSalariobruto()
+                ];
                 $usera = [
                     'Nome' => $user->getNome(),
                     'Cpf' => $user->getCpf(),
@@ -240,7 +284,8 @@ else if ($submit == 'Buscar_cargos') {
                     'Sexo' => $user->getSexo(),
                     'Trabalho' => $user->getTrabalho(),
                     'Id' => $user->getId(),
-                    'Delete' => $user->getDeletedAt()
+                    'Delete' => $user->getDeletedAt(),
+                    'salalario' => $salariojson
                 ];
                 $dados[] = $usera;
             }
@@ -254,7 +299,15 @@ else if ($submit == 'Buscar_cargos') {
             exit();
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
-        } 
+            $response = [
+                'success' => true,
+                'message' => 'deu algum erro',
+                'erro' => $e->getMessage()
+            ];
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response);
+            exit();
+        }
     }
 } else if ($submit == "teste") {
     $reponse = [

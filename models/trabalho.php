@@ -1,11 +1,13 @@
 <?php
 
-class Trabalho {
+class Trabalho
+{
     public $id_cargo;
     public $nome;
     public $descricao;
 
-    public function __construct($nome, $descricao) {
+    public function __construct($nome, $descricao)
+    {
         if (empty($nome) || empty($descricao)) {
             throw new Exception("Está faltando um dado");
         }
@@ -14,41 +16,50 @@ class Trabalho {
         $this->id_cargo = null; // Initialize id_cargo as null
     }
 
-    public function getIdCargo() {
+    public function getIdCargo()
+    {
         return $this->id_cargo;
     }
 
-    public function getNome() {
+    public function getNome()
+    {
         return $this->nome;
     }
 
-    public function getDescricao() {
+    public function getDescricao()
+    {
         return $this->descricao;
     }
 
-    public function setIdCargo($id_cargo) {
+    public function setIdCargo($id_cargo)
+    {
         $this->id_cargo = $id_cargo;
     }
 
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
 
-    public function setDescricao($descricao) {
+    public function setDescricao($descricao)
+    {
         $this->descricao = $descricao;
     }
 }
 
-class TrabalhoDAO {
+class TrabalhoDAO
+{
     private $conn; // Armazena a conexão com o banco de dados
 
-    function __construct() {
+    function __construct()
+    {
         require_once("../config/db.php"); // Inclui o arquivo de configuração do banco de dados (assumindo que define $pdo)
         $this->conn = $pdo; // Inicializa a conexão com o banco de dados
     }
 
     // Salva um novo trabalho no banco de dados
-    public function salvar(Trabalho $trabalho) {
+    public function salvar(Trabalho $trabalho)
+    {
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
 
@@ -64,26 +75,29 @@ class TrabalhoDAO {
     }
 
     // Busca um trabalho pelo ID no banco de dados
-    public function buscarPorId($id_cargo) {
+    public function buscarPorId($id_cargo)
+    {
         // a busca ta buscando por uma coluna que nao existe na tabela
-        $sql = "SELECT * FROM trabalhos WHERE id_cargo = :id_cargo";
+        // tinha um erro aqui no sql, o erro era  id_cargo =, agora ta correto
+        $sql = "SELECT * FROM trabalhos WHERE ID= :id_cargo";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
         if (!$result) {
             return null; // Retorna nulo se não encontrar o trabalho
         } else {
             // Cria um objeto Trabalho com os dados do resultado da consulta
-            $trabalho = new Trabalho($result['nome'], $result['descricao']);
+            // tv tem erros, o erro daqui e que o nome ea descricao tao minusculas
+            $trabalho = new Trabalho($result['NOME'], $result['DESCRICAO']);
             $trabalho->setIdCargo($result['id_cargo']); // Define o ID do trabalho
             return $trabalho; // Retorna o objeto Trabalho encontrado
         }
     }
 
     // Atualiza um trabalho existente no banco de dados
-    public function atualizar(Trabalho $trabalho) {
+    public function atualizar(Trabalho $trabalho)
+    {
         $id_cargo = $trabalho->getIdCargo();
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
@@ -99,7 +113,8 @@ class TrabalhoDAO {
     }
 
     // Deleta um trabalho pelo ID no banco de dados
-    public function deletar($id_cargo) {
+    public function deletar($id_cargo)
+    {
         $sql = "DELETE FROM trabalhos WHERE id_cargo = :id_cargo";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id_cargo", $id_cargo);
@@ -107,7 +122,8 @@ class TrabalhoDAO {
     }
 
     // Lista todos os trabalhos presentes no banco de dados
-    public function listarCargo() {
+    public function listarCargo()
+    {
         $sql = "SELECT * FROM trabalhos";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -115,7 +131,7 @@ class TrabalhoDAO {
 
         $listaTrabalhos = [];
         foreach ($trabalhos as $trabalho) {
-            if ($trabalho["NOME"]!="axiliar gerente"){
+            if ($trabalho["NOME"] != "axiliar gerente") {
                 $t = new Trabalho($trabalho['NOME'], $trabalho['DESCRICAO']);
                 $t->setIdCargo($trabalho['ID']); // Define o ID do trabalho
                 $listaTrabalhos[] = $t; // Adiciona o objeto à lista de trabalhos

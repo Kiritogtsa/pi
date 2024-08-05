@@ -12,9 +12,10 @@ class Salario
     private $ano;
     private $decimo;
 
-    public function __construct($id, $salariobruto, $ir = 0, $inss = 0, $adicional = 0, $salarioliquido = 0, $mes, $decimo = 1)
+    // nao fazia sentido o id no contrutor da classe
+    public function __construct($salariobruto, $mes, $decimo = 1, $salarioliquido = 0, $ir = 0, $inss = 0, $adicional = 0)
     {
-        if (empty($id) || empty($salariobruto) || empty($mes)) {
+        if (empty($salariobruto) || empty($mes)) {
             throw new Exception("Preencha todos os campos obrigatórios!");
         }
         if ($mes < 1 || $mes > 12) {
@@ -23,7 +24,6 @@ class Salario
         if ($mes == 7 || $mes == 12) {
             $decimo = 0.5;
         }
-        $this->id = $id;
         $this->salariobruto = $salariobruto;
         $this->ir = $ir;
         $this->inss = $inss;

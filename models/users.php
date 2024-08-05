@@ -3,11 +3,14 @@
 // criar yma uma tabela para endereço, fazer o dao dela tb
 require_once("salario.php");
 // add functions for crud from salarios
+// vai ser bem simples essa parte, mais primeiro quero verificar algumas outras coisas de fazer essa parte
 class endereco {}
 interface crudendereco {}
 abstract class enderecoa {}
 class enderecodao extends enderecoa {}
 
+
+// so fiz isso pq sim, tava etediado com o jeito normal
 interface crud
 {
     public function persit(user $user): user;
@@ -23,7 +26,7 @@ interface userit
     public function getsalario(): int;
 }
 // ceate a abstract class for share responsabilidade and implements for interface
-
+// so fiz isso pq sim, tava etediado com o jeito normal
 abstract class UserAbstract implements UserIT
 {
     protected $id;
@@ -53,13 +56,13 @@ abstract class UserAbstract implements UserIT
         $sexo,
         $salario = null
     ) {
-        if (empty($nome) || empty($email) || empty($senha) || empty($dataNascimento) || empty($dataAdmissao) || empty($telefone) || empty($sexo) || empty($trabalho) || empty($salario)) {
-            throw new Exception("Está faltando um dado");
-        }
+        // if (empty($nome) || empty($email) || empty($senha) || empty($dataNascimento) || empty($dataAdmissao) || empty($telefone) || empty($sexo) || empty($trabalho) ) {
+        //     throw new Exception("Está faltando um dado");
+        // }
 
-        if (($msg = $this->validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo)) != true) {
-            throw new Exception($msg);
-        }
+        // if (($msg = $this->validarCampos($nome, $email, $trabalho, $cpf, $senha, $sexo)) != true) {
+        //     throw new Exception($msg);
+        // }
 
         $this->nome = $nome;
         $this->email = $email;
@@ -143,7 +146,10 @@ abstract class UserAbstract implements UserIT
     {
         return $this->nome;
     }
-
+    public function getissalario(): Salario
+    {
+        return $this->salario;
+    }
     public function getEmail()
     {
         return $this->email;
@@ -223,6 +229,10 @@ abstract class UserAbstract implements UserIT
     {
         $this->senha = $senha;
     }
+    public function setSalario(salario $salario)
+    {
+        $this->salario = $salario;
+    }
 
     public function setDataNascimento($dataNascimento)
     {
@@ -267,7 +277,7 @@ class User extends UserAbstract
 // define a classe que trabalha com a tabela relacionada ao usuario
 class UserDAO implements crud
 {
-    private $conn;
+    public $conn;
     // o contrutor seta a conn para receber a conexao do banco de dados
     function __construct()
     {
@@ -278,12 +288,14 @@ class UserDAO implements crud
     // cria um usuario, ele recebe um usuario e volta o usuario ja com o id do banco de dados
     private function insert(User $user): User
     {
+        $this->conn->beginTransaction();
         $result = $this->insertsalario($user->getslario());
         if ($result == false) {
             throw new Exception("deu um erro ao criar o salario");
         }
+        var_dump($user);
         $grupo = $user->getGrupo() == "" ? "user" : $user->getGrupo();
-        echo "vem aqui insert" . "\n";
+        var_dump($grupo);
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID,GRUPO,SALARIO_ID) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo,:salarioid)";
         $nome = $user->getNome();
         $email = $user->getEmail();
@@ -295,8 +307,6 @@ class UserDAO implements crud
         $sexo = $user->getSexo();
         $tr_id = $user->getTrabalho();
         $stmt = $this->conn->prepare($sql);
-        echo "insert prepara o sql" . "\n";
-        var_dump($tr_id);
         $senha = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
@@ -310,42 +320,23 @@ class UserDAO implements crud
         $stmt->bindParam(":grupo", $grupo);
         $stmt->bindParam(":salarioid", $result);
         $stmt->execute();
-        echo "insert executa o sql" . "\n";
         $user->setId($this->conn->lastInsertId());
+        $this->conn->commit();
         return $user;
     }
-    // CREATE TABLE salario(
-    //     ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    //     FLOAT salariobruto,
-    //     FLOAT ir,
-    //     FLOAT inss,
-    //     FLOAT adicional,
-    //     FLOAT salarioliquido,
-    //     INT mes,
-    //     FLOAT decimo,
-    //     INT ano
-    // ) 
-    private function insertsalario(Salario $salario)
+    // adiciona o salario, a gente pode adicionar mais coisas aqui, ou a gente nao precisa salvar algumas
+    // por que, aluns atributos sao o que o chefe da
+    // dai a gente pode ver esse tipo de atibutos, ja que e por mes
+    // se quiserem ou a gente pode deixar mais padrao  e deixar so um valor 
+    // ces que sabem
+    private function insertsalario(Salario $salario): int
     {
-        $sql = "insert into salario(salariobruto,ir,adicional,salarioliquido,decimo,ano,mes) values(:salariobruto,:ir,:adicional,:salarioliquido,:decimo,:ano,:mes)";
+        $sql = "insert into salario(salariobruto,mes) values(:salariobruto,:mes)";
         $salariobruto = $salario->getSalariobruto();
-        $ir = $salario->getIr();
-        $adicional = $salario->getAdicional();
-        $salarioliquido = $salario->getSalarioliquido();
-        $decimo = $salario->getDecimo();
-        $ano = $salario->getAno();
         $mes = $salario->getMes();
-        echo "se nao apareceu a outra messagem depois, tem um erro na linha 316";
         $stmt = $this->conn->prepare($sql);
-        echo "se nao apareceu a outra messagem depois, tem algum erro nos bind param do salario";
         $stmt->bindParam(":salariobruto", $salariobruto);
-        $stmt->bindParam(":ir", $ir);
-        $stmt->bindParam("adicional", $adicional);
-        $stmt->bindParam(":salarioliquido", $salarioliquido);
-        $stmt->bindParam(":decimo", $decimo);
-        $stmt->bindParam(":ano", $ano);
         $stmt->bindParam(":mes", $mes);
-        echo "se nao apareceu a outra messagem depois, tem um erro na linha 333";
         $result = $stmt->execute();
         if (!$result) {
             return false;
@@ -358,8 +349,11 @@ class UserDAO implements crud
         if (empty($user->getGrupo())) {
             throw new Exception(" nao tem um grupo");
         }
-        echo "chega no insertgrupo" . "\n";
-        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id,GRUPO) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo)";
+        $result = $this->insertsalario($user->getslario());
+        if ($result == false) {
+            throw new Exception("deu um erro ao criar o salario");
+        }
+        $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,tr_id,GRUPO,SALARIO_ID) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo,:salario)";
         $nome = $user->getNome();
         $email = $user->getEmail();
         $senha = $user->getSenha();
@@ -371,7 +365,6 @@ class UserDAO implements crud
         $tr_id = $user->getTrabalho();
         $grupo = $user->getGrupo();
         $stmt = $this->conn->prepare($sql);
-        echo "insertgrupo prepara o sql" . "\n";
         $senha = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
@@ -380,12 +373,11 @@ class UserDAO implements crud
         $stmt->bindParam(":cpf", $cpf);
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_nas", $data_nascimento);
-        $stmt->bindParam(":data_nas", $data_nascimento);
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->bindParam(":tr_id", $tr_id);
         $stmt->bindParam(":grupo", $grupo);
+        $stmt->bindParam(":salario", $result);
         $stmt->execute();
-        echo "insertgrupo executa o sql" . "\n";
         $user->setId($this->conn->lastInsertId());
         return $user;
     }
@@ -452,14 +444,8 @@ class UserDAO implements crud
         }
         var_dump($dados);
         $salario = new Salario(
-                $dados["SALARIO_ID"],
-                $dados["salariobruto"],
-                $dados["ir"],
-                $dados["inss"],
-                $dados["adicional"],
-                $dados["salarioliquido"],
-                $dados["mes"],
-                $dados["decimo"],
+            $dados['salariobruto'],
+            $dados['mes']
         );
         $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], $salario);
         $user->setId($dados["ID"]);
@@ -472,9 +458,9 @@ class UserDAO implements crud
     public function delete($id): bool
     {
         try {
+            // foi corrigindo o sql
             $this->conn->beginTransaction();
-            echo "chega no delete" . "\n";
-            $sql = "UPDATE users SET deleted_at = NOW() WHERE ID = :id";
+            $sql = "UPDATE users SET DELETE_AT = NOW() WHERE ID = :id";
             $stmt = $this->conn->prepare($sql);
             echo "prepara o sql" . "\n";
             $stmt->bindParam(":id", $id);
@@ -484,7 +470,7 @@ class UserDAO implements crud
             $this->conn->commit();
             return $result;
         } catch (Exception $e) {
-            echo "deu um erro" . "\n";
+            echo "deu um erro" . $e->getMessage() . "\n";
             $this->conn->rollBack();
             throw $e;
         }
@@ -494,6 +480,7 @@ class UserDAO implements crud
     public function aiivacao($id): bool
     {
         try {
+            // foi corrigindo o sql
             $this->conn->beginTransaction();
             echo "chega no delete" . "\n";
             $sql = "UPDATE users SET DELETE_AT = null WHERE ID = :id";
@@ -519,20 +506,12 @@ class UserDAO implements crud
         WHERE u.ID BETWEEN :min AND :max";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':min' => $min, ':max' => $max]);
-        echo "executa o sql" . "\n";
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo "obtem os dados" . "\n";
         $users = [];
         foreach ($results as $row) {
             $salario = new Salario(
-                $row["SALARIO_ID"],
-                $row["salariobruto"],
-                $row["ir"],
-                $row["inss"],
-                $row["adicional"],
-                $row["salarioliquido"],
-                $row["mes"],
-                $row["decimo"],
+                $row['salariobruto'],
+                $row['mes']
             );
             $user = new User(
                 $row['NOME'],
@@ -540,12 +519,9 @@ class UserDAO implements crud
                 $row['TR_ID'],
                 $row['CPF'],
                 $row['SENHA'],
-                
                 $row['DATA_NASCIMENTO'],
                 $row['DATA_ADMISSAO'],
-             
                 $row['TELEFONE'],
-               
                 $row['SEXO'],
                 $salario
             );
@@ -555,8 +531,6 @@ class UserDAO implements crud
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
-
-        echo "retorna os dados" . "\n";
         return $users;
     }
     public function getbyallon(int $min, int $max): array
@@ -588,12 +562,12 @@ class UserDAO implements crud
                 $row['TR_ID'],
                 $row['CPF'],
                 $row['SENHA'],
-                
+
                 $row['DATA_NASCIMENTO'],
                 $row['DATA_ADMISSAO'],
-             
+
                 $row['TELEFONE'],
-               
+
                 $row['SEXO'],
                 $salario
             );
