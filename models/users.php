@@ -431,7 +431,7 @@ class UserDAO implements crud
     public function getByEmail($email): User
     {
         // deois de confimar como vamo fazer o sql adicionar aqui o salario
-        $sql = "SELECT * FROM users u inner join salario s on u.SALARIO_ID = s.ID WHERE email = :email";
+        $sql = "SELECT * FROM users u inner join salario s on u.SALARIO_ID = s.ID WHERE EMAIL = :email";
         $stmt = $this->conn->prepare($sql);
         echo "getemail prepara o sql" . "\n";
         echo "<br>";
@@ -439,10 +439,11 @@ class UserDAO implements crud
         $stmt->execute();
         echo "getemail executa o sql" . "\n";
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+        
         if (!$dados) {
-            throw new Exception("Usuário não encontrado com o nome: " . $email);
+            throw new Exception("Usuário não encontrado com o email: " . $email);
         }
-        var_dump($dados);
+        
         $salario = new Salario(
             $dados['salariobruto'],
             $dados['mes']
