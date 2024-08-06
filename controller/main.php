@@ -143,11 +143,12 @@ else if ($submit == 'Buscar_cargos') {
     $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
     $trabalhoDAO = new TrabalhoDAO();
     $trabalho = $trabalhoDAO->buscarPorId($id_cargo);
-    if ($trabalho != null) {
+    $ntrab = serialize($trabalho);
+    if (!empty($trabalho)) {
         $response = [
             'success' => true,
             'messagem' => 'obtido com sucesso',
-            'cargo' => $trabalho
+            'cargo' => $ntrab
         ];
         $_SESSION['response'] = $response;
         header('Location: ../view/buscacargo.php');
