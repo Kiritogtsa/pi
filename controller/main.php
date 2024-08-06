@@ -40,22 +40,17 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $userDAO = new UserDAO();
             // nao era pra enviar uma mess3agens dizendo que foi um sucesso? 
             $userDAO->persit($user);
-            $data = array("messagem" => "foi um sucesso");
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($data);
-        } else {
-            $userDAO->conn->rollBack();
-            $response = [
-                'success' => true,
-                'message' => 'deu algum erro',
-                'erro' => $e->getMessage()
-            ];
-            $_SESSION['mensagem'] = $e->getMessage();
-            exit();
-            header('Location: ./view/welcome');
         }
-    } catch (Exception $e) {
-        echo $e->getMessage();
+    } catch (Exception $e) {;
+        $userDAO->conn->rollBack();
+        $response = [
+            'success' => true,
+            'message' => 'deu algum erro',
+            'erro' => $e->getMessage()
+        ];
+        $_SESSION['mensagem'] = $e->getMessage();
+        exit();
+        header('Location: ./view/welcome');
     }
 } else if ($submit == 'Criar_cargo') { // Cria um cargo na tabela TRABALHOS
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
@@ -114,6 +109,11 @@ else if ($submit == 'login') {
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
             $user->setId($id);
             $userDAO = new UserDAO(); // Instancia o DAO de usuário
+            $reponse = [
+                "success" => true,
+                "messagem" => "foi modificado"
+            ];
+            $_SESSION['reponse'] = $response;
         } else {
             header('Location: ./view/welcome');
         }
@@ -143,8 +143,7 @@ else if ($submit == 'Buscar_cargos') {
             'erro' => null
         ];
     }
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($response);
+    $_SESSION['reponse'] = $response;
 } else if ($submit == 'Listar_cargos') {
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
@@ -161,8 +160,7 @@ else if ($submit == 'Buscar_cargos') {
             'cargos' => []
         ];
     }
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($response);
+    $_SESSION['reponse'] = $response;
 } else if ($submit == 'Cadastrar_grupo') {
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
@@ -188,6 +186,11 @@ else if ($submit == 'Buscar_cargos') {
             $usuario->setSalario($salario);
             $userDAO = new UserDAO();
             $userDAO->insertgrupo($user);
+            $reponse = [
+                'success' => true,
+                'message' => 'foi um sucesso'
+            ];
+            $_SESSION['reponse'] = $response;
         } catch (Exception $e) {
             $response = [
                 'success' => true,
@@ -215,6 +218,7 @@ else if ($submit == 'Buscar_cargos') {
                 'success' => true,
                 'message' => 'foi deletado o usuario',
             ];
+            $_SESSION['reponse'] = $response;
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
         }
@@ -232,8 +236,9 @@ else if ($submit == 'Buscar_cargos') {
             $response = [
                 'success' => true,
                 'message' => 'foi um susseso',
-                'status' => 201
             ];
+
+            $_SESSION['reponse'] = $response;
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
         }
@@ -252,32 +257,16 @@ else if ($submit == 'Buscar_cargos') {
             $dados = array();
             foreach ($users as $user) {
                 $salario = $user->getissalario();
-                $salariojson = [
-                    "salario_liquido" => $salario->getSalarioliquido(),
-                    "salario_bruto" => $salario->getSalariobruto()
-                ];
-                $usera = [
-                    'Nome' => $user->getNome(),
-                    'Cpf' => $user->getCpf(),
-                    'Email' => $user->getEmail(),
-                    'Senha' => $user->getSenha(),
-                    'DataNascimento' => $user->getDataNascimento(),
-                    'DataAdmissao' => $user->getDataAdmissao(),
-                    'Telefone' => $user->getTelefone(),
-                    'Grupo' => $user->getGrupo(),
-                    'Sexo' => $user->getSexo(),
-                    'Trabalho' => $user->getTrabalho(),
-                    'Id' => $user->getId(),
-                    'Delete' => $user->getDeletedAt(),
-                    'salalario' => $salariojson
-                ];
-                $dados[] = $usera;
+                // nao precisa mais disto
+
+                $dados[] = $user;
             }
             $response = [
                 'success' => true,
                 'message' => 'Dados recebidos com sucesso!',
                 'cargos' => $dados
             ];
+            $_SESSION['reponse'] = $response;
             exit();
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
@@ -286,6 +275,8 @@ else if ($submit == 'Buscar_cargos') {
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
+
+            $_SESSION['reponse'] = $response;
             exit();
         }
     }
