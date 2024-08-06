@@ -165,8 +165,9 @@ else if ($submit == 'Buscar_cargos') {
             'cargos' => []
         ];
     }
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($response);
+    $_SESSION['cargos'] = $lista_cargos
+    header('Location: ./view/listatrabalhos.php')
+
 <<<<<<< HEAD
 } 
 else if ($submit == 'Atualizar o estado') {
