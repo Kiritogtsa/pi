@@ -22,7 +22,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     try {
         // foi adicionados as variaveis para obter um salario minimo
-        // grupo
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -33,34 +32,14 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
             $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT); // verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
             $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $salario_bruto = $_POST['bruto'];
+            $mes = date('m');
             $salario = new Salario($salario_bruto, $mes);
             $mes = date('m');
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
-            $user->setGrupo();
             $userDAO = new UserDAO();
             // nao era pra enviar uma mess3agens dizendo que foi um sucesso? 
             $userDAO->persit($user);
-<<<<<<< HEAD
-            $data = array("messagem" => "foi um sucesso");
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($data);
-        } else {
-            $userDAO->conn->rollBack();
-            $response = [
-                'success' => true,
-                'message' => 'deu algum erro',
-                'erro' => $e->getMessage()
-            ];
-<<<<<<< HEAD
-           
-=======
->>>>>>> fc72245b11619abbad435f57a84f5fb67e75ee70
-            $_SESSION['mensagem'] = $e->getMessage();
-            exit();
-            header('Location: ./view/welcome');
-=======
->>>>>>> 04526894641d79656f81934fc86c748be45af29c
         }
     } catch (Exception $e) {;
         $userDAO->conn->rollBack();
@@ -91,6 +70,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
         echo $e->getMessage();
     }
 }
+# Login
 else if ($submit == 'login') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
     $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra a senha recebida
@@ -173,26 +153,14 @@ else if ($submit == 'Buscar_cargos') {
             'message' => 'Dados recebidos com sucesso!',
             'cargos' => $lista_cargos
         ];
-        $_SESSION['response'] = $response
-        header('Location: ./view/listatrabalhos.php')
     } else {
         $response = [
             'success' => false,
             'message' => 'Erro ao obter lista de cargos.',
             'cargos' => []
         ];
-        $_SESSION['cargos'] = $response
-        header('Location: ./view/listatrabalhos.php')
     }
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-} 
-else if ($submit == 'Atualizar o estado') {
-=======
-=======
     $_SESSION['reponse'] = $response;
->>>>>>> 04526894641d79656f81934fc86c748be45af29c
 } else if ($submit == 'Cadastrar_grupo') {
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
@@ -241,7 +209,6 @@ else if ($submit == 'Atualizar o estado') {
         }
     }
 } else if ($submit == 'Atualizar o estado') {
->>>>>>> fc72245b11619abbad435f57a84f5fb67e75ee70
     // arrumei o comportamento
     // ta funcionado agora, tava faltado pegar o id do POST
     // adicione a deserialize o usuario para verificar o grupo
