@@ -140,9 +140,10 @@ else if ($submit == 'login') {
 // ta uma vazia este buscar cargo
 // agora ta correto, aqui tb tinha um erro, que era, pq tava passado o $id? sendo que nao existia a variavel?,
 else if ($submit == 'Buscar_cargos') {
-    $id_cargo = filter_var($_POST['nome'], FILTER_SANITIZE_NUMBER_INT);
+    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
     $trabalhoDAO = new TrabalhoDAO();
-    $trabalho = $trabalhoDAO->buscarPorId($id_cargo);
+    $trabalho = $trabalhoDAO->buscarPorNome($nome);
+    var_dump($trabalho);
     $ntrab = serialize($trabalho);
     if (!empty($trabalho)) {
         $response = [

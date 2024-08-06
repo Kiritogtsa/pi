@@ -75,13 +75,13 @@ class TrabalhoDAO
     }
 
     // Busca um trabalho pelo ID no banco de dados
-    public function buscarPorId($id_cargo)
+    public function buscarPorNome($nome)
     {
         // a busca ta buscando por uma coluna que nao existe na tabela
         // tinha um erro aqui no sql, o erro era  id_cargo =, agora ta correto
-        $sql = "SELECT * FROM trabalhos WHERE ID= :id_cargo";
+        $sql = "SELECT * FROM trabalhos WHERE NOME = :nome";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(":id_cargo", $id_cargo);
+        $stmt->bindParam(":nome", $nome);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$result) {

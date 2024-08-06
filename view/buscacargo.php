@@ -20,7 +20,7 @@ $messagem = $response['messagem'];
 </head>
 <body>
     <form method="POST" action="../controller/main.php">
-        <label for="nome">Índice do trabalho:</label>
+        <label for="nome">Nome da função:</label>
         <input type="text" id="nome" name="nome" required>
 
         <button type="submit" value="Buscar_cargos" name="submit">Buscar cargo</button>
