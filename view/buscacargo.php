@@ -1,0 +1,45 @@
+<?php
+session_start();
+// require_once('autenticado.php');
+// require_once('privilegios.php');
+if (!empty($_SESSION['response'])) {
+$response = $_SESSION['response'];
+$cargos = unserialize($response['cargo']);
+$sucesso = $response['success'];
+$messagem = $response['message'];
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar cargo</title>
+</head>
+<body>
+    <form method="POST" action="../controller/main.php">
+        <label for="nome">Índice do trabalho:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <button type="submit" value="Buscar_cargos" name="submit">Buscar cargo</button>
+    </form>
+
+    <?php if (!empty($response)) { ?>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>NOME</th>
+                <th>DESCRIÇÃO</th>
+            </tr>
+            <?php foreach ($cargos as $c) { ?>
+            <tr>
+                <td><?php echo $c->getIdCargo(); ?></td>
+                <td><?php echo $c->getNome(); ?></td>
+                <td><?php echo $c->getDescricao(); ?></td>
+            </tr>
+            <?php } ?>
+        </table>
+    <?php } ?>
+</body>
+</html>

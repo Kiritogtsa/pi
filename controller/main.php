@@ -40,7 +40,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $userDAO = new UserDAO();
             // nao era pra enviar uma mess3agens dizendo que foi um sucesso? 
             $userDAO->persit($user);
-<<<<<<< HEAD
             $data = array("messagem" => "foi um sucesso");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($data);
@@ -54,8 +53,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $_SESSION['mensagem'] = $e->getMessage();
             exit();
             header('Location: ./view/welcome');
-=======
->>>>>>> f4bce130be0665ab2dc616425a01a2ae26f69245
         }
     } catch (Exception $e) {;
         $userDAO->conn->rollBack();
@@ -70,21 +67,21 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     }
 } else if ($submit == 'Criar_cargo') { // Cria um cargo na tabela TRABALHOS
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    try {
-        if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+    // try {
+    //     if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
             $trabalho = new Trabalho($nome, $descricao);
             $trabalhoDAO = new TrabalhoDAO();
             $trabalhoDAO->salvar($trabalho);
             $data = array('messagem' => 'sucesso');
-            //A partir daqui as mensagem vão ser enviadas por JSON
-        } else {
-            header('Location: ./view/welcome');
-        }
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
+    //         //A partir daqui as mensagem vão ser enviadas por JSON
+    //     } else {
+    //         header('Location: ./view/welcome');
+    //     }
+    // } catch (Exception $e) {
+    //     echo $e->getMessage();
+    // }
 }
 # Login
 else if ($submit == 'login') {
@@ -97,7 +94,7 @@ else if ($submit == 'login') {
         if (password_verify($senha, $user->getSenha())) {
             $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
             $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-            header('Location: ../view/perfil.php'); // Redireciona para o perfil do usuário
+            header('Location: ../view/Criatrab.php'); // Redireciona para o perfil do usuário
             exit();
         } else {
             // Caso a senha não corresponda, redireciona para o perfil
@@ -149,17 +146,20 @@ else if ($submit == 'Buscar_cargos') {
     if ($trabalho != null) {
         $response = [
             'success' => true,
-            'messagem' => 'obtetido com sucesso',
+            'messagem' => 'obtido com sucesso',
             'cargo' => $trabalho
         ];
+        $_SESSION['response'] = $response;
+        header('Location: ../view/buscacargo.php');
     } else {
         $response = [
             'success' => false,
             'messagem' => 'sem sucesso',
             'erro' => null
         ];
+        $_SESSION['response'] = $response;
+        header('Location: ../view/buscacargo.php');
     }
-    $_SESSION['reponse'] = $response;
     
 } else if ($submit == 'Listar_cargos') {
     $trabalhoDAO = new TrabalhoDAO();
@@ -170,27 +170,20 @@ else if ($submit == 'Buscar_cargos') {
             'message' => 'Dados recebidos com sucesso!',
             'cargos' => $lista_cargos
         ];
-<<<<<<< HEAD
         $_SESSION['response'] = $response;
         header('Location: ./view/listatrabalhos.php');
-=======
->>>>>>> f4bce130be0665ab2dc616425a01a2ae26f69245
     } else {
         $response = [
             'success' => false,
             'message' => 'Erro ao obter lista de cargos.',
             'cargos' => []
         ];
-<<<<<<< HEAD
-        $_SESSION['cargos'] = $response;
+        $_SESSION['response'] = $response;
         header('Location: ./view/listatrabalhos.php');
     }
 } 
 else if ($submit == 'Atualizar o estado') {
 
-=======
-    }
->>>>>>> f4bce130be0665ab2dc616425a01a2ae26f69245
     $_SESSION['reponse'] = $response;
 } else if ($submit == 'Cadastrar_grupo') {
     // adicione a deserialize o usuario para verificar o grupo
