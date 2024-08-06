@@ -137,7 +137,6 @@ class TrabalhoDAO
                 $listaTrabalhos[] = $t; // Adiciona o objeto à lista de trabalhos
             }
         }
-
         return $listaTrabalhos; // Retorna a lista de objetos Trabalho
     }
 }

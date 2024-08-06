@@ -1,6 +1,6 @@
 <?php
 require_once("../controller/autenticado.php");
-$cargos = unserialize($_SESSION['cargos']);
+$cargos = unserialize($_SESSION['response']['cargos']);
 
 ?>
 
