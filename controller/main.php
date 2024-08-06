@@ -51,7 +51,10 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
+<<<<<<< HEAD
            
+=======
+>>>>>>> fc72245b11619abbad435f57a84f5fb67e75ee70
             $_SESSION['mensagem'] = $e->getMessage();
             exit();
             header('Location: ./view/welcome');
@@ -70,8 +73,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $trabalhoDAO->salvar($trabalho);
             $data = array('messagem' => 'sucesso');
             //A partir daqui as mensagem vão ser enviadas por JSON
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($data);
         } else {
             header('Location: ./view/welcome');
         }
@@ -117,9 +118,6 @@ else if ($submit == 'login') {
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
             $user->setId($id);
             $userDAO = new UserDAO(); // Instancia o DAO de usuário
-            $user = $userDAO->persit($user); // Persiste as alterações do usuário no banco de dados
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($data);
         } else {
             header('Location: ./view/welcome');
         }
@@ -169,8 +167,47 @@ else if ($submit == 'Buscar_cargos') {
     }
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response);
+<<<<<<< HEAD
 } 
 else if ($submit == 'Atualizar o estado') {
+=======
+} else if ($submit == 'Cadastrar_grupo') {
+    // adicione a deserialize o usuario para verificar o grupo
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
+    echo $usuario->getGrupo();
+    // teste corretemente agora, o if nao ta comparando os literais com nada
+    // depois coloca os headers de volta pelo momento
+    if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+        try {
+            var_dump($_POST);
+            $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+            $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
+            $data_adimisao = filter_var($_POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
+            $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_NUMBER_INT);
+            $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $salario_bruto = $_POST['bruto'];
+            $mes = date('m');
+            $salario = new Salario($salario_bruto, $mes);
+            $user = new User($nome, $email, '2', $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, $salario);
+            $user->setGrupo('auxiliar');
+            $usuario->setSalario($salario);
+            $userDAO = new UserDAO();
+            $userDAO->insertgrupo($user);
+        } catch (Exception $e) {
+            $response = [
+                'success' => true,
+                'message' => 'deu algum erro',
+                'erro' => $e->getMessage()
+            ];
+            $_SESSION['mensagem'] = $e->getMessage();
+            exit();
+        }
+    }
+} else if ($submit == 'Atualizar o estado') {
+>>>>>>> fc72245b11619abbad435f57a84f5fb67e75ee70
     // arrumei o comportamento
     // ta funcionado agora, tava faltado pegar o id do POST
     // adicione a deserialize o usuario para verificar o grupo
@@ -187,9 +224,6 @@ else if ($submit == 'Atualizar o estado') {
                 'success' => true,
                 'message' => 'foi deletado o usuario',
             ];
-            http_response_code(200);
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
         }
@@ -209,9 +243,6 @@ else if ($submit == 'Atualizar o estado') {
                 'message' => 'foi um susseso',
                 'status' => 201
             ];
-            http_response_code(201);
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
         }
@@ -256,8 +287,6 @@ else if ($submit == 'Atualizar o estado') {
                 'message' => 'Dados recebidos com sucesso!',
                 'cargos' => $dados
             ];
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
             exit();
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
@@ -266,16 +295,7 @@ else if ($submit == 'Atualizar o estado') {
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
             exit();
         }
     }
-} else if ($submit == "teste") {
-    $reponse = [
-        "status" => 200,
-        'messagem' => "vem aqui"
-    ];
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($reponse);
 }
