@@ -90,7 +90,7 @@ class TrabalhoDAO
             // Cria um objeto Trabalho com os dados do resultado da consulta
             // tv tem erros, o erro daqui e que o nome ea descricao tao minusculas
             $trabalho = new Trabalho($result['NOME'], $result['DESCRICAO']);
-            $trabalho->setIdCargo($result['id_cargo']); // Define o ID do trabalho
+            $trabalho->setIdCargo($result['ID']); // Define o ID do trabalho
             return $trabalho; // Retorna o objeto Trabalho encontrado
         }
     }

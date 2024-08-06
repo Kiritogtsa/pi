@@ -1,12 +1,13 @@
 <?php
 session_start();
+require_once('../models/trabalho.php');
 // require_once('autenticado.php');
 // require_once('privilegios.php');
 if (!empty($_SESSION['response'])) {
 $response = $_SESSION['response'];
 $cargos = unserialize($response['cargo']);
 $sucesso = $response['success'];
-$messagem = $response['message'];
+$messagem = $response['messagem'];
 }
 ?>
 
@@ -32,13 +33,11 @@ $messagem = $response['message'];
                 <th>NOME</th>
                 <th>DESCRIÇÃO</th>
             </tr>
-            <?php foreach ($cargos as $c) { ?>
             <tr>
-                <td><?php echo $c->getIdCargo(); ?></td>
-                <td><?php echo $c->getNome(); ?></td>
-                <td><?php echo $c->getDescricao(); ?></td>
+                <td><?php echo $cargos->getIdCargo(); ?></td>
+                <td><?php echo $cargos->getNome(); ?></td>
+                <td><?php echo $cargos->getDescricao(); ?></td>
             </tr>
-            <?php } ?>
         </table>
     <?php } ?>
 </body>
