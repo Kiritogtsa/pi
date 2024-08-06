@@ -224,11 +224,18 @@ else if ($submit == 'Atualizar o estado') {
             ];
             $_SESSION['reponse'] = $response;
         } catch (Exception $e) {
+
+            $userDAO->conn->rollBack();
             $response = [
                 'success' => true,
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
+            $_SESSION['mensagem'] = $e->getMessage();
+            exit();
+            header('Location: ./view/welcome');
+
+
             $_SESSION['mensagem'] = $e->getMessage();
             exit();
         }
