@@ -22,6 +22,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     try {
         // foi adicionados as variaveis para obter um salario minimo
+        // grupo
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -32,11 +33,11 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
             $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT); // verficar se tem o ID do trabalho no banco de dados ou deixar o insert dar o erro
             $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $salario_bruto = $_POST['bruto'];
-            $mes = date('m');
+            $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_SPECIAL_CHARS);
             $salario = new Salario($salario_bruto, $mes);
             $mes = date('m');
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
+            $user->setGrupo();
             $userDAO = new UserDAO();
             // nao era pra enviar uma mess3agens dizendo que foi um sucesso? 
             $userDAO->persit($user);
@@ -50,8 +51,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
+           
             $_SESSION['mensagem'] = $e->getMessage();
             exit();
             header('Location: ./view/welcome');
@@ -79,7 +79,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
         echo $e->getMessage();
     }
 }
-# Login
 else if ($submit == 'login') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
     $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra a senha recebida
@@ -170,44 +169,8 @@ else if ($submit == 'Buscar_cargos') {
     }
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response);
-} else if ($submit == 'Cadastrar_grupo') {
-    // adicione a deserialize o usuario para verificar o grupo
-    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    echo $usuario->getGrupo();
-    // teste corretemente agora, o if nao ta comparando os literais com nada
-    // depois coloca os headers de volta pelo momento
-    if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
-        try {
-            var_dump($_POST);
-            $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-            $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
-            $data_adimisao = filter_var($_POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
-            $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_NUMBER_INT);
-            $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $salario_bruto = $_POST['bruto'];
-            $mes = date('m');
-            $salario = new Salario($salario_bruto, $mes);
-            $user = new User($nome, $email, '2', $cpf, $senha, $data_nascimento, $data_adimisao, $telefone, $sexo, $salario);
-            $user->setGrupo('auxiliar');
-            $usuario->setSalario($salario);
-            $userDAO = new UserDAO();
-            $userDAO->insertgrupo($user);
-        } catch (Exception $e) {
-            $response = [
-                'success' => true,
-                'message' => 'deu algum erro',
-                'erro' => $e->getMessage()
-            ];
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
-            $_SESSION['mensagem'] = $e->getMessage();
-            exit();
-        }
-    }
-} else if ($submit == 'Atualizar o estado') {
+} 
+else if ($submit == 'Atualizar o estado') {
     // arrumei o comportamento
     // ta funcionado agora, tava faltado pegar o id do POST
     // adicione a deserialize o usuario para verificar o grupo
