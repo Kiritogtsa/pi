@@ -3,11 +3,9 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Cadastro de grupo</title>
+    <title>Cadastro</title>
 </head>
 <body>
-    <a href='../view/listar.html'>aqui</a>
-    <a href='../view/login.html'>login</a>
     <form id='form' method='POST' action='../controller/main.php' class='pessoa'>
         <label for='nome'>Nome:</label>
         <input type='text' id='nome' name='nome' required>
@@ -33,10 +31,17 @@
         <label for='telefone'>Telefone:</label>
         <input type='text' id='telefone' name='telefone' required>
 
-        <label for='trabalho'>Salário bruto</label>
+        <label for='trabalho'>Selecione um Cargo:</label>
+        <select type ='cargoSelect' name='trabalho' required></select>
+
+        <label for='grupo'>Grupo: </label>
+        <input type = 'text' name='grupo' required></input>
+
+        <label for='Salário'>Salário bruto</label>
         <input id='Salario' name='bruto' required></input>
 
-        <button type='submit' name='submit' value='Cadastrar_grupo'>Cadastrar grupo</button>
+
+        <button type='submit' name='submit' value='Cadatrar_user'>Cadastrar-se</button>
     </form>
 
     <script src='script.js'></script>
