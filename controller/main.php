@@ -50,8 +50,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
             $_SESSION['mensagem'] = $e->getMessage();
             exit();
             header('Location: ./view/welcome');
@@ -70,8 +68,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $trabalhoDAO->salvar($trabalho);
             $data = array('messagem' => 'sucesso');
             //A partir daqui as mensagem vão ser enviadas por JSON
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($data);
         } else {
             header('Location: ./view/welcome');
         }
@@ -118,9 +114,6 @@ else if ($submit == 'login') {
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
             $user->setId($id);
             $userDAO = new UserDAO(); // Instancia o DAO de usuário
-            $user = $userDAO->persit($user); // Persiste as alterações do usuário no banco de dados
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($data);
         } else {
             header('Location: ./view/welcome');
         }
@@ -201,8 +194,6 @@ else if ($submit == 'Buscar_cargos') {
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
             $_SESSION['mensagem'] = $e->getMessage();
             exit();
         }
@@ -224,9 +215,6 @@ else if ($submit == 'Buscar_cargos') {
                 'success' => true,
                 'message' => 'foi deletado o usuario',
             ];
-            http_response_code(200);
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
         }
@@ -246,9 +234,6 @@ else if ($submit == 'Buscar_cargos') {
                 'message' => 'foi um susseso',
                 'status' => 201
             ];
-            http_response_code(201);
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
         }
@@ -293,8 +278,6 @@ else if ($submit == 'Buscar_cargos') {
                 'message' => 'Dados recebidos com sucesso!',
                 'cargos' => $dados
             ];
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
             exit();
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
@@ -303,16 +286,7 @@ else if ($submit == 'Buscar_cargos') {
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response);
             exit();
         }
     }
-} else if ($submit == "teste") {
-    $reponse = [
-        "status" => 200,
-        'messagem' => "vem aqui"
-    ];
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($reponse);
 }
