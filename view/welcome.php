@@ -1,5 +1,6 @@
 <?php
-require_once("autenticacao.php");
+require_once("../controller/autenticado.php");
+require_once("../controller/privilegios.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">

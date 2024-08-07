@@ -1,12 +1,14 @@
 <?php
-session_start();
-// require_once("../controller/autenticado.php");
-// require_once("../controller/privilegios.php");
+require_once("../controller/privilegios.php");
+if(!empty($_SESSION['response'])){
 $response = $_SESSION['response'];
 $cargos = unserialize($response['cargos']);
 $sucesso = $response['success'];
 $messagem = $response['message'];
-
+$status = true;
+}else{
+    $status = False;
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,13 +18,12 @@ $messagem = $response['message'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    
-<form method="POST" action="../controller/main.php">
+<body>   
+<form id='form' method='POST' action='../controller/main.php'>
 <button type="submit" value="Listar_cargos" name="submit">Listar cargos</button>
 </form>
  
-    <?php if($sucesso == true){ ?>
+    <?php if($status == true){ ?>
         <?php echo $messagem ?>
         <table>
             <tr>
@@ -39,7 +40,9 @@ $messagem = $response['message'];
             </tr>
                 </table>
     <?php }else{
+        if($status == true){
         echo $messagem;
+        }
     } ?>
 </body>
 </html>

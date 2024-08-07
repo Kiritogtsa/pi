@@ -11,7 +11,7 @@ session_start();
 // isto ta me dando um odio
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
+$submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 } else if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $submit = filter_var($_GET['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 }
@@ -67,21 +67,22 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     }
 } else if ($submit == 'Criar_cargo') { // Cria um cargo na tabela TRABALHOS
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    // try {
-    //     if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+    try {
+        if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
             $trabalho = new Trabalho($nome, $descricao);
             $trabalhoDAO = new TrabalhoDAO();
             $trabalhoDAO->salvar($trabalho);
             $data = array('messagem' => 'sucesso');
-    //         //A partir daqui as mensagem vão ser enviadas por JSON
-    //     } else {
-    //         header('Location: ./view/welcome');
-    //     }
-    // } catch (Exception $e) {
-    //     echo $e->getMessage();
-    // }
+            $_SESSION['data'] = $data;
+            header('Location: ../view/Criatrab.php');
+        } else {
+            header('Location: ./view/welcome');
+        }
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
 }
 # Login
 else if ($submit == 'login') {
@@ -90,11 +91,11 @@ else if ($submit == 'login') {
     try {
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
         $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
-        $data = array();
+        var_dump($user);
         if (password_verify($senha, $user->getSenha())) {
             $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
             $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-            header('Location: ../view/Criatrab.php'); // Redireciona para o perfil do usuário
+            header('Location: ../view/welcome.php'); // Redireciona para o perfil do usuário
             exit();
         } else {
             // Caso a senha não corresponda, redireciona para o perfil

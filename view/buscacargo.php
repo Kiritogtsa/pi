@@ -1,8 +1,7 @@
 <?php
-session_start();
 require_once('../models/trabalho.php');
-// require_once('autenticado.php');
-// require_once('privilegios.php');
+require_once('../controller/autenticado.php');
+require_once('../controller/privilegios.php');
 if (!empty($_SESSION['response'])) {
 $response = $_SESSION['response'];
 $cargos = unserialize($response['cargo']);
