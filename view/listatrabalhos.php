@@ -5,7 +5,7 @@ if(!empty($_SESSION['response'])){
 $response = $_SESSION['response'];
 $cargos = unserialize($response['cargos']);
 $sucesso = $response['success'];
-$messagem = $response['message'];
+$messagem = $response['messagem'];
 $status = true;
 }else{
     $status = False;

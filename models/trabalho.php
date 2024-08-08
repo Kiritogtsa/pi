@@ -102,23 +102,24 @@ class TrabalhoDAO
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
 
-        $sql = "UPDATE trabalhos SET nome = :nome, descricao = :descricao WHERE id_cargo = :id_cargo";
+        $sql = "UPDATE trabalhos SET nome = :nome, descricao = :descricao WHERE ID = :id_cargo";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":descricao", $descricao);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
 
-        return $trabalho; // Retorna o objeto Trabalho atualizado
+        return "Atualizado com sucesso!"; // Retorna o objeto Trabalho atualizado
     }
 
     // Deleta um trabalho pelo ID no banco de dados
     public function deletar($id_cargo)
     {
-        $sql = "DELETE FROM trabalhos WHERE id_cargo = :id_cargo";
+        $sql = "DELETE FROM trabalhos WHERE ID = :id_cargo";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
+        return "Deletado com sucesso";
     }
 
     // Lista todos os trabalhos presentes no banco de dados
