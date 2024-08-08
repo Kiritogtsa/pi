@@ -167,6 +167,7 @@ else if ($submit == 'Buscar_cargos') {
 } else if ($submit == 'Listar_cargos') {
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
+    $lista_cargos = serialize($lista_cargos);
     if ($lista_cargos) {
         $response = [
             'success' => true,
@@ -174,7 +175,7 @@ else if ($submit == 'Buscar_cargos') {
             'cargos' => $lista_cargos
         ];
         $_SESSION['response'] = $response;
-        header('Location: ./view/listatrabalhos.php');
+        header('Location: ../view/listatrabalhos.php');
     } else {
         $response = [
             'success' => false,
@@ -182,7 +183,7 @@ else if ($submit == 'Buscar_cargos') {
             'cargos' => []
         ];
         $_SESSION['response'] = $response;
-        header('Location: ./view/listatrabalhos.php');
+        header('Location: ../view/listatrabalhos.php');
     }
 } 
 else if ($submit == 'Atualizar o estado') {

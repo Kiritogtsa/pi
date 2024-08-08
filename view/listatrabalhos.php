@@ -1,5 +1,6 @@
 <?php
 require_once("../controller/privilegios.php");
+require_once("../models/trabalho.php");
 if(!empty($_SESSION['response'])){
 $response = $_SESSION['response'];
 $cargos = unserialize($response['cargos']);
@@ -19,8 +20,8 @@ $status = true;
     <title>Document</title>
 </head>
 <body>   
-<form id='form' method='POST' action='../controller/main.php'>
-<button type="submit" value="Listar_cargos" name="submit">Listar cargos</button>
+<form method='POST' action='../controller/main.php'>
+<button type='submit' name='submit' value='Listar_cargos'>Listar trabalhos</button>
 </form>
  
     <?php if($status == true){ ?>
