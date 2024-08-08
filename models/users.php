@@ -15,6 +15,7 @@ interface crud
 {
     public function persit(user $user): user;
     public function getbyemail(string $email): user;
+    public function getbyName(string $nome): User;
     public function getbyall(int $min, int $max): array;
     public function delete(int $id): bool;
     public function insertgrupo(User $user): User;
@@ -428,6 +429,33 @@ class UserDAO implements crud
     }
 
     // obtem uma instancia de User com base no email fonercido
+    // getbyName
+    public function getbyName($nome): User
+    {
+        $sql = "SELECT * FROM users u inner join salario s on u.SALARIO_ID = s.ID WHERE NOME = :nome";
+        $stmt = $this->conn->prepare($sql);
+        echo "getemail prepara o sql" . "\n";
+        echo "<br>";
+        $stmt->bindParam(':nome', $nome);
+        $stmt->execute();
+        echo "getemail executa o sql" . "\n";
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$dados) {
+            throw new Exception("Usuário não encontrado com o email: " . $nome);
+        }
+
+        $salario = new Salario(
+            $dados['salariobruto'],
+            $dados['mes']
+        );
+        $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], $salario);
+        $user->setId($dados["ID"]);
+        $user->setDeletedAt($dados["DELETE_AT"]);
+        $user->setGrupo($dados["GRUPO"]);
+        echo "getemail termina retornado uma instacia" . "\n";
+        return $user;
+    }
     public function getByEmail($email): User
     {
         // deois de confimar como vamo fazer o sql adicionar aqui o salario
@@ -439,11 +467,11 @@ class UserDAO implements crud
         $stmt->execute();
         echo "getemail executa o sql" . "\n";
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if (!$dados) {
             throw new Exception("Usuário não encontrado com o email: " . $email);
         }
-        
+
         $salario = new Salario(
             $dados['salariobruto'],
             $dados['mes']
