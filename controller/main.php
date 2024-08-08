@@ -144,20 +144,19 @@ else if ($submit == 'Buscar_cargos') {
     $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
     $trabalhoDAO = new TrabalhoDAO();
     $trabalho = $trabalhoDAO->buscarPorNome($nome);
-    var_dump($trabalho);
     $ntrab = serialize($trabalho);
     if (!empty($trabalho)) {
         $response = [
             'success' => true,
-            'messagem' => 'obtido com sucesso',
-            'cargo' => $ntrab
+            'messagem' => 'Obtido com sucesso',
+            'cargos' => $ntrab
         ];
         $_SESSION['response'] = $response;
         header('Location: ../view/buscacargo.php');
     } else {
         $response = [
             'success' => false,
-            'messagem' => 'sem sucesso',
+            'messagem' => 'Sem sucesso',
             'erro' => null
         ];
         $_SESSION['response'] = $response;
@@ -171,7 +170,7 @@ else if ($submit == 'Buscar_cargos') {
     if ($lista_cargos) {
         $response = [
             'success' => true,
-            'message' => 'Dados recebidos com sucesso!',
+            'messagem' => 'Dados recebidos com sucesso!',
             'cargos' => $lista_cargos
         ];
         $_SESSION['response'] = $response;
@@ -179,7 +178,7 @@ else if ($submit == 'Buscar_cargos') {
     } else {
         $response = [
             'success' => false,
-            'message' => 'Erro ao obter lista de cargos.',
+            'messagem' => 'Erro ao obter lista de cargos.',
             'cargos' => []
         ];
         $_SESSION['response'] = $response;
@@ -318,35 +317,38 @@ else if ($submit == 'Atualizar o estado') {
 }
 else if($submit == "Atualizar_trabalho"){
 try{
-    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+    // if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
         $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
         $nome  = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
         $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $trabalho = new Trabalho($id, $nome, $descricao);
+        $trabalho = new Trabalho($nome, $descricao);
+        $trabalho->setIdCargo($id);
         $trabalhoDAO = new TrabalhoDAO();
         $trabatu = $trabalhoDAO->atualizar($trabalho);
         if(!empty($trabatu)){
             $response = 'Atualizado com sucesso!';
-            $_SESSION['message'] = $response;
+            $_SESSION['messagem'] = $response;
+            header('Location: ../view/buscacargo.php');
         }
         else{
             $response = 'Erro ao atualizar o cargo!';
-            $_SESSION['message'] = $response;
+            $_SESSION['messagem'] = $response;
+            header('Location: ../view/buscacargo.php');
         }
 }
-}catch (Exception $e){
+catch (Exception $e){
     echo $e->getMessage();
 }
-}
+}// }
 else if($submit == "Deletar_trabalho"){
-try{
-    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
-        $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
-        $trabalhoDAO = new TrabalhoDAO();
-        $trabdel = $trabalhoDAO->deletar($id);
-        $_SESSION['message'] = $trabdel;
-}
-}catch(Exception $e){
-    echo $e->getMessage();
-}
+    try{
+        // if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+            $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+            $trabalhoDAO = new TrabalhoDAO();
+            $trabdel = $trabalhoDAO->deletar($id);
+            $_SESSION['message'] = $trabdel;
+    }
+    catch(Exception $e){
+        echo $e->getMessage();
+    }
 }
