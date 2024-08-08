@@ -442,7 +442,7 @@ class UserDAO implements crud
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$dados) {
-            throw new Exception("Usuário não encontrado com o email: " . $nome);
+            throw new Exception("Usuário não encontrado com o nome: " . $nome);
         }
 
         $salario = new Salario(
