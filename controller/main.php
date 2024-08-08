@@ -316,3 +316,37 @@ else if ($submit == 'Atualizar o estado') {
         }
     }
 }
+else if($submit == "Atualizar_trabalho"){
+try{
+    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+        $nome  = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $trabalho = new Trabalho($id, $nome, $descricao);
+        $trabalhoDAO = new TrabalhoDAO();
+        $trabatu = $trabalhoDAO->atualizar($trabalho);
+        if(!empty($trabatu)){
+            $response = 'Atualizado com sucesso!';
+            $_SESSION['message'] = $response;
+        }
+        else{
+            $response = 'Erro ao atualizar o cargo!';
+            $_SESSION['message'] = $response;
+        }
+}
+}catch (Exception $e){
+    echo $e->getMessage();
+}
+}
+else if($submit == "Deletar_trabalho"){
+try{
+    if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+        $trabalhoDAO = new TrabalhoDAO();
+        $trabdel = $trabalhoDAO->deletar($id);
+        $_SESSION['message'] = $trabdel;
+}
+}catch(Exception $e){
+    echo $e->getMessage();
+}
+}
