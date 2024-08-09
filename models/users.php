@@ -334,7 +334,6 @@ class UserDAO implements crud
     {
         $sql = "insert into salario(salariobruto,mes) values(:salariobruto,:mes)";
         $salariobruto = $salario->getSalariobruto();
-        $mes = $salario->getMes();
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":salariobruto", $salariobruto);
         $stmt->bindParam(":mes", $mes);
