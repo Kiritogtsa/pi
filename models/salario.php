@@ -8,30 +8,20 @@ class Salario
     private $inss;
     private $adicional;
     private $salarioliquido;
-    private $mes;
-    private $ano;
-    private $decimo;
 
     // nao fazia sentido o id no contrutor da classe
-    public function __construct($salariobruto, $mes, $decimo = 1, $salarioliquido = 0, $ir = 0, $inss = 0, $adicional = 0)
+    public function __construct($salariobruto, $salarioliquido = 0, $ir = 0, $inss = 0)
     {
-        if (empty($salariobruto) || empty($mes)) {
+        if (empty($salariobruto)) {
             throw new Exception("Preencha todos os campos obrigatórios!");
-        }
-        if ($mes < 1 || $mes > 12) {
-            throw new Exception("Mês inválido!");
-        }
-        if ($mes == 7 || $mes == 12) {
-            $decimo = 0.5;
-        }
+
         $this->salariobruto = $salariobruto;
         $this->ir = $ir;
         $this->inss = $inss;
         $this->adicional = $adicional;
         $this->salarioliquido = $salarioliquido;
-        $this->mes = $mes;
-        $this->decimo = $decimo;
     }
+}
 
     public function setId($id)
     {
@@ -69,30 +59,6 @@ class Salario
         return $this;
     }
 
-    public function setMes($mes)
-    {
-        $this->mes = $mes;
-        return $this;
-    }
-
-    public function setDecimo($decimo)
-    {
-        $this->decimo = $decimo;
-        return $this;
-    }
-
-    public function setAno($ano): self
-    {
-        $this->ano = $ano;
-
-        return $this;
-    }
-
-
-    public function getDecimo()
-    {
-        return $this->decimo;
-    }
 
     public function getId()
     {
@@ -122,16 +88,6 @@ class Salario
     public function getSalarioliquido()
     {
         return $this->salarioliquido;
-    }
-
-    public function getMes()
-    {
-        return $this->mes;
-    }
-
-    public function getAno()
-    {
-        return $this->ano;
     }
 
     public function descIR($salariobruto, $mes, $decimo)
@@ -203,9 +159,6 @@ class Salario
     public function calcsalarLiquid($salariobruto, $ir, $inss, $adicional, $mes)
     {
         $salarioComAdicional = $salariobruto + ($salariobruto * ($adicional / 100));
-        if ($mes == 7 || $mes == 12) {
-            $salarioComAdicional += $salariobruto * $this->decimo;
-        }
         $salarioliquido = $salarioComAdicional - $ir - $inss;
         return $this->salarioliquido = $salarioliquido;
     }
