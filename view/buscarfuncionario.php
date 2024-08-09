@@ -1,11 +1,12 @@
 <?php
 require_once('../models/users.php');
+require_once('../models/salario.php');
 require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
 
 if(!empty($_SESSION['buscuser'])){
     $user = unserialize($_SESSION['buscuser']['userb']);
-    $salario = $user->getissalario(); // Certifique-se que o método getSalario() existe e está retornando o objeto correto
+    $salario = $user->getissalario(); 
 }
 ?>
 
@@ -52,6 +53,11 @@ if(!empty($_SESSION['buscuser'])){
                 <td><input type="text" name="trabalho" value="<?= $user->getTrabalho(); ?>"></td>
                 <td><input type="text" name="grupo" value="<?= $user->getGrupo(); ?>"></td>
             </tr>
+                <td><input type="text" name="grupo" value="<?= $salario->getSalariobruto(); ?>"></td>
+                <td><input type="text" name="grupo" value="<?= $salario->getIr(); ?>"></td>
+                <td><input type="text" name="grupo" value="<?= $salario->getInss(); ?>"></td>
+                <td><input type="text" name="grupo" value="<?= $salario->getAdicional(); ?>"></td>
+                <td><input type="text" name="grupo" value="<?= $salario->getSalarioliquido(); ?>"></td>     
             <tr>
                 <td colspan="18">
                     <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
