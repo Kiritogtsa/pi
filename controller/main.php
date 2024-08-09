@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 // adicione os metodos do salario dao, para ficar melhor e mais modular depois, e tb mais facil de adicionar novas coisas, so precisa criar o dao
 // que eu faço o resto no usuario dao para chamar o salario, dai o usuario controla o solario, sem mudar muitas coisas, isso e uma idei
-// $userjson = ['nome'=>$user->getnome()]
 if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     try {
@@ -149,7 +148,6 @@ else if ($submit == 'login') {
 // }catch(Exception $e){
 //     echo $e->getMessage();
 // }
-// volta um json com uma messagem 
 // ta uma vazia este buscar cargo
 // agora ta correto, aqui tb tinha um erro, que era, pq tava passado o $id? sendo que nao existia a variavel?,
 else if ($submit == 'Buscar_cargos') {
