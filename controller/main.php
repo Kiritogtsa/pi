@@ -1,4 +1,5 @@
 <?php
+require_once('../models/salario.php');
 require_once('../models/users.php');
 require_once('../models/trabalho.php');
 // adicionei na ultima um jeito de fazer mais verificaçoes usando o init_set eo erro_reporting
@@ -213,10 +214,7 @@ else if ($submit == 'Buscar_cargos') {
         header('Location: ../view/listatrabalhos.php');
     }
 } 
-else if ($submit == 'Atualizar o estado') {
-
-    $_SESSION['reponse'] = $response;
-} else if ($submit == 'Cadastrar_grupo') {
+else if ($submit == 'Cadastrar_grupo') {
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     echo $usuario->getGrupo();
@@ -379,4 +377,23 @@ else if($submit == "Deletar_trabalho"){
     catch(Exception $e){
         echo $e->getMessage();
     }
+}
+
+else if($submit == 'Buscar_Salarios'){
+    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $userDAO = new UserDAO();
+    $salarioDAO = new salarioDAO();
+    $user = $userDAO->getbyName($nome);
+    $id = $user->getId();
+    $salarioDAO->getSalariosId($id);
+
+}
+else if($submit == 'Cadastrar_Salario'){
+    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $userDAO = new UserDAO();
+    $user = $userDAO->getbyName($nome);
+    $id = $user->getId();
+    $salarioDAO = new SalarioDAO();
+    $salarioDAO->insetSalario($id);
+
 }

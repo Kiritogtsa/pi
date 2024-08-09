@@ -52,30 +52,6 @@ if(!empty($_SESSION['buscuser'])){
                 <td><input type="text" name="trabalho" value="<?= $user->getTrabalho(); ?>"></td>
                 <td><input type="text" name="grupo" value="<?= $user->getGrupo(); ?>"></td>
             </tr>
-
-            <!-- Dados Salariais -->
-            <tr>
-                <th>Salário Bruto</th>
-                <th>Décimo Terceiro</th>
-                <th>Adicional</th>
-                <th>IR</th>
-                <th>INSS</th>
-                <th>Ano</th>
-                <th>Mês</th>
-                <th>Salário Líquido</th>
-            </tr>
-            <tr>
-                <td><input type="text" name="salario_bruto" value="<?= $salario->getSalariobruto(); ?>"></td>
-                <td><input type="text" name="decimo_terceiro" value="<?= $salario->getDecimo(); ?>"></td>
-                <td><input type="text" name="adicional" value="<?= $salario->getAdicional(); ?>"></td>
-                <td><input type="text" name="ir" value="<?= $salario->getIr(); ?>"></td>
-                <td><input type="text" name="inss" value="<?= $salario->getInss(); ?>"></td>
-                <td><input type="text" name="ano" value="<?= $salario->getAno(); ?>"></td>
-                <td><input type="text" name="mes" value="<?= $salario->getMes(); ?>"></td>
-                <td><input type="text" name="salario_liquido" value="<?= $salario->getSalarioliquido(); ?>"></td>
-            </tr>
-
-            <!-- Ações -->
             <tr>
                 <td colspan="18">
                     <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
