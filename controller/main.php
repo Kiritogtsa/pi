@@ -12,16 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 } else if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $submit = filter_var($_GET['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 }
-<<<<<<< HEAD
 
 
-// CADASTRO DE FUNCIONÁRIOS
-if ($submit == 'Cadatrar_user') {
-=======
+
 // adicione os metodos do salario dao, para ficar melhor e mais modular depois, e tb mais facil de adicionar novas coisas, so precisa criar o dao
 // que eu faço o resto no usuario dao para chamar o salario, dai o usuario controla o solario, sem mudar muitas coisas, isso e uma idei
 if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
->>>>>>> 6a8d44b833741c1f2534cc4a71271cca885ec24c
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     try {
         // foi adicionados as variaveis para obter um salario minimo
@@ -196,10 +192,8 @@ else if ($submit == 'Buscar_funcionario') {
     }
     // }else{
     // throw new Exception("Sem permissão para modificar!");
-}
-<<<<<<< HEAD
 // LOGIN DE USUÁRIO
-else if ($submit == 'login') {
+}else if ($submit == 'login') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
     $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra a senha recebida
     try {
@@ -222,15 +216,6 @@ else if ($submit == 'login') {
     }
 }
 
-// BUSCAR CARGOS
-
-=======
-// }catch(Exception $e){
-//     echo $e->getMessage();
-// }
-// ta uma vazia este buscar cargo
-// agora ta correto, aqui tb tinha um erro, que era, pq tava passado o $id? sendo que nao existia a variavel?,
->>>>>>> 6a8d44b833741c1f2534cc4a71271cca885ec24c
 else if ($submit == 'Buscar_cargos') {
     $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
     $trabalhoDAO = new TrabalhoDAO();
