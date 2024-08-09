@@ -91,7 +91,6 @@ else if ($submit == 'login') {
     try {
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
         $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
-        var_dump($user);
         if (password_verify($senha, $user->getSenha())) {
             $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
             $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
@@ -137,6 +136,35 @@ else if ($submit == 'login') {
     // header('Location: '); // Redireciona de volta para a página atual (provavelmente para a página de perfil)
     // exit();
 }
+
+else if($submit == 'Buscar_funcionario'){
+    // try{
+        // if($usuario->getGrupo == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
+        $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $user = new UserDAO();
+        $buscuser = $user->getbyName($nome);
+        if(!empty($buscuser)){
+            $buscuser = serialize($buscuser);
+            $response = [
+                'messagem' => 'Usuário encontrado com sucesso!',
+                'userb'=> $buscuser
+            ];
+                $_SESSION['buscuser'] = $response;
+                header('Location: ../view/buscarfuncionario.php');
+        }
+        else{
+            $response = [
+                'messagem' => 'Usuário não encontrado!',
+            ];
+            $_SESSION['buscuser'] = $response;
+            header('Location: ../view/buscarfuncionario.php');
+        }
+    // }else{
+        // throw new Exception("Sem permissão para modificar!");
+    }
+// }catch(Exception $e){
+//     echo $e->getMessage();
+// }
 // volta um json com uma messagem 
 // ta uma vazia este buscar cargo
 // agora ta correto, aqui tb tinha um erro, que era, pq tava passado o $id? sendo que nao existia a variavel?,
