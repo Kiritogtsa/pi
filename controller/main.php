@@ -12,7 +12,7 @@ session_start();
 // isto ta me dando um odio
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-$submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 } else if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $submit = filter_var($_GET['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 }
@@ -41,19 +41,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $userDAO = new UserDAO();
             // nao era pra enviar uma mess3agens dizendo que foi um sucesso? 
             $userDAO->persit($user);
-            $data = array("messagem" => "foi um sucesso");
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($data);
-        } else {
-            $userDAO->conn->rollBack();
-            $response = [
-                'success' => true,
-                'message' => 'deu algum erro',
-                'erro' => $e->getMessage()
-            ];
-            $_SESSION['mensagem'] = $e->getMessage();
-            exit();
-            header('Location: ./view/welcome');
         }
     } catch (Exception $e) {;
         $userDAO->conn->rollBack();
@@ -136,33 +123,30 @@ else if ($submit == 'login') {
     }
     // header('Location: '); // Redireciona de volta para a página atual (provavelmente para a página de perfil)
     // exit();
-}
-
-else if($submit == 'Buscar_funcionario'){
+} else if ($submit == 'Buscar_funcionario') {
     // try{
-        // if($usuario->getGrupo == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
-        $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $user = new UserDAO();
-        $buscuser = $user->getbyName($nome);
-        if(!empty($buscuser)){
-            $buscuser = serialize($buscuser);
-            $response = [
-                'messagem' => 'Usuário encontrado com sucesso!',
-                'userb'=> $buscuser
-            ];
-                $_SESSION['buscuser'] = $response;
-                header('Location: ../view/buscarfuncionario.php');
-        }
-        else{
-            $response = [
-                'messagem' => 'Usuário não encontrado!',
-            ];
-            $_SESSION['buscuser'] = $response;
-            header('Location: ../view/buscarfuncionario.php');
-        }
-    // }else{
-        // throw new Exception("Sem permissão para modificar!");
+    // if($usuario->getGrupo == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
+    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $user = new UserDAO();
+    $buscuser = $user->getbyName($nome);
+    if (!empty($buscuser)) {
+        $buscuser = serialize($buscuser);
+        $response = [
+            'messagem' => 'Usuário encontrado com sucesso!',
+            'userb' => $buscuser
+        ];
+        $_SESSION['buscuser'] = $response;
+        header('Location: ../view/buscarfuncionario.php');
+    } else {
+        $response = [
+            'messagem' => 'Usuário não encontrado!',
+        ];
+        $_SESSION['buscuser'] = $response;
+        header('Location: ../view/buscarfuncionario.php');
     }
+    // }else{
+    // throw new Exception("Sem permissão para modificar!");
+}
 // }catch(Exception $e){
 //     echo $e->getMessage();
 // }
@@ -191,7 +175,6 @@ else if ($submit == 'Buscar_cargos') {
         $_SESSION['response'] = $response;
         header('Location: ../view/buscacargo.php');
     }
-    
 } else if ($submit == 'Listar_cargos') {
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
@@ -213,8 +196,15 @@ else if ($submit == 'Buscar_cargos') {
         $_SESSION['response'] = $response;
         header('Location: ../view/listatrabalhos.php');
     }
+<<<<<<< HEAD
 } 
 else if ($submit == 'Cadastrar_grupo') {
+=======
+} else if ($submit == 'Atualizar o estado') {
+
+    $_SESSION['reponse'] = $response;
+} else if ($submit == 'Cadastrar_grupo') {
+>>>>>>> 3e81337a2e7699acf7572636dfeefd73be349583
     // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     echo $usuario->getGrupo();
@@ -340,10 +330,9 @@ else if ($submit == 'Cadastrar_grupo') {
             exit();
         }
     }
-}
-else if($submit == "Atualizar_trabalho"){
-try{
-    // if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+} else if ($submit == "Atualizar_trabalho") {
+    try {
+        // if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
         $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
         $nome  = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
         $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -351,32 +340,19 @@ try{
         $trabalho->setIdCargo($id);
         $trabalhoDAO = new TrabalhoDAO();
         $trabatu = $trabalhoDAO->atualizar($trabalho);
-        if(!empty($trabatu)){
+        if (!empty($trabatu)) {
             $response = 'Atualizado com sucesso!';
             $_SESSION['messagem'] = $response;
             header('Location: ../view/buscacargo.php');
-        }
-        else{
+        } else {
             $response = 'Erro ao atualizar o cargo!';
             $_SESSION['messagem'] = $response;
             header('Location: ../view/buscacargo.php');
         }
-}
-catch (Exception $e){
-    echo $e->getMessage();
-}
-}// }
-else if($submit == "Deletar_trabalho"){
-    try{
-        // if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
-            $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
-            $trabalhoDAO = new TrabalhoDAO();
-            $trabdel = $trabalhoDAO->deletar($id);
-            $_SESSION['message'] = $trabdel;
-    }
-    catch(Exception $e){
+    } catch (Exception $e) {
         echo $e->getMessage();
     }
+<<<<<<< HEAD
 }
 
 else if($submit == 'Buscar_Salarios'){
@@ -397,3 +373,17 @@ else if($submit == 'Cadastrar_Salario'){
     $salarioDAO->insetSalario($id);
 
 }
+=======
+} // }
+else if ($submit == "Deletar_trabalho") {
+    try {
+        // if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
+        $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+        $trabalhoDAO = new TrabalhoDAO();
+        $trabdel = $trabalhoDAO->deletar($id);
+        $_SESSION['message'] = $trabdel;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+>>>>>>> 3e81337a2e7699acf7572636dfeefd73be349583
