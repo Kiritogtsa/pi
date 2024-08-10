@@ -40,7 +40,7 @@ if (empty($cargos)) {
 
         <label for='telefone'>Telefone:</label>
         <input type='text' id='telefone' name='telefone' required>
-
+    
         <label for='trabalho'>Selecione um Cargo:</label>
         <select name='trabalho' required>
             <?php

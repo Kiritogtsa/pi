@@ -1,6 +1,8 @@
 <?php
 require_once("../controller/autenticado.php");
+require_once("../models/salario.php");
 $user = unserialize($_SESSION["user"]);
+$salario = $user->getissalario();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,8 +32,9 @@ $user = unserialize($_SESSION["user"]);
             <td><?php echo $user->getSexo(); ?></td>
             <td><?php echo $user->getTrabalho(); ?></td>
             <td><?php echo $user->getGrupo(); ?></td>
-            <td><?php echo $user->getDataAdimisao(); ?></td>
+            <td><?php echo $user->getDataAdmissao(); ?></td>
             <td><?php echo $user->getTelefone(); ?></td>
+            <td><?php echo $salario->getSalariobruto(); ?></td>
         </tr>
     </table>
 </body>

@@ -200,11 +200,19 @@ else if ($submit == 'Buscar_funcionario') {
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
         $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
         if (password_verify($senha, $user->getSenha())) {
-            $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
-            $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-            header('Location: ../view/welcome.php'); // Redireciona para o perfil do usuário
-            exit();
-        } else {
+            if($user->getGrupo() == 'gerente' || $user->getGrupo() == 'auxiliar'){
+                $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
+                $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+                header('Location: ../view/welcomeadmins.php'); // Redireciona para o perfil do usuário
+                exit();
+            }
+            else{
+                $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
+                $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
+                header('Location: ../view/welcome.php'); // Redireciona para o perfil do usuário
+                exit();
+            }
+        }else{
             // Caso a senha não corresponda, redireciona para o perfil
             // Armazena o usuário na sessão
             $_SESSION['autenticacao'] =  false; // Define a autenticação como verdadeira

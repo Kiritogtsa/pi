@@ -61,7 +61,7 @@ if(!empty($_SESSION['buscuser'])){
             <tr>
                 <td colspan="18">
                     <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
-                    <button type="submit" value="Desativar" name="submit">Desativar</button>
+                    <button type="submit" value="Desativar_usuario" name="submit">Desativar</button>
                 </td>
             </tr>
         </table>
