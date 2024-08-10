@@ -104,7 +104,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
                 try {
                     // adiconem
                     $userDAO = new UserDAO();
-                    $userDAO->delete($id);
+                    echo $userDAO->delete($id);
                     $response = [
                         'success' => true,
                         'message' => 'foi deletado o usuario',
