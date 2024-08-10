@@ -235,7 +235,7 @@ else if ($submit == 'Buscar_cargos') {
             'messagem' => 'Obtido com sucesso',
             'cargos' => $ntrab
         ];
-        $_SESSION['response'] = $response;
+        $_SESSION['buscar'] = $response;
         header('Location: ../view/buscacargo.php');
     } else {
         $response = [
@@ -243,7 +243,7 @@ else if ($submit == 'Buscar_cargos') {
             'messagem' => 'Sem sucesso',
             'erro' => null
         ];
-        $_SESSION['response'] = $response;
+        $_SESSION['buscar'] = $response;
         header('Location: ../view/buscacargo.php');
     }
 
@@ -260,7 +260,7 @@ else if ($submit == 'Buscar_cargos') {
             'messagem' => 'Dados recebidos com sucesso!',
             'cargos' => $lista_cargos
         ];
-        $_SESSION['response'] = $response;
+        $_SESSION['listar'] = $response;
         header('Location: ../view/listatrabalhos.php');
     } else {
         $response = [
@@ -268,7 +268,7 @@ else if ($submit == 'Buscar_cargos') {
             'messagem' => 'Erro ao obter lista de cargos.',
             'cargos' => []
         ];
-        $_SESSION['response'] = $response;
+        $_SESSION['listar'] = $response;
         header('Location: ../view/listatrabalhos.php');
     }
 

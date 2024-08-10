@@ -3,8 +3,8 @@ require_once('../models/trabalho.php');
 require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
 
-if (!empty($_SESSION['response'])) {
-    $response = $_SESSION['response'];
+if (!empty($_SESSION['buscar'])) {
+    $response = $_SESSION['buscar'];
     $cargos = unserialize($response['cargos']);
     $sucesso = $response['success'];
     $messagem = $response['messagem'];

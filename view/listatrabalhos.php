@@ -1,8 +1,8 @@
 <?php
 require_once("../controller/privilegios.php");
 require_once("../models/trabalho.php");
-if(!empty($_SESSION['response'])){
-$response = $_SESSION['response'];
+if(!empty($_SESSION['listar'])){
+$response = $_SESSION['listar'];
 $cargos = unserialize($response['cargos']);
 $sucesso = $response['success'];
 $messagem = $response['messagem'];
