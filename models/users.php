@@ -466,7 +466,7 @@ class UserDAO implements crud
         $stmt->execute();
         echo "getemail executa o sql" . "\n";
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        
         if (!$dados) {
             throw new Exception("Usuário não encontrado com o email: " . $email);
         }
