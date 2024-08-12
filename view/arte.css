@@ -1,0 +1,290 @@
+/* Geral */
+body {
+    background: linear-gradient(
+        to bottom, /* Direção do degradê de cima para baixo */
+        #2678BF, 
+        #2F87C9, 
+        #388FCF, 
+        #4398D6, 
+        #4DA0DD, 
+        #58A8E3, 
+        #63B1E9, 
+        #6EB9EF, 
+        #79C1F4, 
+        #84CAF9, 
+        #8FD3FE, 
+        #99D9FF, 
+        #A4E0FF
+    );
+    background-size: cover; /* Garante que o fundo preencha a tela */
+    background-attachment: fixed; /* Faz com que o fundo não role com a página */
+    height: 100vh; /* Ajusta a altura para preencher a tela */
+    margin: 0;
+    display: flex; /* Usa Flexbox para organizar o conteúdo */
+    flex-direction: column; /* Organiza o conteúdo na coluna */
+    font-family: 'Poppins', sans-serif; /* Aplica a fonte Poppins */
+}
+
+header {
+    background-color: #D9D9D9;
+    font-size: 40px;
+    width: 100%; 
+    padding: 55px; /* Ajuste o padding conforme necessário */
+    box-sizing: border-box; 
+    text-align: center;
+    position: fixed; /* Fixa o header na parte superior */
+    top: 0; /* Posiciona o header no topo */
+    left: 0; /* Alinha o header à esquerda */
+    z-index: 1000; /* Garante que o header fique acima do resto do conteúdo */
+    display: flex; /* Usa Flexbox para organizar o conteúdo no header */
+    align-items: center; /* Alinha o conteúdo verticalmente */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    gap: 10px; /* Espaçamento entre a imagem e o texto */
+}
+
+header img {
+    width: 60px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+/* Welcome */
+.content {
+    flex: 1; /* Faz com que a área de conteúdo preencha o espaço restante */
+    display: flex; /* Usa Flexbox para centralizar o conteúdo */
+    flex-direction: column; /* Organiza o conteúdo na coluna */
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    margin-top: 140px; /* Espaço para o header fixo (ajustado para o padding do header) */
+}
+
+.links {
+    display: flex;               /* Exibe os links em linha */
+    gap: 20px;                   /* Espaçamento entre os links */
+    padding: 20px;              /* Adiciona um pouco de espaço interno ao redor dos links */
+    flex-wrap: wrap;            /* Permite que os links se movam para a linha seguinte se necessário */
+    justify-content: center;    /* Centraliza os links horizontalmente */
+    align-items: center;        /* Alinha os links verticalmente */
+}
+
+.links a {
+    display: inline-block;      /* Faz com que os links se comportem como blocos inline */
+    background-color: #FFFFFF;  /* Fundo branco para os links */
+    color: #228DC8;             /* Cor do texto */
+    text-decoration: none;      /* Remove o sublinhado dos links */
+    padding: 10px 20px;         /* Adiciona espaço interno */
+    border: 1px solid #228DC8;  /* Adiciona uma borda ao redor dos links */
+    border-radius: 8px;         /* Adiciona bordas arredondadas */
+    text-align: center;         /* Centraliza o texto dentro dos links */
+    font-size: 16px;            /* Ajusta o tamanho da fonte */
+    font-family: 'Poppins', sans-serif; /* Aplica a fonte Poppins aos links */
+}
+
+.links a:hover {
+    background-color: #E8F4F9;  /* Cor de fundo ao passar o mouse */
+    border-color: #1A6F9D;      /* Cor da borda ao passar o mouse */
+}
+
+.logout-icon {
+    position: fixed; /* Fixa a imagem na página */
+    bottom: 20px;    /* Distância do fundo da página */
+    right: 20px;     /* Distância da borda direita da página */
+    width: 40px;     /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto;    /* Mantém a proporção da imagem */
+    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+}
+
+.input-container {
+    display: flex;               /* Usa Flexbox para organizar a imagem e o campo de entrada lado a lado */
+    align-items: center;         /* Alinha verticalmente os itens no centro */
+    margin-bottom: 16px;         /* Espaço abaixo do contêiner de entrada */
+}
+
+.input-icon {
+    width: 50px;                 /* Largura da imagem do ícone */
+    height: 50px;                /* Altura da imagem do ícone */
+    margin-right: 20px;          /* Espaço entre o ícone e o campo de entrada */
+}
+
+/* Login */
+.login {
+    display: flex;               /* Usa Flexbox para organizar o conteúdo */
+    flex-direction: column;      /* Organiza os itens na coluna */
+    align-items: center;         /* Centraliza horizontalmente */
+    justify-content: center;     /* Centraliza verticalmente */
+    height: 100%;                 /* Preenche a altura disponível */
+    padding: 20px;               /* Espaçamento interno ao redor do conteúdo */
+    box-sizing: border-box;      /* Inclui o padding e a borda no cálculo da largura e altura */
+}
+
+.login form {
+    padding: 20px;               /* Espaçamento interno do formulário */
+    width: 100%;                 /* Ajusta a largura do formulário */
+    max-width: 400px;            /* Define uma largura máxima para o formulário */
+    box-sizing: border-box;      /* Inclui o padding e a borda no cálculo da largura e altura */
+}
+
+.login label {
+    display: block;              /* Exibe os labels em bloco */
+    margin-bottom: 8px;          /* Espaço abaixo dos labels */
+    font-size: 16px;             /* Tamanho da fonte dos labels */
+}
+
+.login input[type="text"], 
+.login input[type="password"] {
+    width: 100%;                 /* Ajusta a largura dos campos para preencher o formulário */
+    padding: 10px;               /* Espaçamento interno dos campos */
+    border: 1px solid #DDDDDD;   /* Borda cinza clara */
+    border-radius: 20px;         /* Borda arredondada para os campos */
+    margin-bottom: 16px;         /* Espaço abaixo dos campos */
+    font-size: 16px;             /* Tamanho da fonte dos campos */
+    box-sizing: border-box;      /* Inclui o padding e a borda no cálculo da largura e altura */
+}
+
+.login input[type="text"]::placeholder,
+.login input[type="password"]::placeholder {
+    color: #888888;              /* Cor do texto do placeholder */
+}
+
+.login button {
+    width: 100%;                 /* Ajusta a largura do botão para preencher o formulário */
+    background-color: #FFFFFF;   /* Fundo branco para o botão */
+    color: #228DC8;              /* Cor do texto do botão */
+    border: 1px solid #228DC8;   /* Borda na cor do texto do botão */
+    border-radius: 20px;         /* Borda arredondada para o botão */
+    padding: 10px;               /* Espaçamento interno do botão */
+    font-size: 16px;             /* Tamanho da fonte do botão */
+    cursor: pointer;             /* Muda o cursor para pointer ao passar sobre o botão */
+    transition: background-color 0.3s, color 0.3s; /* Transição suave para as alterações de cor */
+    box-sizing: border-box;      /* Inclui o padding e a borda no cálculo da largura e altura */
+}
+
+.login button:hover {
+    background-color: #E8F4F9;   /* Cor de fundo ao passar o mouse */
+    color: #1A6F9D;              /* Cor do texto ao passar o mouse */
+}
+
+/* Estilos para o formulário de cadastro */
+
+/* Estilos para o formulário de cadastro */
+/* Estilos para o formulário de cadastro */
+.form-container {
+    display: flex; /* Usa Flexbox para organizar as tabelas lado a lado */
+    gap: 20px; /* Espaçamento entre as tabelas */
+    margin: 140px auto; /* Ajusta a margem superior para compensar o header fixo e centraliza o container */
+    padding: 20px; /* Adiciona algum padding ao redor do container */
+    max-width: 1200px; /* Define uma largura máxima para o container */
+    width: 100%; /* Faz o container preencher a largura disponível */
+    box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura e altura */
+}
+
+form {
+    width: 100%; /* Ajusta a largura do formulário para preencher o container */
+    display: flex; /* Usa Flexbox para organizar o conteúdo interno */
+    flex-wrap: wrap; /* Permite que os itens dentro do formulário se movam para a linha seguinte se necessário */
+}
+
+table {
+    width: 100%; /* Faz as tabelas preencherem a largura disponível */
+    border-collapse: collapse; /* Remove o espaçamento entre as bordas das células */
+    margin-bottom: 20px; /* Espaço abaixo das tabelas */
+    background-color: #F2F2F2; /* Fundo cinza claro para as tabelas */
+}
+
+caption {
+    font-size: 20px; /* Ajusta o tamanho da fonte do caption */
+    margin-bottom: 10px; /* Espaço abaixo do caption */
+}
+
+td {
+    padding: 10px; /* Espaçamento interno das células */
+    vertical-align: middle; /* Alinha verticalmente o conteúdo das células */
+    border: 1px solid #4B4B4B; /* Borda cinza escuro para as células */
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="date"], 
+input[type="password"], 
+select {
+    width: 100%; /* Faz os campos preencherem a largura da célula */
+    padding: 10px; /* Espaçamento interno dos campos */
+    border: 1px solid #DDDDDD; /* Borda cinza clara */
+    border-radius: 10px; /* Borda arredondada para os campos */
+    box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura e altura */
+}
+
+button[type="submit"] {
+    background-color: #FFFFFF; /* Fundo branco para o botão */
+    color: #228DC8; /* Cor do texto do botão */
+    border: 1px solid #228DC8; /* Borda na cor do texto do botão */
+    border-radius: 20px; /* Borda arredondada para o botão */
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    font-size: 16px; /* Tamanho da fonte do botão */
+    cursor: pointer; /* Muda o cursor para pointer ao passar sobre o botão */
+    transition: background-color 0.3s, color 0.3s; /* Transição suave para as alterações de cor */
+    margin-top: 20px; /* Espaço acima do botão */
+}
+
+button[type="submit"]:hover {
+    background-color: #E8F4F9; /* Cor de fundo ao passar o mouse */
+    color: #1A6F9D; /* Cor do texto ao passar o mouse */
+}
+
+/* Imagem do fundo da pagina*/
+
+.RHFUNDO {
+    position: fixed; /* Fixa a imagem na página */
+    bottom: 0px;    /* Distância do fundo da página */  
+    width: 500px;     /* Ajuste o tamanho da imagem conforme necessário */
+    height: 300px;    /* Mantém a proporção da imagem */
+    z-index: 100;   /* Garante que a imagem fique acima do restante do conteúdo */
+}
+.RHFUNDO-DIREITO {
+    position: fixed; /* Fixa a imagem na página */
+    top: 30px;       /* Distância do topo da página */
+    right: 20px;     /* Distância da borda direita da página */
+    width:  80px;     /* Ajuste o tamanho da imagem conforme necessário */
+    height:  80px;    /* Mantém a proporção da imagem */
+    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+}
+.RHFUNDO-DIREITO2 {
+    position: fixed; /* Fixa a imagem na página */
+    top: 80px;       /* Distância do topo da página */
+    right: 35px;     /* Distância da borda direita da página */
+    width:  80px;     /* Ajuste o tamanho da imagem conforme necessário */
+    height:  80px;    /* Mantém a proporção da imagem */
+    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+}
+.RHFUNDO-DIREITO3 {
+    position: fixed; /* Fixa a imagem na página */
+    top: 13px;       /* Distância do topo da página */
+    right: 60px;     /* Distância da borda direita da página */
+    width: 80px;     /* Ajuste o tamanho da imagem conforme necessário */
+    height: 80px;    /* Mantém a proporção da imagem */
+    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+}
+
+.RHFUNDO-ESQUERDA {
+    position: fixed; /* Fixa a imagem na página */
+    top: 30px;       /* Distância do topo da página */
+    left: 20px;     /* Distância da borda direita da página */
+    width:  80px;     /* Ajuste o tamanho da imagem conforme necessário */
+    height:  80px;    /* Mantém a proporção da imagem */
+    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+}
+.RHFUNDO-ESQUERDA2 {
+    position: fixed; /* Fixa a imagem na página */
+    top: 80px;       /* Distância do topo da página */
+    left: 35px;     /* Distância da borda direita da página */
+    width:  80px;     /* Ajuste o tamanho da imagem conforme necessário */
+    height:  80px;    /* Mantém a proporção da imagem */
+    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+}
+.RHFUNDO-ESQUERDA3 {
+    position: fixed; /* Fixa a imagem na página */
+    top: 13px;       /* Distância do topo da página */
+    left: 60px;     /* Distância da borda direita da página */
+    width: 80px;     /* Ajuste o tamanho da imagem conforme necessário */
+    height: 80px;    /* Mantém a proporção da imagem */
+    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+}
