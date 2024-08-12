@@ -29,7 +29,7 @@ header {
     background-color: #D9D9D9;
     font-size: 40px;
     width: 100%; 
-    padding: 55px; /* Ajuste o padding conforme necessário */
+    padding: 10px; /* Ajuste o padding conforme necessário */
     box-sizing: border-box; 
     text-align: center;
     position: fixed; /* Fixa o header na parte superior */
@@ -43,7 +43,7 @@ header {
 }
 
 header img {
-    width: 60px; /* Ajuste o tamanho da imagem conforme necessário */
+    width: 100px; /* Ajuste o tamanho da imagem conforme necessário */
     height: auto; /* Mantém a proporção da imagem */
 }
 
@@ -163,9 +163,9 @@ header img {
     color: #1A6F9D;              /* Cor do texto ao passar o mouse */
 }
 
-/* Estilos para o formulário de cadastro */
 
-/* Estilos para o formulário de cadastro */
+
+
 /* Estilos para o formulário de cadastro */
 .form-container {
     display: flex; /* Usa Flexbox para organizar as tabelas lado a lado */
