@@ -3,14 +3,15 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 06/08/2024 às 01:22
+-- Tempo de geração: 13/08/2024 às 01:06
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-
 SET time_zone = "+00:00";
+
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -27,28 +28,27 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `salario` (
-  `ID` INT(11) NOT NULL,
-  `salariobruto` FLOAT DEFAULT NULL,
-  `ir` FLOAT DEFAULT NULL,
-  `inss` FLOAT DEFAULT NULL,
-  `adicional` FLOAT DEFAULT NULL,
-  `salarioliquido` FLOAT DEFAULT NULL,
+  `ID` int(11) NOT NULL,
+  `salariobruto` float DEFAULT NULL,
+  `ir` float DEFAULT NULL,
+  `inss` float DEFAULT NULL,
+  `adicional` float DEFAULT NULL,
+  `salarioliquido` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `salario`
 --
 
-INSERT INTO `salario` (`ID`, `salariobruto`, `ir`, `inss`, `adicional`, `salarioliquido`, `mes`, `decimo`, `ano`)
-VALUES
-(1, 5000, 500, 400, 100, 4000, 6, 500, 2024),
-(2, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(3, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(4, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(5, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(13, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(15, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(26, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL);
+INSERT INTO `salario` (`ID`, `salariobruto`, `ir`, `inss`, `adicional`, `salarioliquido`) VALUES
+(1, 5000, 500, 400, 100, 4000),
+(2, 1200, NULL, NULL, NULL, NULL),
+(3, 1200, NULL, NULL, NULL, NULL),
+(4, 1200, NULL, NULL, NULL, NULL),
+(5, 1200, NULL, NULL, NULL, NULL),
+(13, 1200, NULL, NULL, NULL, NULL),
+(15, 1200, NULL, NULL, NULL, NULL),
+(26, 1200, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -57,17 +57,16 @@ VALUES
 --
 
 CREATE TABLE `trabalhos` (
-  `ID` INT(11) NOT NULL,
-  `DESCRICAO` VARCHAR(30) DEFAULT NULL,
-  `NOME` TEXT DEFAULT NULL
+  `ID` int(11) NOT NULL,
+  `DESCRICAO` varchar(30) DEFAULT NULL,
+  `NOME` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `trabalhos`
 --
 
-INSERT INTO `trabalhos` (`ID`, `DESCRICAO`, `NOME`)
-VALUES
+INSERT INTO `trabalhos` (`ID`, `DESCRICAO`, `NOME`) VALUES
 (1, 'ajuda o gerente', 'gerente'),
 (2, 'ajuda o gerente', 'auxiliar gerente'),
 (3, 'teste1', 'teste');
@@ -79,27 +78,26 @@ VALUES
 --
 
 CREATE TABLE `users` (
-  `ID` INT(11) NOT NULL,
-  `NOME` VARCHAR(50) DEFAULT NULL,
-  `CPF` VARCHAR(11) DEFAULT NULL,
-  `EMAIL` VARCHAR(50) DEFAULT NULL,
-  `DATA_NASCIMENTO` DATE DEFAULT NULL,
-  `TELEFONE` VARCHAR(15) DEFAULT NULL,
-  `DATA_ADMISSAO` DATE DEFAULT NULL,
-  `SEXO` VARCHAR(10) DEFAULT NULL,
-  `SENHA` VARCHAR(60) DEFAULT NULL,
-  `GRUPO` VARCHAR(12) DEFAULT NULL,
-  `DELETE_AT` DATETIME DEFAULT NULL,
-  `TR_ID` INT(11) DEFAULT NULL,
-  `SALARIO_ID` INT(11) DEFAULT NULL
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(50) DEFAULT NULL,
+  `CPF` varchar(11) DEFAULT NULL,
+  `EMAIL` varchar(50) DEFAULT NULL,
+  `DATA_NASCIMENTO` date DEFAULT NULL,
+  `TELEFONE` varchar(15) DEFAULT NULL,
+  `DATA_ADMISSAO` date DEFAULT NULL,
+  `SEXO` varchar(10) DEFAULT NULL,
+  `SENHA` varchar(60) DEFAULT NULL,
+  `GRUPO` varchar(12) DEFAULT NULL,
+  `DELETE_AT` datetime DEFAULT NULL,
+  `TR_ID` int(11) DEFAULT NULL,
+  `SALARIO_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `users`
 --
 
-INSERT INTO `users` (`ID`, `NOME`, `CPF`, `EMAIL`, `DATA_NASCIMENTO`, `TELEFONE`, `DATA_ADMISSAO`, `SEXO`, `SENHA`, `GRUPO`, `DELETE_AT`, `TR_ID`, `SALARIO_ID`)
-VALUES
+INSERT INTO `users` (`ID`, `NOME`, `CPF`, `EMAIL`, `DATA_NASCIMENTO`, `TELEFONE`, `DATA_ADMISSAO`, `SEXO`, `SENHA`, `GRUPO`, `DELETE_AT`, `TR_ID`, `SALARIO_ID`) VALUES
 (1, 'FULANO', '05346585498', 'MATHEUS@GMAIL.COM', '9999-05-24', '55981447752', '5555-09-24', 'MASCULINO', '$2y$10$yWbj3ojEM.BChIuHyiGwZe8EFfY/qDsPMhNCO5HS4jaTSCciHbhp2', 'gerente', NULL, 1, 1),
 (4, 'teste1', '123', '', '2001-03-21', '213', '2001-03-21', 'masculino', '$2y$10$kxf4Z3vsQrWevLiLXTEUJeNNFVB15C7UYw4RSrJWYSOWt.kdVjFeq', 'auxiliar', '2024-08-04 20:10:38', 2, 3),
 (13, 'teste12', '1233', 'teste@123', '2001-03-21', '2133', '2001-03-21', 'masculino', '$2y$10$O3YpBG2TiUxPwy6Y7/jW3uTQeEc3xri6dFhcvjegCywhJ7bC8dZum', 'user', NULL, 3, 13),
@@ -141,19 +139,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `salario`
 --
 ALTER TABLE `salario`
-  MODIFY `ID` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de tabela `trabalhos`
 --
 ALTER TABLE `trabalhos`
-  MODIFY `ID` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Restrições para tabelas despejadas
@@ -165,7 +163,6 @@ ALTER TABLE `users`
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`TR_ID`) REFERENCES `trabalhos` (`ID`),
   ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`SALARIO_ID`) REFERENCES `salario` (`ID`);
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
