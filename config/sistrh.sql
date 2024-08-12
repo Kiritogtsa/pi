@@ -32,23 +32,14 @@ CREATE TABLE `salario` (
   `ir` FLOAT DEFAULT NULL,
   `inss` FLOAT DEFAULT NULL,
   `adicional` FLOAT DEFAULT NULL,
-  `salarioliquido` FLOAT DEFAULT NULL,
+  `salarioliquido` FLOAT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `salario`
 --
 
-INSERT INTO `salario` (`ID`, `salariobruto`, `ir`, `inss`, `adicional`, `salarioliquido`, `mes`, `decimo`, `ano`)
-VALUES
-(1, 5000, 500, 400, 100, 4000, 6, 500, 2024),
-(2, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(3, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(4, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(5, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(13, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(15, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL),
-(26, 1200, NULL, NULL, NULL, NULL, 8, NULL, NULL);
+
 
 -- --------------------------------------------------------
 
@@ -98,15 +89,7 @@ CREATE TABLE `users` (
 -- Despejando dados para a tabela `users`
 --
 
-INSERT INTO `users` (`ID`, `NOME`, `CPF`, `EMAIL`, `DATA_NASCIMENTO`, `TELEFONE`, `DATA_ADMISSAO`, `SEXO`, `SENHA`, `GRUPO`, `DELETE_AT`, `TR_ID`, `SALARIO_ID`)
-VALUES
-(1, 'FULANO', '05346585498', 'MATHEUS@GMAIL.COM', '9999-05-24', '55981447752', '5555-09-24', 'MASCULINO', '$2y$10$yWbj3ojEM.BChIuHyiGwZe8EFfY/qDsPMhNCO5HS4jaTSCciHbhp2', 'gerente', NULL, 1, 1),
-(4, 'teste1', '123', '', '2001-03-21', '213', '2001-03-21', 'masculino', '$2y$10$kxf4Z3vsQrWevLiLXTEUJeNNFVB15C7UYw4RSrJWYSOWt.kdVjFeq', 'auxiliar', '2024-08-04 20:10:38', 2, 3),
-(13, 'teste12', '1233', 'teste@123', '2001-03-21', '2133', '2001-03-21', 'masculino', '$2y$10$O3YpBG2TiUxPwy6Y7/jW3uTQeEc3xri6dFhcvjegCywhJ7bC8dZum', 'user', NULL, 3, 13),
-(15, '2teste12', '12332', 'teste@1232', '2001-03-21', '21331', '2001-03-21', 'masculino', '$2y$10$ia4B/osduyZiuw9RUUvEhOKJSzcKs5wQjNLBRoENUGuwI4ulvLon.', 'user', NULL, 3, 15),
-(26, '2teste12', '112332', 'teste@12321', '2001-03-21', '213311', '2001-03-21', 'masculino', '$2y$10$HpQyXnkuZpG2KDC1.pcageM0ELrXXym8eymPus4OpwvgrR.kce3rq', 'user', NULL, 3, 26);
 
---
 -- Índices para tabelas despejadas
 --
 
@@ -158,7 +141,25 @@ ALTER TABLE `users`
 --
 -- Restrições para tabelas despejadas
 --
+INSERT INTO `salario` (`salariobruto`, `ir`, `inss`, `adicional`)
+VALUES
+(5000, 500, 400, 100, 4000),
+(1200, NULL, NULL, NULL),
+(1200, NULL, NULL, NULL),
+(1200, NULL, NULL, NULL),
+(1200, NULL, NULL, NULL),
+(1200, NULL, NULL, NULL),
+(1200, NULL, NULL, NULL),
+(1200, NULL, NULL, NULL);
+INSERT INTO `users` (`ID`, `NOME`, `CPF`, `EMAIL`, `DATA_NASCIMENTO`, `TELEFONE`, `DATA_ADMISSAO`, `SEXO`, `SENHA`, `GRUPO`, `DELETE_AT`, `TR_ID`, `SALARIO_ID`)
+VALUES
+(1, 'FULANO', '05346585498', 'MATHEUS@GMAIL.COM', '9999-05-24', '55981447752', '5555-09-24', 'MASCULINO', '$2y$10$yWbj3ojEM.BChIuHyiGwZe8EFfY/qDsPMhNCO5HS4jaTSCciHbhp2', 'gerente', NULL, 1, 1),
+(4, 'teste1', '123', '', '2001-03-21', '213', '2001-03-21', 'masculino', '$2y$10$kxf4Z3vsQrWevLiLXTEUJeNNFVB15C7UYw4RSrJWYSOWt.kdVjFeq', 'auxiliar', '2024-08-04 20:10:38', 2, 3),
+(13, 'teste12', '1233', 'teste@123', '2001-03-21', '2133', '2001-03-21', 'masculino', '$2y$10$O3YpBG2TiUxPwy6Y7/jW3uTQeEc3xri6dFhcvjegCywhJ7bC8dZum', 'user', NULL, 3, 13),
+(15, '2teste12', '12332', 'teste@1232', '2001-03-21', '21331', '2001-03-21', 'masculino', '$2y$10$ia4B/osduyZiuw9RUUvEhOKJSzcKs5wQjNLBRoENUGuwI4ulvLon.', 'user', NULL, 3, 15),
+(26, '2teste12', '112332', 'teste@12321', '2001-03-21', '213311', '2001-03-21', 'masculino', '$2y$10$HpQyXnkuZpG2KDC1.pcageM0ELrXXym8eymPus4OpwvgrR.kce3rq', 'user', NULL, 3, 26);
 
+--
 --
 -- Restrições para tabelas `users`
 --
