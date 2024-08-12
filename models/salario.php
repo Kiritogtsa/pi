@@ -9,18 +9,17 @@ class Salario
     private $adicional;
     private $salarioliquido;
 
-    // nao fazia sentido o id no contrutor da classe
-    public function __construct($salariobruto, $salarioliquido = 0, $ir = 0, $inss = 0)
+    // neste construtor o usuário deve declarar o salariobruto e o adicional
+    public function __construct($salariobruto,$adicional, $salarioliquido = 0, $ir = 0, $inss = 0)
     {
         if (empty($salariobruto)) {
             throw new Exception("Preencha todos os campos obrigatórios!");
-
+        }
         $this->salariobruto = $salariobruto;
         $this->ir = $ir;
         $this->inss = $inss;
         $this->adicional = $adicional;
         $this->salarioliquido = $salarioliquido;
-    }
 }
 
     public function setId($id)
@@ -123,40 +122,24 @@ class Salario
             }
         }
     }
-    public function descINSS($salariobruto, $decimo, $mes)
+    public function descINSS($salariobruto, $decimo)
     {
-        if ($mes == 7 || $mes == 12) {
-            $salariobruto = $salariobruto * $decimo;
-            if ($salariobruto <= 1412.00) {
-                return $this->inss = $salariobruto * 0.075;
-            } else if ($salariobruto >= 1412.01 && $salariobruto <= 2666.68) {
-                return $this->inss = $salariobruto * 0.09;
-            } else if ($salariobruto >= 2666.69 && $salariobruto <= 4000.03) {
-                return $this->inss = $salariobruto * 0.12;
-            } else if ($salariobruto >= 4000.04 && $salariobruto <= 7786.02) {
-                return $this->inss = $salariobruto * 0.14;
-            } else if ($salariobruto > 7786.02) {
-                return $this->inss = 7786.02 * 0.14;
-            } else {
-                throw new Exception("Salário bruto inválido!");
-            }
+        $salariobruto = $salariobruto * $decimo;
+        if ($salariobruto <= 1412.00) {
+            return $this->inss = $salariobruto * 0.075;
+        } else if ($salariobruto >= 1412.01 && $salariobruto <= 2666.68) {
+            return $this->inss = $salariobruto * 0.09;
+        } else if ($salariobruto >= 2666.69 && $salariobruto <= 4000.03) {
+            return $this->inss = $salariobruto * 0.12;
+        } else if ($salariobruto >= 4000.04 && $salariobruto <= 7786.02) {
+            return $this->inss = $salariobruto * 0.14;
+        } else if ($salariobruto > 7786.02) {
+            return $this->inss = 7786.02 * 0.14;
         } else {
-            if ($salariobruto <= 1412.00) {
-                return $this->inss = $salariobruto * 0.075;
-            } else if ($salariobruto >= 1412.01 && $salariobruto <= 2666.68) {
-                return $this->inss = $salariobruto * 0.09;
-            } else if ($salariobruto >= 2666.69 && $salariobruto <= 4000.03) {
-                return $this->inss = $salariobruto * 0.12;
-            } else if ($salariobruto >= 4000.04 && $salariobruto <= 7786.02) {
-                return $this->inss = $salariobruto * 0.14;
-            } else if ($salariobruto > 7786.02) {
-                return $this->inss = 7786.02 * 0.14;
-            } else {
-                throw new Exception("Salário bruto inválido!");
-            }
+            throw new Exception("Salário bruto inválido!");
         }
     }
-    public function calcsalarLiquid($salariobruto, $ir, $inss, $adicional, $mes)
+    public function calcsalarLiquid($salariobruto, $ir, $inss, $adicional)
     {
         $salarioComAdicional = $salariobruto + ($salariobruto * ($adicional / 100));
         $salarioliquido = $salarioComAdicional - $ir - $inss;
