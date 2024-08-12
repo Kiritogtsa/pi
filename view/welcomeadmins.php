@@ -14,6 +14,9 @@ require_once("../controller/privilegios.php");
     <header>
         <nav class="navbar">
             <ul>
+                <li><a href="adicionar_funcionario.php">Adicionar Funcionário</a></li>
+                <li><a href="listar_funcionarios.php">Listar Funcionários</a></li>
+                <li><a href="meus_dados.php">Meus Dados</a></li>
             </ul>
         </nav>
     </header>

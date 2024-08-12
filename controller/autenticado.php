@@ -12,7 +12,7 @@ try{
     }
 }catch (Exception $e){
     $_SESSION['mensagem'] = $e->getMessage();
-    header('Location: ../view/login.html');
+    header('Location: ../view/login.php');
 }finally{
     $user = unserialize($_SESSION['user']);
 }

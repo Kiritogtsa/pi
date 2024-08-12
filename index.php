@@ -1,11 +1,11 @@
 <?php
-    if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
-            $uri = 'https://';
-    } else {
-            $uri = 'http://';
-    }
-    $uri .= $_SERVER['HTTP_HOST'];
-    header('Location: ./view/cadastrogrupo.html');
-    exit;
+if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+    $uri = 'https://';
+} else {
+    $uri = 'http://';
+}
+$uri .= $_SERVER['HTTP_HOST'];
+header('Location: ./view/cadatraruser.php');
+exit;
 ?>
 Something is wrong with the XAMPP installation :-(

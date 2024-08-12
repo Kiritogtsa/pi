@@ -75,13 +75,13 @@ class TrabalhoDAO
     }
 
     // Busca um trabalho pelo ID no banco de dados
-    public function buscarPorId($id_cargo)
+    public function buscarPorNome($nome)
     {
         // a busca ta buscando por uma coluna que nao existe na tabela
         // tinha um erro aqui no sql, o erro era  id_cargo =, agora ta correto
-        $sql = "SELECT * FROM trabalhos WHERE ID= :id_cargo";
+        $sql = "SELECT * FROM trabalhos WHERE NOME = :nome";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(":id_cargo", $id_cargo);
+        $stmt->bindParam(":nome", $nome);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$result) {
@@ -90,7 +90,7 @@ class TrabalhoDAO
             // Cria um objeto Trabalho com os dados do resultado da consulta
             // tv tem erros, o erro daqui e que o nome ea descricao tao minusculas
             $trabalho = new Trabalho($result['NOME'], $result['DESCRICAO']);
-            $trabalho->setIdCargo($result['id_cargo']); // Define o ID do trabalho
+            $trabalho->setIdCargo($result['ID']); // Define o ID do trabalho
             return $trabalho; // Retorna o objeto Trabalho encontrado
         }
     }
@@ -102,23 +102,24 @@ class TrabalhoDAO
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
 
-        $sql = "UPDATE trabalhos SET nome = :nome, descricao = :descricao WHERE id_cargo = :id_cargo";
+        $sql = "UPDATE trabalhos SET nome = :nome, descricao = :descricao WHERE ID = :id_cargo";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":descricao", $descricao);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
 
-        return $trabalho; // Retorna o objeto Trabalho atualizado
+        return "Atualizado com sucesso!"; // Retorna o objeto Trabalho atualizado
     }
 
     // Deleta um trabalho pelo ID no banco de dados
     public function deletar($id_cargo)
     {
-        $sql = "DELETE FROM trabalhos WHERE id_cargo = :id_cargo";
+        $sql = "DELETE FROM trabalhos WHERE ID = :id_cargo";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
+        return "Deletado com sucesso";
     }
 
     // Lista todos os trabalhos presentes no banco de dados
