@@ -19,9 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 // que eu faço o resto no usuario dao para chamar o salario, dai o usuario controla o solario, sem mudar muitas coisas, isso e uma idei
 if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    try {
-        // foi adicionados as variaveis para obter um salario minimo
-        if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+    $userDAO = new UserDAO();
+    if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+        try {
+            // foi adicionados as variaveis para obter um salario minimo
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
             $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -31,27 +32,25 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
             $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT); 
             $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $salario_bruto = $_POST['bruto'];
-            $mes = date('m');
-            $salario = new Salario($salario_bruto, $mes);
-            $mes = date('m');
-            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
-            $userDAO = new UserDAO();
+            $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_NUMBER_FLOAT);
+            $grupo = filter_var($_POST['grupo'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $cargo = filter_var($_POST['cargo'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
+            $salario = new Salario($salario_bruto, $adicional);
+            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario, $adicional, $grupo, $cargo);
             $userDAO->persit($user);
+        } catch (Exception $e) {
+            $userDAO->conn->rollBack();
+            $response = [
+                'success' => true,
+                'message' => 'deu algum erro',
+                'erro' => $e->getMessage()
+            ];
+            $_SESSION['mensagem'] = $e->getMessage();
+            exit();
+            header('Location: ./view/welcome');
         }
-    } catch (Exception $e) {
-        $userDAO->conn->rollBack();
-        $response = [
-            'success' => true,
-            'message' => 'deu algum erro',
-            'erro' => $e->getMessage()
-        ];
-        $_SESSION['mensagem'] = $e->getMessage();
-        exit();
-        header('Location: ./view/welcome');
     }
-
-// LISTA TODOS OS FUNCIONÁRIO
 }else if ($submit == 'users') {
         $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
         $min = filter_var($_GET['min'], FILTER_SANITIZE_NUMBER_INT);
@@ -301,7 +300,20 @@ else if ($submit == 'Buscar_cargos') {
     }
 }
 
-
+else if($submit == "Criar_cargo"){
+    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $descricao = filter_var($_POST['descricao']);
+    $trabalho = new Trabalho($nome, $descricao);
+    $TrabalhoDAO = new TrabalhoDAO();
+    $trabatualizado = $TrabalhoDAO->salvar($trabalho);
+    if(!empty($trabatualizado)){
+        $_SESSION['data'] = "Atualizado com sucesso";
+        header('Location: ../view/Criatrab.php');
+    }else{
+        $_SESSION['data'] = "Erro ao criar trabalho";
+        header('Location: ../view/Criatrab.php');
+    }
+}
 // DELETA TRABALHO
 
 else if ($submit == "Deletar_trabalho") {

@@ -89,6 +89,14 @@ class Salario
         return $this->salarioliquido;
     }
 
+
+    // Os três métodos tem que ser chamados
+   // Os três métodos tem que ser chamados
+      // Os três métodos tem que ser chamados
+         // Os três métodos tem que ser chamados
+            // Os três métodos tem que ser chamados
+               // Os três métodos tem que ser chamados
+                  // Os três métodos tem que ser chamados
     public function descIR($salariobruto, $mes, $decimo)
     {
         if ($mes == 7 || $mes == 12) {
@@ -139,6 +147,11 @@ class Salario
             throw new Exception("Salário bruto inválido!");
         }
     }
+
+    // Este é o último a ser chamado
+    // Este é o último a ser chamado
+    // Este é o último a ser chamado
+    // Este é o último a ser chamado
     public function calcsalarLiquid($salariobruto, $ir, $inss, $adicional)
     {
         $salarioComAdicional = $salariobruto + ($salariobruto * ($adicional / 100));
