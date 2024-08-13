@@ -50,8 +50,12 @@ if (empty($cargos)) {
                                                                                             ?>
         </select>
 
-        <label for='grupo'>Grupo: </label>
-        <input type='text' id='grupo' name='grupo' required>
+        <label for='grupo'>Selecione um Grupo:</label>
+        <select name="grupo" id="grupo">
+         <option value="gerente">gerente</option>
+         <option value="auxiliar">auxiliar</option>
+         <option value="user">user</option>
+       </select>
 
         <label for='Salario'>Salário bruto:</label>
         <input type='text' id='Salario' name='bruto' required>
