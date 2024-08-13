@@ -174,71 +174,43 @@ header img {
     color: #1A6F9D;              /* Cor do texto ao passar o mouse */
 }
 
+.form-container{
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-
-
-/* Estilos para o formulário de cadastro */
-.form-container {
-    display: flex; /* Usa Flexbox para organizar as tabelas lado a lado */
-    gap: 20px; /* Espaçamento entre as tabelas */
-    margin: 140px auto; /* Ajusta a margem superior para compensar o header fixo e centraliza o container */
-    padding: 20px; /* Adiciona algum padding ao redor do container */
-    max-width: 1200px; /* Define uma largura máxima para o container */
-    width: 100%; /* Faz o container preencher a largura disponível */
-    box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura e altura */
 }
 
-form {
-    width: 100%; /* Ajusta a largura do formulário para preencher o container */
-    display: flex; /* Usa Flexbox para organizar o conteúdo interno */
-    flex-wrap: wrap; /* Permite que os itens dentro do formulário se movam para a linha seguinte se necessário */
+
+.Cpessoa{
+    display: flex;
+    justify-content: flex-start; /* Alinha o formulário à direita */
+    width: 30%; /* Ocupa toda a largura da página */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);   
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
 }
 
-table {
-    width: 100%; /* Faz as tabelas preencherem a largura disponível */
-    border-collapse: collapse; /* Remove o espaçamento entre as bordas das células */
-    margin-bottom: 20px; /* Espaço abaixo das tabelas */
-    background-color: #F2F2F2; /* Fundo cinza claro para as tabelas */
-}
-
-caption {
-    font-size: 20px; /* Ajusta o tamanho da fonte do caption */
-    margin-bottom: 10px; /* Espaço abaixo do caption */
-}
-
-td {
-    padding: 10px; /* Espaçamento interno das células */
-    vertical-align: middle; /* Alinha verticalmente o conteúdo das células */
-    border: 1px solid #4B4B4B; /* Borda cinza escuro para as células */
-}
-
-input[type="text"], 
-input[type="email"], 
-input[type="date"], 
-input[type="password"], 
-select {
-    width: 100%; /* Faz os campos preencherem a largura da célula */
-    padding: 10px; /* Espaçamento interno dos campos */
-    border: 1px solid #DDDDDD; /* Borda cinza clara */
-    border-radius: 10px; /* Borda arredondada para os campos */
-    box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura e altura */
-}
-
-button[type="submit"] {
-    background-color: #FFFFFF; /* Fundo branco para o botão */
-    color: #228DC8; /* Cor do texto do botão */
-    border: 1px solid #228DC8; /* Borda na cor do texto do botão */
-    border-radius: 20px; /* Borda arredondada para o botão */
-    padding: 10px 20px; /* Espaçamento interno do botão */
-    font-size: 16px; /* Tamanho da fonte do botão */
-    cursor: pointer; /* Muda o cursor para pointer ao passar sobre o botão */
-    transition: background-color 0.3s, color 0.3s; /* Transição suave para as alterações de cor */
-    margin-top: 20px; /* Espaço acima do botão */
-}
-
-button[type="submit"]:hover {
-    background-color: #E8F4F9; /* Cor de fundo ao passar o mouse */
-    color: #1A6F9D; /* Cor do texto ao passar o mouse */
+.Csetor{
+    display: flex;
+    justify-content: flex-end; /* Alinha o formulário à direita */
+    width: 30%; /* Ocupa toda a largura da página */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
 }
 
 /* Imagem do fundo da pagina*/

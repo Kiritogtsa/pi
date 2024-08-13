@@ -53,6 +53,13 @@ if(!empty($_SESSION['buscuser'])){
                 <td><input type="text" name="trabalho" value="<?= $user->getTrabalho(); ?>"></td>
                 <td><input type="text" name="grupo" value="<?= $user->getGrupo(); ?>"></td>
             </tr>
+            <tr>
+                <th>Salário bruto</th>
+                <th>IR</th>
+                <th>INSS</th>
+                <th>Adicional</th>
+                <th>Salário líquido</th>
+            </tr>
                 <td><input type="text" name="grupo" value="<?= $salario->getSalariobruto(); ?>"></td>
                 <td><input type="text" name="grupo" value="<?= $salario->getIr(); ?>"></td>
                 <td><input type="text" name="grupo" value="<?= $salario->getInss(); ?>"></td>
