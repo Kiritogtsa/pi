@@ -458,7 +458,8 @@ class UserDAO implements crud
             $dados["ir"],
             $dados["inss"],
         );
-        $salario->setId($dados["id"]);
+        var_dump($dados);
+        $salario->setId($dados["SALARIO_ID"]);
 
 
         $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], $salario);
@@ -490,7 +491,7 @@ class UserDAO implements crud
             $dados["ir"],
             $dados["inss"],
         );
-        $salario->setId($dados["id"]);
+        $salario->setId($dados["SALARIO_ID"]);
         $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], $salario);
         $user->setId($dados["ID"]);
         $user->setDeletedAt($dados["DELETE_AT"]);
@@ -560,7 +561,7 @@ class UserDAO implements crud
                 $row["ir"],
                 $row["inss"],
             );
-            $salario->setId($row["id"]);
+            $salario->setId($row["SALARIO_ID"]);
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
@@ -601,7 +602,7 @@ class UserDAO implements crud
                 $row["ir"],
                 $row["inss"],
             );
-            $salario->setId($row["id"]);
+            $salario->setId($row["SALARIO_ID"]);
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
