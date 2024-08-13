@@ -46,12 +46,33 @@ if (empty($cargos)) {
             <input type='text' id='telefone' name='telefone' required>
         </div>
 
+<<<<<<< HEAD
         <div class="Csetor">
             <label for='grupo'>Grupo:</label>
             <input type='text' id='grupo' name='grupo' required>
 
             <label for='dataadmissao'>Data de Admissao:</label>
             <input type='date' id='dataadmissao' name='dataadmissao' required>
+=======
+        <label for='telefone'>Telefone:</label>
+        <input type='text' id='telefone' name='telefone' required>
+    
+        <label for='trabalho'>Selecione um Trabalho:</label>
+        <select name='trabalho' required>
+            <?php
+            foreach ($cargos as $cargo) {
+            ?><option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option><?php
+                                                                                        }
+                                                                                            ?>
+        </select>
+
+        <label for='grupo'>Selecione um Grupo:</label>
+        <select name="grupo" id="grupo">
+         <option value="gerente">gerente</option>
+         <option value="auxiliar">auxiliar</option>
+         <option value="user">user</option>
+       </select>
+>>>>>>> 360ac474a4a47420d0649288daa3ec20fc54ca4e
 
             <label for='Salario'>Salário bruto:</label>
             <input type='text' id='Salario' name='bruto' required>
