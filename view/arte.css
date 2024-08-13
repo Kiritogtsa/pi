@@ -49,6 +49,18 @@ header img {
     height: auto; /* Mantém a proporção da imagem */
 }
 
+input{
+    border-radius: 12px;
+    border: none;
+    background-color: #DDDDDD;
+    font-size: 20px;
+}
+select{
+    border-radius: 12px;
+    background-color: #DDDDDD;
+    border: none;
+    font-size: 20px;
+}
 /* Links */
 .links {
     display: flex;
@@ -174,43 +186,61 @@ header img {
     color: #1A6F9D;              /* Cor do texto ao passar o mouse */
 }
 
+/* Cadastro De usuaro*/
 .form-container{
     height: 100%;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
-
 
 .Cpessoa{
     display: flex;
     justify-content: flex-start; /* Alinha o formulário à direita */
-    width: 30%; /* Ocupa toda a largura da página */
-    padding: 20px;
+    width: 40%; /* Ocupa toda a largura da página */
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);   
     flex-direction: column;
     position: absolute;
     top: 50%;
-    left: 0;
+    left: 15px;
     transform: translateY(-50%);
+    background-color: rgba(131, 126, 126, 0.863);
+
 }
 
 .Csetor{
     display: flex;
     justify-content: flex-end; /* Alinha o formulário à direita */
-    width: 30%; /* Ocupa toda a largura da página */
-    background-color: #f9f9f9;
-    padding: 20px;
+    width: 40%; /* Ocupa toda a largura da página */
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     flex-direction: column;
     position: absolute;
     top: 50%;
-    right: 0;
+    right: 15px;
     transform: translateY(-50%);
+    background-color: rgba(131, 126, 126, 0.863);
+    
+}
+.Bcada {
+    position: absolute;
+    bottom: 200px;            /* Posiciona o botão na parte inferior */
+    left: 50%;            /* Centraliza o botão horizontalmente */
+    transform: translateX(-50%); /* Ajusta a posição para centralizar corretamente */
+    width: 50%;          /* Ajusta a largura do botão para preencher o formulário */
+    background-color: #FFFFFF; /* Fundo branco para o botão */
+    color: #228DC8;      /* Cor do texto do botão */
+    border: 1px solid #228DC8; /* Borda na cor do texto do botão */
+    border-radius: 20px; /* Borda arredondada para o botão */
+    padding: 10px;       /* Espaçamento interno do botão */
+    font-size: 16px;     /* Tamanho da fonte do botão */
+    cursor: pointer;     /* Muda o cursor para pointer ao passar sobre o botão */
+    transition: background-color 0.3s, color 0.3s; /* Transição suave para as alterações de cor */
+    box-sizing: border-box; 
 }
 
 /* Imagem do fundo da pagina*/

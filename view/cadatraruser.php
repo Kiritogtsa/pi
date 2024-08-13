@@ -24,6 +24,9 @@ if (empty($cargos)) {
 <div class="form-container">
     <form id='form' method='POST' action='../controller/main.php'>
         <div class="Cpessoa">
+    
+            <h1>Dados pessoais</h1>
+
             <label for='nome'>Nome:</label>
             <input type='text' id='nome' name='nome' required>
 
@@ -42,18 +45,12 @@ if (empty($cargos)) {
             <label for='senha'>Senha:</label>
             <input type='password' id='senha' name='senha' required>
 
-            <label for='telefone'>Telefone:</label>
-            <input type='text' id='telefone' name='telefone' required>
+      
         </div>
-
-<<<<<<< HEAD
         <div class="Csetor">
-            <label for='grupo'>Grupo:</label>
-            <input type='text' id='grupo' name='grupo' required>
-
+        <h1>Dados do setor</h1>
             <label for='dataadmissao'>Data de Admissao:</label>
             <input type='date' id='dataadmissao' name='dataadmissao' required>
-=======
         <label for='telefone'>Telefone:</label>
         <input type='text' id='telefone' name='telefone' required>
     
@@ -72,7 +69,6 @@ if (empty($cargos)) {
          <option value="auxiliar">auxiliar</option>
          <option value="user">user</option>
        </select>
->>>>>>> 360ac474a4a47420d0649288daa3ec20fc54ca4e
 
             <label for='Salario'>Salário bruto:</label>
             <input type='text' id='Salario' name='bruto' required>
@@ -80,20 +76,14 @@ if (empty($cargos)) {
             <label for='Adicional'>Adicional:</label>
             <input type='text' id='adicional' name='adicional' required>
 
-            <label for='trabalho'>Selecione um Cargo:</label>
-            <select name='trabalho' required>
-                <?php
-                foreach ($cargos as $cargo) {
-                ?><option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option><?php
-                }
-                ?>
             </select>
         </div>
 
-        <button type='submit' name='submit' value='Cadastrar_user'>Cadastrar-se</button>
+        <button type='submit' name='submit' value='Cadastrar_user'class="Bcada">Cadastrar</button>
     </form>
 </div>
-
+<a href="../controller/logout.php" class="logout-icon">
+        <img src="imagens/saida.png" alt="Logout">
 </body>
 
 </html>
