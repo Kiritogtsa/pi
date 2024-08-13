@@ -338,8 +338,8 @@ class UserDAO implements crud
         //   `salarioliquido` float DEFAULT NULL
         // )
 
-        $ir = $salario->descIR($salario->getSalariobruto(), 1);
-        $inss = $salario->descINSS($salario->getSalariobruto(), 1);
+        $ir = $salario->descIR($salario->getSalariobruto());
+        $inss = $salario->descINSS($salario->getSalariobruto());
         $liquido = $salario->calcsalarLiquid($salario->getSalariobruto(), $ir, $inss, 1);
         $sql = "insert into salario(salariobruto,ir,inss,adicional,salarioliquido) values(:salariobruto,:ir,:inss,:adicional.:salarioliquido)";
         $salariobruto = $salario->getSalariobruto();
