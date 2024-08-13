@@ -53,8 +53,6 @@ if (empty($cargos)) {
             <label for='dataadmissao'>Data de Admissao:</label>
             <input type='date' id='dataadmissao' name='dataadmissao' required>
 
-
-
         <label for='telefone'>Telefone:</label>
         <input type='text' id='telefone' name='telefone' required>
     
@@ -80,8 +78,12 @@ if (empty($cargos)) {
             <label for='Adicional'>Adicional:</label>
             <input type='text' id='adicional' name='adicional' required>
 
+
             </select>
 
+
+
+            </select>
 
         </div>
 
