@@ -8,21 +8,27 @@ require_once("../controller/privilegios.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de RH - Bem-vindo</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <ul>
-            </ul>
-        </nav>
+<header>
+        <img src="imagens/RH.png" alt="Logo RH Connect">
+        <h1>RH Connect</h1>
     </header>
-    <div class="container">
+    <div class="content">
         <h2>Welcome!</h2>
         <h3><?php echo (isset($_SESSION["mensagem"])) ? $_SESSION["mensagem"] : ""; ?></h3>
     </div>
-    <div class="link">
-        <a href="../controller/logout.php">Logout</a>
+
+
+    <div class="links">
+        <a href="meus_dados.php">Meus Dados</a>
     </div>
+    
+   
+
+    <a href="../controller/logout.php" class="logout-icon">
+        <img src="imagens/saida.png" alt="Logout">
+    </a>
 </body>
 </html>

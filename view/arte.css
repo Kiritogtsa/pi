@@ -25,6 +25,7 @@ body {
     font-family: 'Poppins', sans-serif; /* Aplica a fonte Poppins */
 }
 
+/* Header */
 header {
     background-color: #D9D9D9;
     font-size: 40px;
@@ -42,56 +43,66 @@ header {
     gap: 10px; /* Espaçamento entre a imagem e o texto */
 }
 
+/* Logo do Header */
 header img {
     width: 100px; /* Ajuste o tamanho da imagem conforme necessário */
     height: auto; /* Mantém a proporção da imagem */
 }
 
-/* Welcome */
-.content {
-    flex: 1; /* Faz com que a área de conteúdo preencha o espaço restante */
-    display: flex; /* Usa Flexbox para centralizar o conteúdo */
-    flex-direction: column; /* Organiza o conteúdo na coluna */
-    justify-content: center; /* Centraliza verticalmente */
-    align-items: center; /* Centraliza horizontalmente */
-    margin-top: 140px; /* Espaço para o header fixo (ajustado para o padding do header) */
-}
-
+/* Links */
 .links {
-    display: flex;               /* Exibe os links em linha */
-    gap: 20px;                   /* Espaçamento entre os links */
-    padding: 20px;              /* Adiciona um pouco de espaço interno ao redor dos links */
-    flex-wrap: wrap;            /* Permite que os links se movam para a linha seguinte se necessário */
-    justify-content: center;    /* Centraliza os links horizontalmente */
-    align-items: center;        /* Alinha os links verticalmente */
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 250px;
+    padding: 150px;
 }
 
+/* Links Individualmente */
 .links a {
-    display: inline-block;      /* Faz com que os links se comportem como blocos inline */
-    background-color: #FFFFFF;  /* Fundo branco para os links */
-    color: #228DC8;             /* Cor do texto */
-    text-decoration: none;      /* Remove o sublinhado dos links */
-    padding: 10px 20px;         /* Adiciona espaço interno */
-    border: 1px solid #228DC8;  /* Adiciona uma borda ao redor dos links */
-    border-radius: 8px;         /* Adiciona bordas arredondadas */
-    text-align: center;         /* Centraliza o texto dentro dos links */
-    font-size: 16px;            /* Ajusta o tamanho da fonte */
-    font-family: 'Poppins', sans-serif; /* Aplica a fonte Poppins aos links */
+    display: inline-block;
+    background-color: #FFFFFF;
+    color: #228DC8;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #228DC8;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .links a:hover {
-    background-color: #E8F4F9;  /* Cor de fundo ao passar o mouse */
-    border-color: #1A6F9D;      /* Cor da borda ao passar o mouse */
+    background-color: #E8F4F9;
+    border-color: #1A6F9D;
 }
 
-.logout-icon {
-    position: fixed; /* Fixa a imagem na página */
-    bottom: 20px;    /* Distância do fundo da página */
-    right: 20px;     /* Distância da borda direita da página */
-    width: 40px;     /* Ajuste o tamanho da imagem conforme necessário */
-    height: auto;    /* Mantém a proporção da imagem */
-    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+/* Área de conteúdo */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 350px;
 }
+
+/* Logout Icon */
+.logout-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: auto;
+    z-index: 1000;
+}
+
+.logout-icon img {
+    width: 100%;
+    height: auto;
+}
+
 
 .input-container {
     display: flex;               /* Usa Flexbox para organizar a imagem e o campo de entrada lado a lado */
