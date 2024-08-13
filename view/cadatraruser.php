@@ -47,14 +47,12 @@ if (empty($cargos)) {
 
       
         </div>
-<<<<<<< HEAD
+
         <div class="Csetor">
         <h1>Dados do setor</h1>
             <label for='dataadmissao'>Data de Admissao:</label>
             <input type='date' id='dataadmissao' name='dataadmissao' required>
-=======
 
->>>>>>> 11ca6408a677bd24e360df3ff815564fcdd52a74
         <label for='telefone'>Telefone:</label>
         <input type='text' id='telefone' name='telefone' required>
     
@@ -79,14 +77,11 @@ if (empty($cargos)) {
 
             <label for='Adicional'>Adicional:</label>
             <input type='text' id='adicional' name='adicional' required>
-
-<<<<<<< HEAD
             </select>
-=======
->>>>>>> 11ca6408a677bd24e360df3ff815564fcdd52a74
+
         </div>
 
-        <button type='submit' name='submit' value='Cadastrar_user'class="Bcada">Cadastrar</button>
+        <button type='submit' name='submit' value='Cadatrar_user'class="Bcada">Cadastrar</button>
     </form>
 </div>
 <a href="../controller/logout.php" class="logout-icon">

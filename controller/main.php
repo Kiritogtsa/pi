@@ -37,6 +37,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
             $salario = new Salario($salario_bruto, $adicional);
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario, $adicional, $grupo);
+            
             $userDAO->persit($user);
         } catch (Exception $e) {
             $userDAO->conn->rollBack();

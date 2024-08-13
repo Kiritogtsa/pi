@@ -294,7 +294,7 @@ class UserDAO implements crud
         if ($result == false) {
             throw new Exception("deu um erro ao criar o salario");
         }
-        var_dump($user);
+  
         $grupo = $user->getGrupo() == "" ? "user" : $user->getGrupo();
         var_dump($grupo);
         $sql = "insert into users(NOME,EMAIL,SENHA,TELEFONE,DATA_NASCIMENTO,DATA_ADMISSAO,SEXO,CPF,TR_ID,GRUPO,SALARIO_ID) values(:nome,:email,:senha,:telefone,:data_nas,:data_ad,:sexo,:cpf,:tr_id,:grupo,:salarioid)";
@@ -341,13 +341,16 @@ class UserDAO implements crud
         $ir = $salario->descIR($salario->getSalariobruto());
         $inss = $salario->descINSS($salario->getSalariobruto());
         $liquido = $salario->calcsalarLiquid($salario->getSalariobruto(), $ir, $inss, 1);
-        $sql = "insert into salario(salariobruto,ir,inss,adicional,salarioliquido) values(:salariobruto,:ir,:inss,:adicional.:salarioliquido)";
+        $adicional=$salario->getAdicional();
+        echo $ir."  ".$inss."   ".$liquido;
+        $sql = "insert into salario(salariobruto,ir,inss,adicional,salarioliquido) values(:salariobruto,:ir,:inss,:adicional,:salarioliquido)";
         $salariobruto = $salario->getSalariobruto();
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":salariobruto", $salariobruto);
         $stmt->bindParam(":ir", $ir);
         $stmt->bindParam(":inss", $inss);
         $stmt->bindParam(":salarioliquido", $liquido);
+        $stmt->bindParam(":adicional",$adicional);
         $result = $stmt->execute();
         if (!$result) {
             return false;

@@ -138,6 +138,7 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT de tabela `salario`
 --
+-- som colocar o proximo id
 ALTER TABLE `salario`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
