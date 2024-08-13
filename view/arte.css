@@ -243,61 +243,46 @@ select{
     box-sizing: border-box; 
 }
 
-/* Imagem do fundo da pagina*/
-
-.RHFUNDO {
-    position: fixed; /* Fixa a imagem na página */
-    bottom: 0px;    /* Distância do fundo da página */  
-    width: 500px;     /* Ajuste o tamanho da imagem conforme necessário */
-    height: 300px;    /* Mantém a proporção da imagem */
-    z-index: 100;   /* Garante que a imagem fique acima do restante do conteúdo */
+/* Criar tabralho*/
+.Ctab {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    border-radius: 8px;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    
 }
-.RHFUNDO-DIREITO {
-    position: fixed; /* Fixa a imagem na página */
-    top: 30px;       /* Distância do topo da página */
-    right: 20px;     /* Distância da borda direita da página */
-    width:  80px;     /* Ajuste o tamanho da imagem conforme necessário */
-    height:  80px;    /* Mantém a proporção da imagem */
-    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
-}
-.RHFUNDO-DIREITO2 {
-    position: fixed; /* Fixa a imagem na página */
-    top: 80px;       /* Distância do topo da página */
-    right: 35px;     /* Distância da borda direita da página */
-    width:  80px;     /* Ajuste o tamanho da imagem conforme necessário */
-    height:  80px;    /* Mantém a proporção da imagem */
-    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
-}
-.RHFUNDO-DIREITO3 {
-    position: fixed; /* Fixa a imagem na página */
-    top: 13px;       /* Distância do topo da página */
-    right: 60px;     /* Distância da borda direita da página */
-    width: 80px;     /* Ajuste o tamanho da imagem conforme necessário */
-    height: 80px;    /* Mantém a proporção da imagem */
-    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+.Ctab2{
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.RHFUNDO-ESQUERDA {
-    position: fixed; /* Fixa a imagem na página */
-    top: 30px;       /* Distância do topo da página */
-    left: 20px;     /* Distância da borda direita da página */
-    width:  80px;     /* Ajuste o tamanho da imagem conforme necessário */
-    height:  80px;    /* Mantém a proporção da imagem */
-    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+.Ctab input {
+    margin: 10px 0; /* Adiciona espaçamento vertical entre os inputs */
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #DDDDDD; /* Borda opcional */
+    background-color: #FFFFFF;
 }
-.RHFUNDO-ESQUERDA2 {
-    position: fixed; /* Fixa a imagem na página */
-    top: 80px;       /* Distância do topo da página */
-    left: 35px;     /* Distância da borda direita da página */
-    width:  80px;     /* Ajuste o tamanho da imagem conforme necessário */
-    height:  80px;    /* Mantém a proporção da imagem */
-    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
-}
-.RHFUNDO-ESQUERDA3 {
-    position: fixed; /* Fixa a imagem na página */
-    top: 13px;       /* Distância do topo da página */
-    left: 60px;     /* Distância da borda direita da página */
-    width: 80px;     /* Ajuste o tamanho da imagem conforme necessário */
-    height: 80px;    /* Mantém a proporção da imagem */
-    z-index: 1000;   /* Garante que a imagem fique acima do restante do conteúdo */
+
+.Bcargo {
+    position: absolute;
+    bottom: 10px;            /* Posiciona o botão na parte inferior */
+    left: 50%;            /* Centraliza o botão horizontalmente */
+    transform: translateX(-50%); /* Ajusta a posição para centralizar corretamente */
+    width: 50%;          /* Ajusta a largura do botão para preencher o formulário */
+    background-color: #FFFFFF; /* Fundo branco para o botão */
+    color: #228DC8;      /* Cor do texto do botão */
+    border: 1px solid #228DC8; /* Borda na cor do texto do botão */
+    border-radius: 20px; /* Borda arredondada para o botão */
+    padding: 10px;       /* Espaçamento interno do botão */
+    font-size: 16px;     /* Tamanho da fonte do botão */
+    cursor: pointer;     /* Muda o cursor para pointer ao passar sobre o botão */
+    transition: background-color 0.3s, color 0.3s; /* Transição suave para as alterações de cor */
+    box-sizing: border-box; 
 }
