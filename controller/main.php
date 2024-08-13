@@ -30,14 +30,13 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
             $data_admissao = filter_var($_POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
             $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT); 
+            $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_SPECIAL_CHARS); 
             $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
             $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_NUMBER_FLOAT);
             $grupo = filter_var($_POST['grupo'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $cargo = filter_var($_POST['cargo'], FILTER_SANITIZE_SPECIAL_CHARS);
             $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
             $salario = new Salario($salario_bruto, $adicional);
-            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario, $adicional, $grupo, $cargo);
+            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario, $adicional, $grupo);
             $userDAO->persit($user);
         } catch (Exception $e) {
             $userDAO->conn->rollBack();
