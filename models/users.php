@@ -270,7 +270,7 @@ class User extends UserAbstract
 {
     public function getSalario(): int
     {
-        return $this->salario->calcsalarLiquid($this->salario->getSalarioBruto(), $this->salario->getIr(), $this->salario->getInss(), $this->salario->getAdicional(), $this->salario->getMes());
+        return $this->salario->calcsalarLiquid($this->salario->getSalarioBruto(), $this->salario->getIr(), $this->salario->getInss(), $this->salario->getAdicional());
     }
 }
 
@@ -331,12 +331,19 @@ class UserDAO implements crud
     // se quiserem ou a gente pode deixar mais padrao  e deixar so um valor 
     // ces que sabem
     private function insertsalario(Salario $salario): int
-    {
-        $sql = "insert into salario(salariobruto,mes) values(:salariobruto,:mes)";
+    {  //`salariobruto` float DEFAULT NULL,
+        //   `ir` float DEFAULT NULL,
+        //   `inss` float DEFAULT NULL,
+        //   `adicional` float DEFAULT NULL,
+        //   `salarioliquido` float DEFAULT NULL
+        // )
+
+        // $salario->descIR($salario->getSalariobruto(),$salario-)
+        $sql = "insert into salario(salariobruto,ir,inss,adicional,salarioliquido) values(:salariobruto,:ir,:inss,:adicional.:salarioliquido)";
+
         $salariobruto = $salario->getSalariobruto();
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":salariobruto", $salariobruto);
-        $stmt->bindParam(":mes", $mes);
         $result = $stmt->execute();
         if (!$result) {
             return false;
@@ -445,9 +452,15 @@ class UserDAO implements crud
         }
 
         $salario = new Salario(
-            $dados['salariobruto'],
-            $dados['mes']
+            $dados["salariobruto"],
+            $dados["adicional"],
+            $dados["salarioliquido"],
+            $dados["ir"],
+            $dados["inss"],
         );
+        $salario->setId($dados["id"]);
+
+
         $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], $salario);
         $user->setId($dados["ID"]);
         $user->setDeletedAt($dados["DELETE_AT"]);
@@ -470,11 +483,14 @@ class UserDAO implements crud
         if (!$dados) {
             throw new Exception("Usuário não encontrado com o email: " . $email);
         }
-
         $salario = new Salario(
-            $dados['salariobruto'],
-            $dados['mes']
+            $dados["salariobruto"],
+            $dados["adicional"],
+            $dados["salarioliquido"],
+            $dados["ir"],
+            $dados["inss"],
         );
+        $salario->setId($dados["id"]);
         $user = new User($dados["NOME"], $dados["EMAIL"], $dados["TR_ID"], $dados["CPF"], $dados["SENHA"], $dados["DATA_NASCIMENTO"], $dados["DATA_ADMISSAO"], $dados["TELEFONE"], $dados["SEXO"], $salario);
         $user->setId($dados["ID"]);
         $user->setDeletedAt($dados["DELETE_AT"]);
@@ -538,9 +554,13 @@ class UserDAO implements crud
         $users = [];
         foreach ($results as $row) {
             $salario = new Salario(
-                $row['salariobruto'],
-                $row['mes']
+                $row["salariobruto"],
+                $row["adicional"],
+                $row["salarioliquido"],
+                $row["ir"],
+                $row["inss"],
             );
+            $salario->setId($row["id"]);
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
@@ -575,15 +595,13 @@ class UserDAO implements crud
         $users = [];
         foreach ($results as $row) {
             $salario = new Salario(
-                $row["SALARIO_ID"],
                 $row["salariobruto"],
-                $row["ir"],
-                $row["inss"],
                 $row["adicional"],
                 $row["salarioliquido"],
-                $row["mes"],
-                $row["decimo"],
+                $row["ir"],
+                $row["inss"],
             );
+            $salario->setId($row["id"]);
             $user = new User(
                 $row['NOME'],
                 $row['EMAIL'],
