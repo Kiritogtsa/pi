@@ -97,10 +97,8 @@ class Salario
             // Os três métodos tem que ser chamados
                // Os três métodos tem que ser chamados
                   // Os três métodos tem que ser chamados
-    public function descIR($salariobruto, $mes, $decimo)
+    public function descIR($salariobruto, $decimo)
     {
-        if ($mes == 7 || $mes == 12) {
-            $salariobruto = $salariobruto * $decimo;
             if ($salariobruto < 2259.20) {
                 return $this->ir = 0;
             } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
@@ -114,21 +112,6 @@ class Salario
             } else {
                 throw new Exception("Salário bruto inválido!");
             }
-        } else {
-            if ($salariobruto < 2259.20) {
-                return $this->ir = 0;
-            } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
-                return $this->ir = $salariobruto * 0.075;
-            } else if ($salariobruto >= 2826.66 && $salariobruto <= 3751.05) {
-                return $this->ir = $salariobruto * 0.15;
-            } else if ($salariobruto >= 3751.06 && $salariobruto <= 4664.68) {
-                return $this->ir = $salariobruto * 0.225;
-            } else if ($salariobruto > 4664.68) {
-                return $this->ir = $salariobruto * 0.275;
-            } else {
-                throw new Exception("Salário bruto inválido!");
-            }
-        }
     }
     public function descINSS($salariobruto, $decimo)
     {
