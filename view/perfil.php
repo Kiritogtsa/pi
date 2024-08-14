@@ -5,7 +5,7 @@ $user = unserialize($_SESSION["user"]);
 $salario = $user->getissalario();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,6 +35,20 @@ $salario = $user->getissalario();
             <td><?php echo $user->getDataAdmissao(); ?></td>
             <td><?php echo $user->getTelefone(); ?></td>
             <td><?php echo $salario->getSalariobruto(); ?></td>
+        </tr>
+        <tr class="header-row">
+            <th>Salário bruto</th>
+            <th>IR</th>
+            <th>INSS</th>
+            <th>Adicional</th>
+            <th>Salário Líquido</th>
+        </tr>
+        <tr>
+            <td><?php echo $salario->getSalariobruto(); ?>
+            <td><?php echo $salario->getIr(); ?>
+            <td><?php echo $salario->getInss(); ?>
+            <td><?php echo $salario->getAdicional(); ?>
+            <td><?php echo $salario->getSalarioliquido(); ?>
         </tr>
     </table>
 </body>
