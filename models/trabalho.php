@@ -98,6 +98,7 @@ class TrabalhoDAO
     // Atualiza um trabalho existente no banco de dados
     public function atualizar(Trabalho $trabalho)
     {
+        try{
         $id_cargo = $trabalho->getIdCargo();
         $nome = $trabalho->getNome();
         $descricao = $trabalho->getDescricao();
@@ -108,8 +109,13 @@ class TrabalhoDAO
         $stmt->bindParam(":descricao", $descricao);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
-
-        return "Atualizado com sucesso!"; // Retorna o objeto Trabalho atualizado
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $trabalho_atualziado = new Trabalho($result['NOME'], $result['DESCRICAO']);
+        $trabalho->setIdCargo($result['ID']);
+        return $trabalho; 
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
     }
 
     // Deleta um trabalho pelo ID no banco de dados

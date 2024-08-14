@@ -7,6 +7,7 @@ require_once('../controller/privilegios.php');
 if(!empty($_SESSION['buscuser'])){
     $user = unserialize($_SESSION['buscuser']['userb']);
     $salario = $user->getissalario(); 
+    $menssagem = $_SESSION['messagem']
 }
 ?>
 
@@ -25,7 +26,10 @@ if(!empty($_SESSION['buscuser'])){
     </form>
 
     <!-- Exibição do formulário para atualizar as informações do funcionário -->
-    <?php if(!empty($user)){ ?>
+    <?php if(!empty($user && $salario)){ 
+        if(!empty($messagem)){
+            echo $messagem;
+        }?>
     <form method="POST" action="../controller/main.php">
         <table>
             <!-- Dados do Funcionário -->

@@ -37,7 +37,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
             $salario = new Salario($salario_bruto, $adicional);
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario, $adicional, $grupo);
-            
             $userDAO->persit($user);
         } catch (Exception $e) {
             $userDAO->conn->rollBack();
@@ -176,17 +175,17 @@ else if ($submit == 'Buscar_funcionario') {
     $buscuser = $user->getbyName($nome);
     if (!empty($buscuser)) {
         $buscuser = serialize($buscuser);
-        $response = [
+        $userbuscado= [
             'messagem' => 'Usuário encontrado com sucesso!',
             'userb' => $buscuser
         ];
-        $_SESSION['buscuser'] = $response;
+        $_SESSION['buscuser'] = $userbuscado;
         header('Location: ../view/buscarfuncionario.php');
     } else {
-        $response = [
+        $userbuscado = [
             'messagem' => 'Usuário não encontrado!',
         ];
-        $_SESSION['buscuser'] = $response;
+        $_SESSION['buscuser'] = $userbuscado;
         header('Location: ../view/buscarfuncionario.php');
     }
     // }else{
@@ -253,18 +252,18 @@ else if ($submit == 'Buscar_cargos') {
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
     $lista_cargos = serialize($lista_cargos);
-    if ($lista_cargos) {
-        $response = [
-            'success' => true,
-            'messagem' => 'Dados recebidos com sucesso!',
+    if (!empty($lista_cargos)) {
+        $cargos = [
+            'successo' => true,
+            'menssagem' => 'Buscar realizada com sucesso!',
             'cargos' => $lista_cargos
         ];
         $_SESSION['listar'] = $response;
         header('Location: ../view/listatrabalhos.php');
     } else {
-        $response = [
-            'success' => false,
-            'messagem' => 'Erro ao obter lista de cargos.',
+        $cargos = [
+            'successo' => false,
+            'menssagem' => 'Erro ao listar os cargos',
             'cargos' => []
         ];
         $_SESSION['listar'] = $response;
@@ -287,12 +286,19 @@ else if ($submit == 'Buscar_cargos') {
         $trabalhoDAO = new TrabalhoDAO();
         $trabatu = $trabalhoDAO->atualizar($trabalho);
         if (!empty($trabatu)) {
-            $response = 'Atualizado com sucesso!';
-            $_SESSION['messagem'] = $response;
+            $trabatu = serialize(trabatu);
+            $response =[ 
+                'message' = 'Atualizado com sucesso!';
+                'trabalho' = $trabatu 
+            ];
+            $_SESSION['buscar'] = $response;
             header('Location: ../view/buscacargo.php');
         } else {
-            $response = 'Erro ao atualizar o cargo!';
-            $_SESSION['messagem'] = $response;
+            $response =[ 
+                'message' = 'Atualizado com sucesso!';
+                'trabalho' = null
+            ] 
+            $_SESSION['buscar'] = $response;
             header('Location: ../view/buscacargo.php');
         }
     } catch (Exception $e) {
