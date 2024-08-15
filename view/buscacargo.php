@@ -5,9 +5,8 @@ require_once('../controller/privilegios.php');
 
 if (!empty($_SESSION['buscar'])) {
     $response = $_SESSION['buscar'];
-    $cargos = unserialize($response['cargos']);
-    $sucesso = $response['success'];
-    $messagem = $response['messagem'];
+    $cargos = unserialize($response['trabalho']);
+    $messagem = $response['message'];
 }
 ?>
 
@@ -21,7 +20,7 @@ if (!empty($_SESSION['buscar'])) {
 </head>
 <body>
     <form method="POST" action="../controller/main.php">
-        <label for="nome">Nome trabalho:</label>
+        <label for="nome">Nome Cargo:</label>
         <input type="text" id="nome" name="nome" required>
         <button type="submit" value="Buscar_cargos" name="submit">Buscar Cargo</button>
     </form>
