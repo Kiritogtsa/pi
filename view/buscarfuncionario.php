@@ -7,8 +7,8 @@ require_once('../controller/privilegios.php');
 if(!empty($_SESSION['buscuser'])){
     $user = unserialize($_SESSION['buscuser']['userb']);
     $salario = $user->getissalario(); 
-    $menssagem = $_SESSION['messagem']
-}
+    $menssagem = $_SESSION['buscuser']['messagem'];
+};
 ?>
 
 <!DOCTYPE html>
