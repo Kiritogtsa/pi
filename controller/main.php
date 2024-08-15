@@ -295,18 +295,18 @@ else if ($submit == 'Buscar_cargos') {
         $trabalhoDAO = new TrabalhoDAO();
         $trabatu = $trabalhoDAO->atualizar($trabalho);
         if (!empty($trabatu)) {
-            $trabatu = serialize(trabatu);
+            $trabatu = serialize($trabatu);
             $response =[ 
-                'message' = 'Atualizado com sucesso!';
-                'trabalho' = $trabatu 
+                'message' => 'Atualizado com sucesso!',
+                'trabalho' => $trabatu ,
             ];
             $_SESSION['buscar'] = $response;
             header('Location: ../view/buscacargo.php');
         } else {
             $response =[ 
-                'message' = 'Atualizado com sucesso!';
-                'trabalho' = null
-            ] 
+                'message' => 'Atualizado com sucesso!',
+                'trabalho' => null
+            ] ;
             $_SESSION['buscar'] = $response;
             header('Location: ../view/buscacargo.php');
         }
