@@ -92,6 +92,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
 
 // DESATIVA DESATIVA FUNCIONARIO
 }else if ($submit == 'Desativar_usuario') {
+    echo 'chaga aqui';
             // arrumei o comportamento
             // ta funcionado agora, tava faltado pegar o id do POST
             // adicione a deserialize o usuario para verificar o grupo
@@ -119,16 +120,24 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
             try { // analisar se é getente ou auxiliar_gerente
                 if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
-                    $id = filter_var($_POST['id'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra o nome
-                    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Valida o email
-                    $data_nascimento = filter_var($_POST['data_nascimento'], FILTER_SANITIZE_NUMBER_INT); // NÃO PODE MUDAR O DATA NASCIMENTO
-                    $data_adimisao = filter_var($_POST['data_adimisao'], FILTER_SANITIZE_NUMBER_INT); // Filtra a data de admissão
-                    $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_NUMBER_INT); // Filtra o telefone
-                    $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS); // NÃO PODE MUDAR O SEXO
-                    $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_NUMBER_INT); // NÃO PODE MUDAR O CPF
-                    $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_NUMBER_INT);
-                    $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
+                    $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+                    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+                    $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
+                    $data_admissao = filter_var($_POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
+                    $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_SPECIAL_CHARS); 
+                    $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_NUMBER_FLOAT);
+                    $grupo = filter_var($_POST['grupo'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
+                    $ir = filter_var($_POST['ir'], FILTER_SANITIZE_NUMBER_FLOAT);
+                    $inss = filter_var($_POST['inss'], FILTER_SANITIZE_NUMBER_FLOAT);
+                    $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $user = new User($id,$nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
+                    $salario = new Salario($salario_bruto, $adicional);
                     $user->setId($id);
                     $userDAO = new UserDAO(); // Instancia o DAO de usuário
                     $reponse = [
