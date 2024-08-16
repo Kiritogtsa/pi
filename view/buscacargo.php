@@ -65,6 +65,7 @@ if (!empty($_SESSION['buscar'])) {
             </div>
         <?php } ?>
     </div>
-
+    <a href="../controller/logout.php" class="logout-icon">
+        <img src="imagens/saida.png" alt="Logout">
 </body>
 </html>
