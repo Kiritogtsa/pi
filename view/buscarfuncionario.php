@@ -15,15 +15,22 @@ if(!empty($_SESSION['buscuser'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
     <title>Buscar Funcionário</title>
 </head>
 <body>
+<header>
+    <img src="imagens/RH.png" alt="Logo RH Connect">
+    <h1>RH Connect</h1>
+</header>
+  
     <!-- Formulário para buscar o funcionário -->
-    <form method="POST" action="../controller/main.php">
+    <form method="POST" action="../controller/main.php" class="BuscarF">
         <input type="text" name="nome" placeholder="Digite o nome do funcionário">
         <button type="submit" value="Buscar_funcionario" name="submit">Buscar Funcionário</button>
     </form>
 
+<div class="IBuscaF">
     <!-- Exibição do formulário para atualizar as informações do funcionário -->
     <?php if(!empty($user)){ ?>
     <form method="POST" action="../controller/main.php">
@@ -40,7 +47,7 @@ if(!empty($_SESSION['buscuser'])){
                 <th>Sexo</th>
                 <th>Trabalho</th>
                 <th>Grupo</th>
-            </tr>
+            </tr> 
             <tr>
                 <td><input type="text" name="id" value="<?= $user->getId(); ?>" readonly></td>
                 <td><input type="text" name="nome" value="<?= $user->getNome(); ?>"></td>
@@ -74,5 +81,8 @@ if(!empty($_SESSION['buscuser'])){
         </table>
     </form>
     <?php } ?>
+    </div>
+    <a href="../controller/logout.php" class="logout-icon">
+        <img src="imagens/saida.png" alt="Logout">
 </body>
 </html>

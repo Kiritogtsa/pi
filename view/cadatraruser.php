@@ -50,11 +50,9 @@ if (empty($cargos)) {
 
         <div class="Csetor">
         <h1>Dados do setor</h1>
-            <label for='dataadmissao'>Data de Admissao:</label>
+        <label for='dataadmissao'>Data de Admissao:</label>
             <input type='date' id='dataadmissao' name='dataadmissao' required>
 
-        <label for='telefone'>Telefone:</label>
-        <input type='text' id='telefone' name='telefone' required>
     
         <label for='trabalho'>Selecione um Trabalho:</label>
         <select name='trabalho' required>
@@ -63,30 +61,22 @@ if (empty($cargos)) {
         ?><option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option><?php
             }
         ?>
-        </select>
-
+    </select>
         <label for='grupo'>Selecione um Grupo:</label>
-        <select name="grupo" id="grupo">
-         <option value="gerente">gerente</option>
-         <option value="auxiliar">auxiliar</option>
-         <option value="user">user</option>
-       </select>
-
-            <label for='Salario'>Salário bruto:</label>
-            <input type='text' id='Salario' name='bruto' required>
-
-            <label for='Adicional'>Adicional:</label>
-            <input type='text' id='adicional' name='adicional' required>
-
-
-            </select>
-
-
-
-            </select>
-
-        </div>
-
+    <select name="grupo" id="grupo">
+        <option value="gerente">gerente</option>
+        <option value="auxiliar">auxiliar</option>
+        <option value="user">user</option>
+    </select>
+        <label for='telefone'>Telefone:</label>
+        <input type='text' id='telefone' name='telefone' required>
+        <label for='Salario'>Salário bruto:</label>
+        <input type='text' id='Salario' name='bruto' required>
+        <label for='Adicional'>Adicional:</label>
+        <input type='text' id='adicional' name='adicional' required>
+    </select>
+    </select>
+</div>
         <button type='submit' name='submit' value='Cadatrar_user'class="Bcada">Cadastrar</button>
     </form>
 </div>

@@ -35,6 +35,9 @@ $data = $_SESSION['data'];
     <button type="submit" value="Criar_cargo" name="submit" class="Bcargo">Cadastrar cargo</button>
     </form>
 </div>
+
+<a href="../controller/logout.php" class="logout-icon">
+        <img src="imagens/saida.png" alt="Logout">
 </body>
 </html>
 

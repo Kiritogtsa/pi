@@ -53,13 +53,13 @@ input{
     border-radius: 12px;
     border: none;
     background-color: #DDDDDD;
-    font-size: 20px;
+    font-size: 30px;
 }
 select{
     border-radius: 12px;
     background-color: #DDDDDD;
     border: none;
-    font-size: 20px;
+    font-size: 30px;
 }
 /* Links */
 .links {
@@ -187,61 +187,65 @@ select{
 }
 
 /* Cadastro De usuaro*/
-.form-container{
+/* Estilo comum para ambos os formulários */
+.form-container {
     height: 100%;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
-.Cpessoa{
+.Cpessoa, .Csetor {
     display: flex;
-    justify-content: flex-start; /* Alinha o formulário à direita */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: center;
+    flex-direction: column;
     width: 40%; /* Ocupa toda a largura da página */
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);   
-    flex-direction: column;
+    border-radius: 20px; /* Borda arredondada */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve */
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco com transparência */
     position: absolute;
     top: 50%;
+    transform: translateY(-50%); /* Centraliza verticalmente */
+}
+
+
+.Cpessoa {
     left: 15px;
-    transform: translateY(-50%);
-    background-color: rgba(131, 126, 126, 0.863);
-
+    justify-content: flex-start; /* Alinha o formulário à esquerda */
 }
 
-.Csetor{
-    display: flex;
-    justify-content: flex-end; /* Alinha o formulário à direita */
-    width: 40%; /* Ocupa toda a largura da página */
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex-direction: column;
-    position: absolute;
-    top: 50%;
+.Csetor {
     right: 15px;
-    transform: translateY(-50%);
-    background-color: rgba(131, 126, 126, 0.863);
-    
+    justify-content: flex-end; /* Alinha o formulário à direita */
 }
+
+
 .Bcada {
     position: absolute;
-    bottom: 200px;            /* Posiciona o botão na parte inferior */
-    left: 50%;            /* Centraliza o botão horizontalmente */
-    transform: translateX(-50%); /* Ajusta a posição para centralizar corretamente */
-    width: 50%;          /* Ajusta a largura do botão para preencher o formulário */
-    background-color: #FFFFFF; /* Fundo branco para o botão */
-    color: #228DC8;      /* Cor do texto do botão */
-    border: 1px solid #228DC8; /* Borda na cor do texto do botão */
-    border-radius: 20px; /* Borda arredondada para o botão */
-    padding: 10px;       /* Espaçamento interno do botão */
-    font-size: 16px;     /* Tamanho da fonte do botão */
-    cursor: pointer;     /* Muda o cursor para pointer ao passar sobre o botão */
+    bottom: 30px; /* Ajuste conforme necessário para se alinhar com a margem inferior do formulário */
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza horizontalmente */
+    background-color: #228DC8; /* Cor de fundo do botão */
+    color: #FFFFFF; /* Cor do texto do botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 12px; /* Borda arredondada para o botão */
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    font-size: 16px; /* Tamanho da fonte do botão */
+    cursor: pointer; /* Muda o cursor para pointer ao passar sobre o botão */
     transition: background-color 0.3s, color 0.3s; /* Transição suave para as alterações de cor */
-    box-sizing: border-box; 
+    width: 50%; /* Ajusta a largura do botão para preencher o formulário */
+    box-sizing: border-box; /* Inclui padding e borda na largura total */
 }
+
+.Bcada:hover {
+    background-color: #1A6F9D; /* Cor de fundo do botão ao passar o mouse */
+    color: #E8F4F9; /* Cor do texto do botão ao passar o mouse */
+}
+
 
 /* Criar tabralho*/
 .Ctab {
@@ -285,4 +289,199 @@ select{
     cursor: pointer;     /* Muda o cursor para pointer ao passar sobre o botão */
     transition: background-color 0.3s, color 0.3s; /* Transição suave para as alterações de cor */
     box-sizing: border-box; 
+}
+
+/* Buscar funcionario*/
+.BuscarF {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Espaçamento ao redor do formulário */
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo branco com leve transparência */
+    border-radius: 8px; /* Borda arredondada */
+    margin: 270px 20px 20px 20px; /* Margem superior aumentada para mover o formulário para baixo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve */
+}
+
+.BuscarF input[type="text"] {
+    border-radius: 12px;
+    border: 1px solid #DDDDDD;
+    background-color: #FFFFFF;
+    padding: 10px;
+    font-size: 18px;
+    margin-right: 10px; /* Espaço entre o campo de entrada e o botão */
+}
+
+.BuscarF button {
+    background-color: #228DC8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.BuscarF button:hover {
+    background-color: #1A6F9D;
+    color: #E8F4F9;
+}
+
+/* Formulário de Exibição de Funcionário */
+.IBuscaF {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco com transparência */
+    border-radius: 8px; /* Borda arredondada */
+    margin: 100px 20px 20px 20px; /* Margem superior aumentada para mover o formulário para baixo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve */
+    overflow-x: auto; /* Permite rolar horizontalmente se necessário */
+}
+
+.IBuscaF table {
+    width: 100%;
+    border-collapse: collapse; /* Remove espaços entre as células da tabela */
+}
+
+.IBuscaF th, .IBuscaF td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #DDDDDD; /* Linha abaixo das células */
+}
+
+.IBuscaF th {
+    background-color: #F2F2F2; /* Cor de fundo para os cabeçalhos das colunas */
+}
+
+.IBuscaF td input[type="text"] {
+    border-radius: 8px;
+    border: 1px solid #DDDDDD;
+    background-color: #FFFFFF;
+    padding: 8px;
+    font-size: 16px;
+    width: 100%; /* Ocupa toda a largura da célula */
+}
+
+.IBuscaF button {
+    background-color: #228DC8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 10px; /* Espaço acima dos botões */
+}
+
+.IBuscaF button:hover {
+    background-color: #1A6F9D;
+    color: #E8F4F9;
+}
+
+
+/* Buscar Trabalho*/
+.formulario-busca-cargo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px; /* Ajuste conforme necessário */
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.formulario-busca-cargo input[type="text"] {
+    border-radius: 12px;
+    border: 1px solid #DDDDDD;
+    background-color: #FFFFFF;
+    padding: 10px;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.formulario-busca-cargo button {
+    background-color: #228DC8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.formulario-busca-cargo button:hover {
+    background-color: #1A6F9D;
+    color: #E8F4F9;
+}
+
+/* Estilo para o formulário de exibição de cargo */
+.formulario-exibicao-cargo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px; /* Ajuste conforme necessário */
+}
+
+.formulario-exibicao-cargo table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.formulario-exibicao-cargo th, .formulario-exibicao-cargo td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.formulario-exibicao-cargo th {
+    background-color: #F2F2F2;
+}
+
+.formulario-exibicao-cargo td input[type="text"] {
+    border-radius: 8px;
+    border: 1px solid #DDDDDD;
+    background-color: #FFFFFF;
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.formulario-exibicao-cargo button {
+    background-color: #228DC8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 10px;
+}
+
+.formulario-exibicao-cargo button:hover {
+    background-color: #1A6F9D;
+    color: #E8F4F9;
 }
