@@ -1,4 +1,5 @@
 <?php
+
 require_once('../models/trabalho.php');
 require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
@@ -13,7 +14,7 @@ $data = $_SESSION['data'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
-    <title>Criar Cargo</title>
+    <title>Adicionar cargo</title>
 </head>
 <body>
 <header>
@@ -25,7 +26,7 @@ $data = $_SESSION['data'];
     }?>   
 <div class="Ctab2">
 <form method="POST" action="../controller/main.php" class="Ctab" >
-<h1> Cadastrar cargo </h1>
+<h1>Adicionar cargo </h1>
     <label for="nome"></label>
     <input type="text" id="nome" name="nome" required placeholder="Nome">
         

@@ -4,11 +4,8 @@ require_once("../models/trabalho.php");
 if(!empty($_SESSION['listar'])){
 $response = $_SESSION['listar'];
 $cargos = unserialize($response['cargos']);
-$sucesso = $response['success'];
-$messagem = $response['messagem'];
-$status = true;
-}else{
-    $status = False;
+$sucesso = $response['successo'];
+$messagem = $response['menssagem'];
 }
 ?>
 
@@ -17,12 +14,15 @@ $status = true;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Listar cargos</title>
 </head>
 <body>   
 <form method='POST' action='../controller/main.php'>
 <button type='submit' name='submit' value='Listar_cargos'>Listar trabalhos</button>
 </form>
+<script>
+        document.getElementById("autoForm").submit(); //Envia o formulário automaticamente assim que a página é carregada
+    </script>
  
     <?php if($status == true){ ?>
         <?php echo $messagem ?>

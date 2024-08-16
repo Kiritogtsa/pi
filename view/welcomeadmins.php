@@ -1,6 +1,9 @@
 <?php
 require_once("../controller/autenticado.php");
 require_once("../controller/privilegios.php");
+if (!empty($_SESSION['user'])){
+    $user = unserialize($_SESSION['user']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -16,8 +19,7 @@ require_once("../controller/privilegios.php");
         <h1>RH Connect</h1>
     </header>
     <div class="content">
-        <h2>Welcome!</h2>
-        <h3><?php echo (isset($_SESSION["mensagem"])) ? $_SESSION["mensagem"] : ""; ?></h3>
+        <h2>BEM-VINDO <?php if (!empty($user)) {echo $user->getNome(); }?>!</h2>
     </div>
 
 
