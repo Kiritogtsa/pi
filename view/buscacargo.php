@@ -5,8 +5,8 @@ require_once('../controller/privilegios.php');
 
 if (!empty($_SESSION['buscar'])) {
     $response = $_SESSION['buscar'];
-    $cargos = unserialize($response['trabalho']);
-    $messagem = $response['message'];
+    $cargos = unserialize($response['cargos']);
+    $messagem = $response['messagem'];
 }
 ?>
 

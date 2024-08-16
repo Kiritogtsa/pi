@@ -21,11 +21,11 @@ $data = $_SESSION['data'];
     <img src="imagens/RH.png" alt="Logo RH Connect">
     <h1>RH Connect</h1>
 </header>
-    <?php if(!empty($data)){
-        echo $data;
-    }?>   
-<div class="Ctab2">
+<div class="Ctab2">  
 <form method="POST" action="../controller/main.php" class="Ctab" >
+<?php if(!empty($data)){
+        ?> <h1><?php echo $data ?> </h1> <?php
+    }?> 
 <h1>Adicionar cargo </h1>
     <label for="nome"></label>
     <input type="text" id="nome" name="nome" required placeholder="Nome">

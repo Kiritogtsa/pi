@@ -6,6 +6,9 @@ $response = $_SESSION['listar'];
 $cargos = unserialize($response['cargos']);
 $sucesso = $response['successo'];
 $messagem = $response['menssagem'];
+$status = true;
+}else{
+    $status= false;
 }
 ?>
 
@@ -20,10 +23,6 @@ $messagem = $response['menssagem'];
 <form method='POST' action='../controller/main.php'>
 <button type='submit' name='submit' value='Listar_cargos'>Listar trabalhos</button>
 </form>
-<script>
-        document.getElementById("autoForm").submit(); //Envia o formulário automaticamente assim que a página é carregada
-    </script>
- 
     <?php if($status == true){ ?>
         <?php echo $messagem ?>
         <table>

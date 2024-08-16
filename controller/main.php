@@ -116,40 +116,40 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
 
 // ATUALIZA USUARIO
 } else if ($submit == 'Atualizar_usuario') {
-            $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-            try { // analisar se é getente ou auxiliar_gerente
-                if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
-                    $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
-                    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-                    $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
-                    $data_admissao = filter_var($_POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
-                    $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_SPECIAL_CHARS); 
-                    $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_NUMBER_FLOAT);
-                    $grupo = filter_var($_POST['grupo'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
-                    $ir = filter_var($_POST['ir'], FILTER_SANITIZE_NUMBER_FLOAT);
-                    $inss = filter_var($_POST['inss'], FILTER_SANITIZE_NUMBER_FLOAT);
-                    $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $user = new User($id,$nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo);
-                    $salario = new Salario($salario_bruto, $adicional);
-                    $user->setId($id);
-                    $userDAO = new UserDAO(); // Instancia o DAO de usuário
-                    $reponse = [
-                        "success" => true,
-                        "messagem" => "foi modificado"
-                    ];
-                    $_SESSION['reponse'] = $response;
-                } else {
-                    header('Location: ./view/welcome');
-                }
-            } catch (Exception $e) {
-                $_SESSION['mensagem'] = $e->getMessage();
-            }
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
+    try { // analisar se é getente ou auxiliar_gerente
+        if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+            $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+            $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
+            $data_admissao = filter_var($_POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
+            $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $trabalho = filter_var($_POST['trabalho'], FILTER_SANITIZE_SPECIAL_CHARS); 
+            $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_NUMBER_FLOAT);
+            $grupo = filter_var($_POST['grupo'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
+            $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_NUMBER_FLOAT);
+            $salario = new Salario($salario_bruto, $adicional);
+            $user = new User($nome, $email, $trabalho, $cpf,$senha,$data_nascimento, $data_admissao, $telefone, $sexo,$salario);
+            $user->setId($id);
+            $user->setGrupo($grupo);
+            $userDAO = new UserDAO(); // Instancia o DAO de usuário
+            $userDAO->persit($user);
+            $reponse = [
+                "success" => true,
+                "messagem" => "foi modificado"
+            ];
+            $_SESSION['reponse'] = $response;
+        } else {
+            header('Location: ./view/welcome');
+        }
+    } catch (Exception $e) {
+        $_SESSION['mensagem'] = $e->getMessage();
+}
             
 
 // ATIVA USUARIO
@@ -261,13 +261,14 @@ else if ($submit == 'Buscar_cargos') {
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
     $lista_cargos = serialize($lista_cargos);
+    var_dump($lista_cargos);
     if (!empty($lista_cargos)) {
         $cargos = [
             'successo' => true,
             'menssagem' => 'Buscar realizada com sucesso!',
             'cargos' => $lista_cargos
         ];
-        $_SESSION['listar'] = $response;
+        $_SESSION['listar'] = $cargos;
         header('Location: ../view/listatrabalhos.php');
     } else {
         $cargos = [
@@ -275,7 +276,7 @@ else if ($submit == 'Buscar_cargos') {
             'menssagem' => 'Erro ao listar os cargos',
             'cargos' => []
         ];
-        $_SESSION['listar'] = $response;
+        $_SESSION['listar'] = $cargos;
         header('Location: ../view/listatrabalhos.php');
     }
 
