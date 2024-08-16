@@ -24,11 +24,7 @@ if (!empty($_SESSION['buscar'])) {
     <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
 </head>
 <body>
-    <form method="POST" action="../controller/main.php">
-        <label for="nome">Nome Cargo:</label>
-        <input type="text" id="nome" name="nome" required>
-        <button type="submit" value="Buscar_cargos" name="submit">Buscar Cargo</button>
-    </form>
+  
 
 <div class="container">
         <div class="formulario-busca-cargo">
