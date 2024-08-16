@@ -53,13 +53,13 @@ input{
     border-radius: 12px;
     border: none;
     background-color: #DDDDDD;
-    font-size: 30px;
+    font-size: 20px;
 }
 select{
     border-radius: 12px;
     background-color: #DDDDDD;
     border: none;
-    font-size: 30px;
+    font-size: 20px;
 }
 /* Links */
 .links {
