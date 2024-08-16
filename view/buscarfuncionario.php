@@ -32,8 +32,7 @@ if(!empty($_SESSION['buscuser'])){
     </form>
 
 <div class="IBuscaF">
-    <!-- Exibição do formulário para atualizar as informações do funcionário -->
-    <?php if(!empty($user && $salario)){ 
+<?php if(!empty($user) && !empty($salario)){ 
         if(!empty($messagem)){
             echo $messagem;
         }?>
@@ -47,18 +46,20 @@ if(!empty($_SESSION['buscuser'])){
                 <th>Data de Nascimento</th>
                 <th>Data de Admissão</th>
                 <th>Telefone</th>
+                <th>Senha</th>
                 <th>CPF</th>
                 <th>Sexo</th>
                 <th>Trabalho</th>
                 <th>Grupo</th>
-            </tr> 
+            </tr>
             <tr>
                 <td><input type="text" name="id" value="<?= $user->getId(); ?>" readonly></td>
                 <td><input type="text" name="nome" value="<?= $user->getNome(); ?>"></td>
                 <td><input type="text" name="email" value="<?= $user->getEmail(); ?>"></td>
-                <td><input type="text" name="data_nascimento" value="<?= $user->getDataNascimento(); ?>"></td>
-                <td><input type="text" name="data_admissao" value="<?= $user->getDataAdmissao(); ?>"></td>
+                <td><input type="text" name="datanascimento" value="<?= $user->getDataNascimento(); ?>"></td>
+                <td><input type="text" name="dataadmissao" value="<?= $user->getDataAdmissao(); ?>"></td>
                 <td><input type="text" name="telefone" value="<?= $user->getTelefone(); ?>"></td>
+                <td><input type="text" name="senha" value="<?= $user->getSenha(); ?>"></td>
                 <td><input type="text" name="cpf" value="<?= $user->getCpf(); ?>"></td>
                 <td><input type="text" name="sexo" value="<?= $user->getSexo(); ?>"></td>
                 <td><input type="text" name="trabalho" value="<?= $user->getTrabalho(); ?>"></td>
@@ -71,11 +72,11 @@ if(!empty($_SESSION['buscuser'])){
                 <th>Adicional</th>
                 <th>Salário líquido</th>
             </tr>
-                <td><input type="text" name="grupo" value="<?= $salario->getSalariobruto(); ?>"></td>
-                <td><input type="text" name="grupo" value="<?= $salario->getIr(); ?>"></td>
-                <td><input type="text" name="grupo" value="<?= $salario->getInss(); ?>"></td>
-                <td><input type="text" name="grupo" value="<?= $salario->getAdicional(); ?>"></td>
-                <td><input type="text" name="grupo" value="<?= $salario->getSalarioliquido(); ?>"></td>     
+                <td><input type='number' name="bruto" value="<?= $salario->getSalariobruto(); ?>"></td>
+                <td><input type='number' name="ir" value="<?= $salario->getIr(); ?>"></td>
+                <td><input type='number' name="inss" value="<?= $salario->getInss(); ?>"></td>
+                <td><input type='number' name="adicional" value="<?= $salario->getAdicional(); ?>"></td>
+                <td><input type ='number' name="grupo" value="<?= $salario->getSalarioliquido(); ?>"></td>     
             <tr>
                 <td colspan="18">
                     <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
