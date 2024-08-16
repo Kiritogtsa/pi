@@ -485,3 +485,59 @@ select{
     background-color: #1A6F9D;
     color: #E8F4F9;
 }
+
+/*perfil*/
+.perfil-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 400px auto 20px auto;
+    width: 80%;
+    max-width: 1200px;
+}
+
+/* Estilo da tabela de informações pessoais */
+.perfil-info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px; /* Espaçamento entre tabelas */
+}
+
+.perfil-info th, .perfil-info td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.perfil-info th {
+    background-color: #F2F2F2;
+}
+
+.perfil-info td {
+    background-color: #FFFFFF;
+}
+
+/* Estilo da tabela de salário */
+.perfil-salario {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.perfil-salario th, .perfil-salario td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.perfil-salario th {
+    background-color: #F2F2F2;
+}
+
+.perfil-salario td {
+    background-color: #FFFFFF;
+}

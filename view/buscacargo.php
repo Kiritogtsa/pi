@@ -21,7 +21,6 @@ if (!empty($_SESSION['buscar'])) {
 </head>
 <body>
     <title>Buscar cargo</title>
-    <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
 </head>
 <body>
   
@@ -64,6 +63,7 @@ if (!empty($_SESSION['buscar'])) {
                 </form>
             </div>
         <?php } ?>
+       
     </div>
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">

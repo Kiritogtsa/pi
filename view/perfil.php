@@ -9,47 +9,62 @@ $salario = $user->getissalario();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
     <title>Perfil usuário</title>
 </head>
 <body>
-    <table>
-        <tr class="header-row">
-            <th>Nome</th>
-            <th>Email</th>
-            <th>CPF</th>
-            <th>Data de Nascimento</th>
-            <th>Sexo</th>
-            <th>Trabalho</th>
-            <th>Grupo</th>
-            <th>Data de Admissão</th>
-            <th>Telefone</th>
-        </tr>
-        <tr>
-            <td><?php echo $user->getNome(); ?></td>
-            <td><?php echo $user->getEmail(); ?></td>
-            <td><?php echo $user->getCPF(); ?></td>
-            <td><?php echo $user->getDataNascimento(); ?></td>
-            <td><?php echo $user->getSexo(); ?></td>
-            <td><?php echo $user->getTrabalho(); ?></td>
-            <td><?php echo $user->getGrupo(); ?></td>
-            <td><?php echo $user->getDataAdmissao(); ?></td>
-            <td><?php echo $user->getTelefone(); ?></td>
-            <td><?php echo $salario->getSalariobruto(); ?></td>
-        </tr>
-        <tr class="header-row">
-            <th>Salário bruto</th>
-            <th>IR</th>
-            <th>INSS</th>
-            <th>Adicional</th>
-            <th>Salário Líquido</th>
-        </tr>
-        <tr>
-            <td><?php echo $salario->getSalariobruto(); ?>
-            <td><?php echo $salario->getIr(); ?>
-            <td><?php echo $salario->getInss(); ?>
-            <td><?php echo $salario->getAdicional(); ?>
-            <td><?php echo $salario->getSalarioliquido(); ?>
-        </tr>
-    </table>
+<header>
+    <img src="imagens/RH.png" alt="Logo RH Connect">
+    <h1>RH Connect</h1>
+</header>
+    <div class="perfil-container">
+        <!-- Tabela de Informações Pessoais -->
+        <table class="perfil-info">
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>CPF</th>
+                <th>Data de Nascimento</th>
+                <th>Sexo</th>
+                <th>Trabalho</th>
+                <th>Grupo</th>
+                <th>Data de Admissão</th>
+                <th>Telefone</th>
+            </tr>
+            <tr>
+                <td><?php echo $user->getNome(); ?></td>
+                <td><?php echo $user->getEmail(); ?></td>
+                <td><?php echo $user->getCPF(); ?></td>
+                <td><?php echo $user->getDataNascimento(); ?></td>
+                <td><?php echo $user->getSexo(); ?></td>
+                <td><?php echo $user->getTrabalho(); ?></td>
+                <td><?php echo $user->getGrupo(); ?></td>
+                <td><?php echo $user->getDataAdmissao(); ?></td>
+                <td><?php echo $user->getTelefone(); ?></td>
+            </tr>
+        </table>
+
+        <!-- Tabela de Salário -->
+        <table class="perfil-salario">
+            <tr>
+                <th>Salário bruto</th>
+                <th>IR</th>
+                <th>INSS</th>
+                <th>Adicional</th>
+                <th>Salário Líquido</th>
+            </tr>
+            <tr>
+                <td><?php echo $salario->getSalariobruto(); ?></td>
+                <td><?php echo $salario->getIr(); ?></td>
+                <td><?php echo $salario->getInss(); ?></td>
+                <td><?php echo $salario->getAdicional(); ?></td>
+                <td><?php echo $salario->getSalarioliquido(); ?></td>
+            </tr>
+        </table>
+    </div>
+
+    <a href="../controller/logout.php" class="logout-icon">
+        <img src="imagens/saida.png" alt="Logout">
+    </a>
 </body>
 </html>
