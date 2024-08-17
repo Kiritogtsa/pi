@@ -117,6 +117,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     // ATUALIZA USUARIO
 } else if ($submit == 'Atualizar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
+    $userDAO = new UserDAO(); // Instancia o DAO de usuário
     try { // analisar se é getente ou auxiliar_gerente
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
@@ -137,7 +138,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
             $user->setId($id);
             $user->setGrupo($grupo);
-            $userDAO = new UserDAO(); // Instancia o DAO de usuário
             $userDAO->persit($user);
             $response = [
                 "success" => true,
@@ -145,6 +145,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             ];
             $_SESSION['reponse'] = $response;
         } else {
+            $userDAO->conn->rollBack();
             header('Location: ./view/welcome');
         }
     } catch (Exception $e) {

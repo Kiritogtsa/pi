@@ -342,7 +342,6 @@ class UserDAO implements crud
         $inss = $salario->descINSS($salario->getSalariobruto());
         $liquido = $salario->calcsalarLiquid($salario->getSalariobruto(), $ir, $inss, 1);
         $adicional = $salario->getAdicional();
-        echo $ir . "  " . $inss . "   " . $liquido;
         $sql = "insert into salario(salariobruto,ir,inss,adicional,salarioliquido) values(:salariobruto,:ir,:inss,:adicional,:salarioliquido)";
         $salariobruto = $salario->getSalariobruto();
         $stmt = $this->conn->prepare($sql);
@@ -395,10 +394,30 @@ class UserDAO implements crud
         $user->setId($this->conn->lastInsertId());
         return $user;
     }
+    private function updatesalario(Salario $salario): Salario
+    {
+        $sql = "UPDATE salario SET salariobruto=:bruto,ir=:ir,inss=:inss,adicional=:adicional,salarioliquido=:liquido WHERE ID=:id";
+        $id = $salario->getId();
+        $bruto = $salario->getSalariobruto();
+        $liquido = $salario->getSalarioliquido();
+        $ir = $salario->getIr();
+        $inss = $salario->getInss();
+        $adicional = $salario->getAdicional();
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":ir", $ir);
+        $stmt->bindParam(":inss", $inss);
+        $stmt->bindParam(":adicional", $adicional);
+        $stmt->bindParam(":liquido", $liquido);
+        $stmt->execute();
+        echo "correto";
+        return $salario;
+    }
     // ele atualiza um usuario
     private function update(User $user): User
     {
-        echo "chega aqui no update" . "\n";
+        $this->conn->beginTransaction();
+        $this->updatesalario($user->getissalario());
         $sql = "UPDATE users SET 
             NOME = :nome,
             EMAIL = :email,
@@ -427,7 +446,7 @@ class UserDAO implements crud
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->bindParam(":salarioid", $salario);
         $stmt->execute();
-        echo "update executa o sql" . "\n";
+        $this->conn->commit();
         return $user;
     }
 
