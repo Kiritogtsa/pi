@@ -145,10 +145,11 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             ];
             $_SESSION['reponse'] = $response;
         } else {
-            $userDAO->conn->rollBack();
+            $response = ["success" => false, "messagem" => "nao e auteticado"];
             header('Location: ./view/welcome');
         }
     } catch (Exception $e) {
+        $userDAO->conn->rollBack();
         $_SESSION['mensagem'] = $e->getMessage();
     }
 
@@ -294,6 +295,7 @@ else if ($submit == "Atualizar_trabalho") {
             $trabatu = $trabalhoDAO->atualizar($trabalho);
             $trabatu = serialize($trabatu);
             $response = [
+                'success' => true,
                 'message' => 'Atualizado com sucesso!',
                 'trabalho' => $trabatu,
             ];
@@ -303,7 +305,8 @@ else if ($submit == "Atualizar_trabalho") {
         }
     } catch (Exception $e) {
         $response = [
-            'message' => 'Atualizado com sucesso!',
+            'success' => false,
+            'message' => 'erro ao atualizar',
             'trabalho' => $e->getMessage()
         ];
         $_SESSION['buscar'] = $response;
