@@ -399,11 +399,13 @@ class UserDAO implements crud
         $sql = "UPDATE salario SET salariobruto=:bruto,ir=:ir,inss=:inss,adicional=:adicional,salarioliquido=:liquido WHERE ID=:id";
         $id = $salario->getId();
         $bruto = $salario->getSalariobruto();
-        $liquido = $salario->getSalarioliquido();
         $ir = $salario->getIr();
         $inss = $salario->getInss();
         $adicional = $salario->getAdicional();
         $stmt =  $this->conn->prepare($sql);
+        $salario->calcsalarLiquid($bruto, $ir, $inss, $adicional);
+        $liquido = $salario->getSalarioliquido();
+        $stmt->bindParam(":bruto", $bruto);
         $stmt->bindParam(":id", $id);
         $stmt->bindParam(":ir", $ir);
         $stmt->bindParam(":inss", $inss);

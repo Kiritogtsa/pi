@@ -10,7 +10,7 @@ class Salario
     private $salarioliquido;
 
     // neste construtor o usuário deve declarar o salariobruto e o adicional
-    public function __construct($salariobruto,$adicional, $salarioliquido = 0, $ir = 0, $inss = 0)
+    public function __construct($salariobruto, $adicional, $salarioliquido = 0, $ir = 0, $inss = 0)
     {
         if (empty($salariobruto)) {
             throw new Exception("Preencha todos os campos obrigatórios!");
@@ -20,7 +20,7 @@ class Salario
         $this->inss = $inss;
         $this->adicional = $adicional;
         $this->salarioliquido = $salarioliquido;
-}
+    }
 
     public function setId($id)
     {
@@ -91,27 +91,27 @@ class Salario
 
 
     // Os três métodos tem que ser chamados
-   // Os três métodos tem que ser chamados
-      // Os três métodos tem que ser chamados
-         // Os três métodos tem que ser chamados
-            // Os três métodos tem que ser chamados
-               // Os três métodos tem que ser chamados
-                  // Os três métodos tem que ser chamados
+    // Os três métodos tem que ser chamados
+    // Os três métodos tem que ser chamados
+    // Os três métodos tem que ser chamados
+    // Os três métodos tem que ser chamados
+    // Os três métodos tem que ser chamados
+    // Os três métodos tem que ser chamados
     public function descIR($salariobruto)
     {
-            if ($salariobruto < 2259.20) {
-                return $this->ir = 0;
-            } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
-                return $this->ir = $salariobruto * 0.075;
-            } else if ($salariobruto >= 2826.66 && $salariobruto <= 3751.05) {
-                return $this->ir = $salariobruto * 0.15;
-            } else if ($salariobruto >= 3751.06 && $salariobruto <= 4664.68) {
-                return $this->ir = $salariobruto * 0.225;
-            } else if ($salariobruto > 4664.68) {
-                return $this->ir = $salariobruto * 0.275;
-            } else {
-                throw new Exception("Salário bruto inválido!");
-            }
+        if ($salariobruto < 2259.20) {
+            return $this->ir = 0;
+        } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
+            return $this->ir = $salariobruto * 0.075;
+        } else if ($salariobruto >= 2826.66 && $salariobruto <= 3751.05) {
+            return $this->ir = $salariobruto * 0.15;
+        } else if ($salariobruto >= 3751.06 && $salariobruto <= 4664.68) {
+            return $this->ir = $salariobruto * 0.225;
+        } else if ($salariobruto > 4664.68) {
+            return $this->ir = $salariobruto * 0.275;
+        } else {
+            throw new Exception("Salário bruto inválido!");
+        }
     }
     public function descINSS($salariobruto)
     {
