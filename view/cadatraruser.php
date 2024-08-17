@@ -59,8 +59,8 @@ if (empty($cargos)) {
                     <?php
                     foreach ($cargos as $cargo) {
                     ?><option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option><?php
-                                                                                    }
-                                                                                        ?>
+                                                                                                }
+                                                                                                    ?>
                 </select>
                 <label for='grupo'>Selecione um Grupo:</label>
                 <select name="grupo" id="grupo">
