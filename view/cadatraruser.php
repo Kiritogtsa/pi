@@ -71,7 +71,7 @@ if (empty($cargos)) {
                 <label for='telefone'>Telefone:</label>
                 <input type='text' id='telefone' name='telefone' required>
                 <label for='Salario'>Salário bruto:</label>
-                <input type='number' id='Salario' name='bruto' required>
+                <input type='text' id='Salario' name='bruto' required>
                 <label for='Adicional'>Adicional:</label>
                 <input type='number' id='adicional' name='adicional' required>
                 </select>
