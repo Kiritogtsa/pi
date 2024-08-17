@@ -73,7 +73,7 @@ if (empty($cargos)) {
         <label for='Salario'>Salário bruto:</label>
         <input type='text' id='Salario' name='bruto' required>
         <label for='Adicional'>Adicional:</label>
-        <input type='text' id='adicional' name='adicional' required>
+        <input type='number' id='adicional' name='adicional' required>
     </select>
     </select>
 </div>
