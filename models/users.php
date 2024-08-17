@@ -415,6 +415,7 @@ class UserDAO implements crud
         $telefone = $user->getTelefone();
         $cpf = $user->getCpf();
         $sexo = $user->getSexo();
+        $salario = $user->getslario()->getId();
         $stmt = $this->conn->prepare($sql);
         echo "update prepara o sql" . "\n";
         $stmt->bindParam(":id", $id);
@@ -424,7 +425,7 @@ class UserDAO implements crud
         $stmt->bindParam(":cpf", $cpf);
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_ad", $data_adimisao);
-        $stmt->bindParam(":salarioid", $user->getslario()->getId());
+        $stmt->bindParam(":salarioid", $salario);
         $stmt->execute();
         echo "update executa o sql" . "\n";
         return $user;

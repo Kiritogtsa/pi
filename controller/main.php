@@ -139,7 +139,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $user->setGrupo($grupo);
             $userDAO = new UserDAO(); // Instancia o DAO de usuário
             $userDAO->persit($user);
-            $reponse = [
+            $response = [
                 "success" => true,
                 "messagem" => "foi modificado"
             ];
