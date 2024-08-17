@@ -24,25 +24,12 @@ if (!empty($_SESSION['buscar'])) {
 </head>
 <body>
   
-
 <div class="container">
         <div class="formulario-busca-cargo">
             <form method="POST" action="../controller/main.php">
                 <label for="nome">Nome trabalho:</label>
                 <input type="text" id="nome" name="nome" required>
                 <button type="submit" value="Buscar_cargos" name="submit">Buscar Cargo</button>
-                <table>
-                    <tr>
-                        <td><input type="text" name="id" value="<?php echo ($cargos->getIdCargo()); ?>"></td>
-                        <td><input type="text" name="nome" value="<?php echo ($cargos->getNome()); ?>"></td>
-                        <td><input type="text" name="descricao" value="<?php echo ($cargos->getDescricao()); ?>"></td>
-                        <td>
-                            ou
-                            <button type="submit" value="Atualizar_trabalho" name="submit">Atualizar</button>
-                            <button type="submit" value="Deletar_trabalho" name="submit">Deletar</button>
-                        </td>
-                    </tr>
-                </table>
             </form>
         </div>
 
