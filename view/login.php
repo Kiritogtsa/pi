@@ -1,3 +1,17 @@
+<?php
+//primeiro = len() | count() 
+//maximo = primeiro + 6
+
+for($id=0;$id<21;$i++){
+
+}
+
+
+// USUARIO 1= ID = 1
+// USUARIO 2 = ID = 5
+// USUARIO 3 = ID = 21
+
+?> 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

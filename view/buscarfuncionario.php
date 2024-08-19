@@ -75,6 +75,7 @@ if (!empty($_SESSION['buscuser'])) {
                         <th>Adicional</th>
                         <th>Salário líquido</th>
                     </tr>
+                    <input type='number' hidden name ='id' value = '<? $salario->getId();?>'>
                     <td><input type='number' name="bruto" value="<?= $salario->getSalariobruto(); ?>"></td>
                     <td><input type='number' name="ir" value="<?= $salario->getIr(); ?>"></td>
                     <td><input type='number' name="inss" value="<?= $salario->getInss(); ?>"></td>
@@ -84,6 +85,7 @@ if (!empty($_SESSION['buscuser'])) {
                         <td colspan="18">
                             <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
                             <button type="submit" value="Desativar_usuario" name="submit">Desativar</button>
+                            <button type="submit" value="Ativar_usuario" name="submit">Ativar</button>
                         </td>
                     </tr>
                 </table>

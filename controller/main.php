@@ -99,7 +99,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     $id = isset($_POST['id']) ? $_POST['id'] : null;
     // teste corretemente agora, o if nao ta comparando os literais com nada
     // depois coloca os headers de volta pelo momento
-    if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
+    if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null && $id != 1) {
         try {
             // adiconem
             $userDAO = new UserDAO();
@@ -125,7 +125,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
             $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
             $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
             $data_admissao = filter_var($_POST['dataadmissao'], FILTER_SANITIZE_NUMBER_INT);
             $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -135,7 +135,11 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
             $adicional = filter_var($_POST['adicional'], FILTER_SANITIZE_NUMBER_FLOAT);
             $salario = new Salario($salario_bruto, $adicional);
-            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
+            $salario->setId($id);
+            $salario->descIR($salario->getSalariobruto());
+            $salario->descINSS($salario->getSalariobruto());
+            var_dump($salario);
+            $user = new User($nome, $email, $trabalho, $cpf, "", $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
             $user->setId($id);
             $user->setGrupo($grupo);
             $userDAO->persit($user);
@@ -160,6 +164,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     // ta funcionado agora, tava faltado pegar o id do POS, a verificaçao tava meio incompleta
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;
+    echo $id;
     if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
         try {
             // adiconem
@@ -209,20 +214,21 @@ else if ($submit == 'Buscar_funcionario') {
         $userDAO = new UserDAO(); // Instancia o DAO de usuário
         $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
         if (password_verify($senha, $user->getSenha())) {
-            if ($user->getGrupo() == 'gerente' || $user->getGrupo() == 'auxiliar') {
+            if ($user->getGrupo() == 'gerente' || $user->getGrupo() == 'auxiliar' && $user->getDeletedAt() ==null) {
                 $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
                 $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
                 header('Location: ../view/welcomeadmins.php'); // Redireciona para o perfil do usuário
                 exit();
-            } else {
+            } else if($user->getDeletedAt()==null) {
                 $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
                 $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
                 header('Location: ../view/welcome.php'); // Redireciona para o perfil do usuário
                 exit();
+            }else{
+                $_SESSION['autenticacao'] =  false; // Define a autenticação como verdadeira
+                header('Location: ../view/login.php');
             }
         } else {
-            // Caso a senha não corresponda, redireciona para o perfil
-            // Armazena o usuário na sessão
             $_SESSION['autenticacao'] =  false; // Define a autenticação como verdadeira
             header('Location: ../view/login.php'); // Redireciona para o perfil do usuário=
             exit();
