@@ -28,11 +28,12 @@ if(!empty($_SESSION['listar'])){
     <div class="container">
         <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
             <button type="submit" name="submit" value="Listar_cargos" class="Bcargo">Listar trabalhos</button>
-        </form>
-
-        <?php if ($status == true) { ?>
+            <?php if ($status == true) { ?>
             <div class="formulario-exibicao-cargo">
                 <?php echo $messagem; ?>
+        </form>
+
+      
                 <table>
                     <tr>
                         <th>ID</th>
@@ -52,5 +53,7 @@ if(!empty($_SESSION['listar'])){
     </div>
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">
+    </a>
+    <a class="back-button" onclick="window.history.back();">Voltar</a>
 </body>
 </html>

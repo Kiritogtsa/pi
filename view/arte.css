@@ -542,3 +542,21 @@ select{
     background-color: #FFFFFF;
 }
 
+
+ .back-button {
+            position: fixed; /* Faz o botão ficar fixo na tela */
+            top: 10px; /* Distância do topo */
+            left: 10px; /* Distância da esquerda */
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000; /* Garante que o botão fique sobre outros elementos */
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }

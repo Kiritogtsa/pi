@@ -66,5 +66,6 @@ $salario = $user->getissalario();
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">
     </a>
+        <a class="back-button" onclick="window.history.back();">Voltar</a>
 </body>
 </html>
