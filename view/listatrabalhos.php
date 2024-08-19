@@ -2,11 +2,11 @@
 require_once("../controller/privilegios.php");
 require_once("../models/trabalho.php");
 if(!empty($_SESSION['listar'])){
-$response = $_SESSION['listar'];
-$cargos = unserialize($response['cargos']);
-$sucesso = $response['successo'];
-$messagem = $response['menssagem'];
-$status = true;
+    $response = $_SESSION['listar'];
+    $cargos = unserialize($response['cargos']);
+    $sucesso = $response['successo'];
+    $messagem = $response['menssagem'];
+    $status = true;
 }else{
     $status= false;
 }
@@ -18,31 +18,39 @@ $status = true;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar cargos</title>
+    <link rel="stylesheet" href="arte.css"> <!-- Link para o arquivo CSS -->
 </head>
-<body>   
-<form method='POST' action='../controller/main.php'>
-<button type='submit' name='submit' value='Listar_cargos'>Listar trabalhos</button>
-</form>
-    <?php if($status == true){ ?>
-        <?php echo $messagem ?>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>NOME</th>
-                <th>DESCRIÇÃO</th>
-            </tr>
-            <tr>
-                <?php foreach($cargos as $cg){ ?>
-                <th><?php echo $cg->getIdCargo(); ?></th>    
-                <th><?php echo $cg->getNome(); ?></th>
-                <th><?php echo $cg->getDescricao(); ?></th>
-                <?php }; ?>
-            </tr>
+<body>
+<header>
+        <img src="imagens/RH.png" alt="Logo RH Connect">
+        <h1>RH Connect</h1>
+    </header>
+    <div class="container">
+        <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
+            <button type="submit" name="submit" value="Listar_cargos" class="Bcargo">Listar trabalhos</button>
+        </form>
+
+        <?php if ($status == true) { ?>
+            <div class="formulario-exibicao-cargo">
+                <?php echo $messagem; ?>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>NOME</th>
+                        <th>DESCRIÇÃO</th>
+                    </tr>
+                    <?php foreach ($cargos as $cg) { ?>
+                        <tr>
+                            <td><?php echo $cg->getIdCargo(); ?></td>
+                            <td><?php echo $cg->getNome(); ?></td>
+                            <td><?php echo $cg->getDescricao(); ?></td>
+                        </tr>
+                    <?php } ?>
                 </table>
-    <?php }else{
-        if($status == true){
-        echo $messagem;
-        }
-    } ?>
+            </div>
+        <?php } ?>
+    </div>
+    <a href="../controller/logout.php" class="logout-icon">
+        <img src="imagens/saida.png" alt="Logout">
 </body>
 </html>

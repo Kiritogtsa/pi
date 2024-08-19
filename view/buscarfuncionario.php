@@ -62,7 +62,6 @@ if (!empty($_SESSION['buscuser'])) {
                         <td><input type="text" name="datanascimento" value="<?= $user->getDataNascimento(); ?>"></td>
                         <td><input type="text" name="dataadmissao" value="<?= $user->getDataAdmissao(); ?>"></td>
                         <td><input type="text" name="telefone" value="<?= $user->getTelefone(); ?>"></td>
-                        <td><input type="text" name="senha" value="<?= $user->getSenha(); ?>"></td>
                         <td><input type="text" name="cpf" value="<?= $user->getCpf(); ?>"></td>
                         <td><input type="text" name="sexo" value="<?= $user->getSexo(); ?>"></td>
                         <td><input type="text" name="trabalho" value="<?= $user->getTrabalho(); ?>"></td>
