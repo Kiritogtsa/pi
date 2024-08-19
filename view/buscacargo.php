@@ -22,8 +22,10 @@ if (!empty($_SESSION['buscar'])) {
 </head>
 
 <body>
-
-    <body>
+<header>
+        <img src="imagens/RH.png" alt="Logo RH Connect">
+        <h1>RH Connect</h1>
+    </header>
 
 
         <div class="container">
@@ -57,6 +59,8 @@ if (!empty($_SESSION['buscar'])) {
         </div>
         <a href="../controller/logout.php" class="logout-icon">
             <img src="imagens/saida.png" alt="Logout">
+            </a>
+            <a href="welcomeadmins.php"class="back-button">Voltar</a>
     </body>
 
 </html>

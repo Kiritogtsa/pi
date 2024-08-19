@@ -17,6 +17,10 @@ if(!empty($_SESSION['buscuser'])){
     <title>Buscar Funcionário</title>
 </head>
 <body>
+<header>
+        <img src="imagens/RH.png" alt="Logo RH Connect">
+        <h1>RH Connect</h1>
+    </header>
     <!-- Formulário para buscar o funcionário -->
     <form method="POST" action="../controller/main.php">
         <input type="text" name="nome" placeholder="Digite o nome do funcionário">
