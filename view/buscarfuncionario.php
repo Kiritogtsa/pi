@@ -49,7 +49,6 @@ if (!empty($_SESSION['buscuser'])) {
                         <th>Data de Nascimento</th>
                         <th>Data de Admissão</th>
                         <th>Telefone</th>
-                        <th>Senha</th>
                         <th>CPF</th>
                         <th>Sexo</th>
                         <th>Trabalho</th>
@@ -92,7 +91,6 @@ if (!empty($_SESSION['buscuser'])) {
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">
         </a>
-        <a class="back-button" onclick="window.history.back();">Voltar</a>
+        <a href="welcomeadmins.php"class="back-button">Voltar</a>
 </body>
-
 </html>

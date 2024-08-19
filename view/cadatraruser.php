@@ -83,7 +83,7 @@ if (empty($cargos)) {
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">
         </a>
-        <a class="back-button" onclick="window.history.back();">Voltar</a>
+        <a href="welcomeadmins.php"class="back-button">Voltar</a>
 </body>
 
 </html>
