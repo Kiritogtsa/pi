@@ -25,7 +25,7 @@ if (!empty($_SESSION['buscuser'])) {
 <body>
     <header>
         <img src="imagens/RH.png" alt="Logo RH Connect">
-        <h1>RH Connect</h1>
+        <h1>Buscar Funcionário</h1>
     </header>
 
     <!-- Formulário para buscar o funcionário -->

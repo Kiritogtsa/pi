@@ -19,7 +19,7 @@ if (empty($cargos)) {
 <body>
     <header>
         <img src="imagens/RH.png" alt="Logo RH Connect">
-        <h1>RH Connect</h1>
+        <h1>Cadastrar Usuario</h1>
     </header>
     <div class="form-container">
         <form id='form' method='POST' action='../controller/main.php'>

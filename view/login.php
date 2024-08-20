@@ -2,9 +2,9 @@
 //primeiro = len() | count() 
 //maximo = primeiro + 6
 
-for($id=0;$id<21;$i++){
+//for($id=0;$id<21;$i++){
 
-}
+//  }
 
 
 // USUARIO 1= ID = 1

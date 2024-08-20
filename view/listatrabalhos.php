@@ -23,7 +23,7 @@ if(!empty($_SESSION['listar'])){
 <body>
 <header>
         <img src="imagens/RH.png" alt="Logo RH Connect">
-        <h1>RH Connect</h1>
+        <h1>Lista de Trabalhos</h1>
     </header>
     <div class="container">
         <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
