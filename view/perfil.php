@@ -15,7 +15,7 @@ $salario = $user->getissalario();
 <body>
 <header>
     <img src="imagens/RH.png" alt="Logo RH Connect">
-    <h1>RH Connect</h1>
+    <h1>Perfil</h1>
 </header>
     <div class="perfil-container">
         <!-- Tabela de Informações Pessoais -->
@@ -66,6 +66,10 @@ $salario = $user->getissalario();
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">
     </a>
-    <a href="welcomeadmins.php"class="back-button">Voltar</a>
+    <?php if($user->getGrupo() == 'gerente' || $user->getGrupo() == 'auxiliar'){ ?>
+        <a href="welcomeadmins.php"class="back-button">Voltar</a>
+    <?php }else{ ?>
+        <a href="welcome.php"class="back-button">Voltar</a>
+    <?php } ?>
 </body>
 </html>

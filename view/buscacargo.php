@@ -24,7 +24,7 @@ if (!empty($_SESSION['buscar'])) {
 <body>
 <header>
         <img src="imagens/RH.png" alt="Logo RH Connect">
-        <h1>RH Connect</h1>
+        <h1>Buscar Cargo</h1>
     </header>
 
 
