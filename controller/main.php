@@ -60,7 +60,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             header('Location: ./view/cadatraruser.php');
         }
     }
-} else if ($submit == 'users') {
+} else if ($submit == 'Listar_funcionario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $min = filter_var($_GET['min'], FILTER_SANITIZE_NUMBER_INT);
     $max = filter_var($_GET['max'], FILTER_SANITIZE_NUMBER_INT);

@@ -31,7 +31,7 @@ if (empty($cargos)) {
                 <input type='text' id='nome' name='nome' required>
 
                 <label for='cpf'>CPF:</label>
-                <input type='text' id='cpf' name='cpf' required>
+                <input type='text' min="11" max="14" id='cpf' name='cpf' required>
 
                 <label for='sexo'>Sexo:</label>
                 <input type='text' id='sexo' name='sexo' required>
@@ -68,10 +68,13 @@ if (empty($cargos)) {
                     <option value="auxiliar">auxiliar</option>
                     <option value="user">user</option>
                 </select>
-                <label for='telefone'>Telefone:</label>
-                <input type='text' id='telefone' name='telefone' required>
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" required  pattern="\(\d{2}\)\s\d{4,5}-\d{4}" title="O formato esperado é: (55) 93112-4241">
+
+
                 <label for='Salario'>Salário bruto:</label>
                 <input type='text' id='Salario' name='bruto' required>
+
                 <label for='Adicional'>Adicional:</label>
                 <input type='number' id='adicional' name='adicional' required>
                 </select>
