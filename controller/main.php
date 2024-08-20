@@ -37,7 +37,17 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
             $salario = new Salario($salario_bruto, $adicional);
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario, $adicional, $grupo);
-            $userDAO->persit($user);
+            $user = $userDAO->persit($user);
+            if(!empty($user)){
+                $user = serialize($user);
+                $response = [
+                    'message' => 'Usuário cadastrado com sucesso!',
+                    'user' => $user
+                ];
+                $_SESSION['mensagem'] = $response;
+                exit();
+                header('Location: ./view/cadatraruser.php');    
+            }
         } catch (Exception $e) {
             $userDAO->conn->rollBack();
             $response = [
@@ -47,7 +57,7 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             ];
             $_SESSION['mensagem'] = $e->getMessage();
             exit();
-            header('Location: ./view/welcome');
+            header('Location: ./view/cadatraruser.php');
         }
     }
 } else if ($submit == 'users') {
