@@ -30,6 +30,7 @@ if (!empty($_SESSION['user'])){
         <a href="buscacargo.php">Buscar Cargo</a>
         <a href="listatrabalhos.php">Lista de Trabalhos</a>
         <a href="perfil.php">Meus Dados</a>
+        <a href="listarusers.php">Lista de Funcionário</a>
 
     </div>
     

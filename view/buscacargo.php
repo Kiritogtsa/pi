@@ -43,7 +43,7 @@ if (!empty($_SESSION['buscar'])) {
                     <form method="POST" action="../controller/main.php">
                         <table>
                             <tr>
-                                <td><input type="text" name="id" value="<?php echo ($cargos->getIdCargo()); ?>"></td>
+                                <td><input type="number" name="id" value="<?php echo ($cargos->getIdCargo()); ?>"></td>
                                 <td><input type="text" name="nome" value="<?php echo ($cargos->getNome()); ?>"></td>
                                 <td><input type="text" name="descricao" value="<?php echo ($cargos->getDescricao()); ?>"></td>
                                 <td>
