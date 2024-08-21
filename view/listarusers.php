@@ -16,29 +16,51 @@ if(!empty($_SESSION['listauser'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar Funcionário</title>
+    <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
 </head>
 <body>
-<header>
+    <header>
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>RH Connect</h1>
     </header>
+    <br>
+<br>
+<br>
+<br>
     <!-- Formulário para buscar o funcionário -->
-    <form method="POST" action="../controller/main.php">
-        <input hidden type="number" id = 'min' name = 'min' value = "<?php echo $min ?>">
-        <input hidden type="number" id = 'max' name = 'max' value = "<?php echo $max ?>">
-        <button type="submit" value="Listar_funcionario" name="submit">Listar funcionários</button>
-    </form>
-    <table>
-    <?php if(!empty($dados)){
-        foreach($dados as $d){
-            echo $d->getId();
-            echo $d->getNome();
-            echo $d->getTrabalho();?>
-            <form action="../controller/main.php">
-            <button type="submit" value="Desativar_usuario" name="submit">Desativar funcionário</button>
-            <button type="submit" value="Ativar_usuario" name="submit">Ativar funcionário</button>
+    <div class="container">
+        <div class="formulario-exibicao-cargo">
+            <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
+                <input type="number" id="min" name="min" value="<?php echo $min ?>" hidden>
+                <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
+                <button type="submit" value="Listar_funcionario" name="submit">Listar funcionários</button>
             </form>
-        <?php }}?>
-        </table>
-    </form>
+            
+            <div class="IBuscaF">
+                <table>
+                    <?php if (!empty($dados)) {
+                        foreach ($dados as $d) { ?>
+                            <tr>
+                                <td><?php echo $d->getId(); ?></td>
+                                <td><?php echo $d->getNome(); ?></td>
+                                <td><?php echo $d->getTrabalho(); ?></td>
+                                <td>
+                                    <form action="../controller/main.php" method="POST">
+                                        <button type="submit" value="Desativar_usuario" name="submit">Desativar funcionário</button>
+                                        <button type="submit" value="Ativar_usuario" name="submit">Ativar funcionário</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php }
+                    } ?>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <a href="../controller/logout.php" class="logout-icon">
+        <img src="imagens/saida.png" alt="Logout">
+    </a>
+    <a href="welcomeadmins.php" class="back-button">Voltar</a>
 </body>
+</html>
