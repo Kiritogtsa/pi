@@ -62,9 +62,8 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
     }
 } else if ($submit == 'Listar_funcionario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    $min = filter_var($_GET['min'], FILTER_SANITIZE_NUMBER_INT);
-    $max = filter_var($_GET['max'], FILTER_SANITIZE_NUMBER_INT);
-
+    $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
+    $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
 
     if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
         echo "entra aqui";
@@ -73,9 +72,6 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $users = $userDAO->getbyall($min, $max);
             $dados = array();
             foreach ($users as $user) {
-                $salario = $user->getissalario();
-                // nao precisa mais disto
-
                 $dados[] = $user;
             }
             $response = [
@@ -83,7 +79,8 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
                 'message' => 'Dados recebidos com sucesso!',
                 'cargos' => $dados
             ];
-            $_SESSION['reponse'] = $response;
+            $_SESSION['listauser'] = $response;
+            header('Location: ../view/listarusers.php');
             exit();
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
@@ -93,7 +90,8 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
                 'erro' => $e->getMessage()
             ];
 
-            $_SESSION['reponse'] = $response;
+            $_SESSION['listauser'] = $response;
+            header('Location: ./view/listarusers.php');
             exit();
         }
     }
@@ -348,7 +346,7 @@ else if ($submit == "Atualizar_trabalho") {
 else if ($submit == "Deletar_trabalho") {
     try {
         // if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
-        $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($_POST['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $trabalhoDAO = new TrabalhoDAO();
         $trabdel = $trabalhoDAO->deletar($id);
         if (!empty($trabdel)) {

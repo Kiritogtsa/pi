@@ -4,11 +4,9 @@ require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
 $min = 1;
 $max = 5;
-if(!empty($_SESSION['buscuser'])){
-    $user = unserialize($_SESSION['buscuser']['userb']);
-    $salario = $user->getissalario(); // Certifique-se que o método getSalario() existe e está retornando o objeto correto
-    $min += 5;
-    $max +=5;
+if(!empty($_SESSION['listauser'])){
+    $dados = $_SESSION['listauser']['cargos'];
+
 }
 ?>
 
@@ -26,8 +24,8 @@ if(!empty($_SESSION['buscuser'])){
     </header>
     <!-- Formulário para buscar o funcionário -->
     <form method="POST" action="../controller/main.php">
-        <input hidden type="number" name = 'min' value = '<?php $min ?>'>
-        <input hidden type="number"name = 'max' value = '<?php $max ?>'>
+        <input hidden type="number" id = 'min' name = 'min' value = "<?php echo $min ?>">
+        <input hidden type="number" id = 'max' name = 'max' value = "<?php echo $max ?>">
         <button type="submit" value="Listar_funcionario" name="submit">Listar funcionários</button>
     </form>
     <table>
