@@ -57,8 +57,8 @@ if (!empty($_SESSION['buscuser'])) {
                         <td><label for="idatanascimento"><?php echo $user->getDataNascimento(); ?></label></td> <!-- Este -->
                         <td><input type="text" name="dataadmissao" value="<?= $user->getDataAdmissao(); ?>"></td>
                         <td><input type="text" name="telefone" value="<?= $user->getTelefone(); ?>"></td>
-                        <td><input type="text" name="cpf" value="<?= $user->getCpf(); ?>"></td> <!-- Este -->
-                        <td><input type="text" name="sexo" value="<?= $user->getSexo(); ?>"></td> <!-- Este -->
+                        <td><label for="icpf"><?php echo $user->getCpf(); ?></label></td> <!-- Este -->
+                        <td><label for="isexo"><?php echo $user->getSexo(); ?></label></td> <!-- Este -->
                     </tr>
                     <tr>
                         <th>Trabalho</th>
@@ -70,13 +70,13 @@ if (!empty($_SESSION['buscuser'])) {
                         <th>Salário líquido</th>
                     </tr>
                     <td><input type="text" name="trabalho" value="<?= $user->getTrabalho(); ?>"></td>
-                    <td><input type="text" name="grupo" value="<?= $user->getGrupo(); ?>"></td> <!-- Este -->
+                    <td><label for="igrupo"><?php echo $user->getGrupo(); ?></label></td> <!-- Este -->
                     <input type='number' hidden name ='id' value = '<? $salario->getId();?>'>
                     <td><input type='number' name="bruto" value="<?= $salario->getSalariobruto(); ?>"></td>
-                    <td><input type='number' name="ir" value="<?= $salario->getIr(); ?>"></td> <!-- Este -->
-                    <td><input type='number' name="inss" value="<?= $salario->getInss(); ?>"></td> <!-- Este -->
+                    <td><label for="isalario"><?php echo $user->getIr(); ?></label></td> <!-- Este -->
+                    <td><label for="iinss"><?php echo $user->getInss(); ?></label></td> <!-- Este -->
                     <td><input type='number' name="adicional" value="<?= $salario->getAdicional(); ?>"></td>
-                    <td><input type='number' name="grupo" value="<?= $salario->getSalarioliquido(); ?>"></td> <!-- Este -->
+                    <td><label for="isalarioliquido"><?php echo $user->getSalarioliquido(); ?></label></td> <!-- Este -->
                     <tr>
                         <td colspan="18">
                             <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
