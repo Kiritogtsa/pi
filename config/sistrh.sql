@@ -42,16 +42,7 @@ CREATE TABLE `salario` (
 
 INSERT INTO `salario` (`ID`, `salariobruto`, `ir`, `inss`, `adicional`, `salarioliquido`) VALUES
 (1, 5000, 500, 400, 100, 4000),
-(2, 1200, NULL, NULL, NULL, NULL),
-(3, 1200, NULL, NULL, NULL, NULL),
-(4, 1200, NULL, NULL, NULL, NULL),
-(5, 1200, NULL, NULL, NULL, NULL),
-(13, 1200, NULL, NULL, NULL, NULL),
-(15, 1200, NULL, NULL, NULL, NULL),
-(26, 1200, NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
+(2, 1200, NULL, NULL, NULL, NULL);
 --
 -- Estrutura para tabela `trabalhos`
 --
@@ -69,9 +60,7 @@ CREATE TABLE `trabalhos` (
 INSERT INTO `trabalhos` (`ID`, `DESCRICAO`, `NOME`) VALUES
 (1, 'ajuda o gerente', 'gerente'),
 (2, 'ajuda o gerente', 'auxiliar gerente'),
-(3, 'teste1', 'teste');
-
--- --------------------------------------------------------
+(3,"teste","teste");-- --------------------------------------------------------
 
 --
 -- Estrutura para tabela `users`
@@ -99,10 +88,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`ID`, `NOME`, `CPF`, `EMAIL`, `DATA_NASCIMENTO`, `TELEFONE`, `DATA_ADMISSAO`, `SEXO`, `SENHA`, `GRUPO`, `DELETE_AT`, `TR_ID`, `SALARIO_ID`) VALUES
 (1, 'FULANO', '05346585498', 'MATHEUS@GMAIL.COM', '9999-05-24', '55981447752', '5555-09-24', 'MASCULINO', '$2y$10$yWbj3ojEM.BChIuHyiGwZe8EFfY/qDsPMhNCO5HS4jaTSCciHbhp2', 'gerente', NULL, 1, 1),
-(4, 'teste1', '123', '', '2001-03-21', '213', '2001-03-21', 'masculino', '$2y$10$kxf4Z3vsQrWevLiLXTEUJeNNFVB15C7UYw4RSrJWYSOWt.kdVjFeq', 'auxiliar', '2024-08-04 20:10:38', 2, 3),
-(13, 'teste12', '1233', 'teste@123', '2001-03-21', '2133', '2001-03-21', 'masculino', '$2y$10$O3YpBG2TiUxPwy6Y7/jW3uTQeEc3xri6dFhcvjegCywhJ7bC8dZum', 'user', NULL, 3, 13),
-(15, '2teste12', '12332', 'teste@1232', '2001-03-21', '21331', '2001-03-21', 'masculino', '$2y$10$ia4B/osduyZiuw9RUUvEhOKJSzcKs5wQjNLBRoENUGuwI4ulvLon.', 'user', NULL, 3, 15),
-(26, '2teste12', '112332', 'teste@12321', '2001-03-21', '213311', '2001-03-21', 'masculino', '$2y$10$HpQyXnkuZpG2KDC1.pcageM0ELrXXym8eymPus4OpwvgrR.kce3rq', 'user', NULL, 3, 26);
+(2, 'teste1', '123', '', '2001-03-21', '213', '2001-03-21', 'masculino', '$2y$10$kxf4Z3vsQrWevLiLXTEUJeNNFVB15C7UYw4RSrJWYSOWt.kdVjFeq', 'auxiliar', '2024-08-04 20:10:38', 2, 2);
 
 --
 -- Índices para tabelas despejadas
@@ -140,7 +126,7 @@ ALTER TABLE `users`
 --
 -- som colocar o proximo id
 ALTER TABLE `salario`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `trabalhos`
@@ -152,7 +138,7 @@ ALTER TABLE `trabalhos`
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para tabelas despejadas
