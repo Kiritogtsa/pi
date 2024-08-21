@@ -39,14 +39,10 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
             $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario, $adicional, $grupo);
             $user = $userDAO->persit($user);
             if(!empty($user)){
-                $user = serialize($user);
-                $response = [
-                    'message' => 'Usuário cadastrado com sucesso!',
-                    'user' => $user
-                ];
-                $_SESSION['mensagem'] = $response;
-                exit();
-                header('Location: ./view/cadatraruser.php');    
+                $response = 'Usuário cadastrado com sucesso!';
+                $_SESSION['mensagemcadasuser'] = $response;
+                header('Location: ../view/cadatraruser.php'); 
+                exit();   
             }
         } catch (Exception $e) {
             $userDAO->conn->rollBack();
@@ -55,12 +51,14 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
                 'message' => 'deu algum erro',
                 'erro' => $e->getMessage()
             ];
-            $_SESSION['mensagem'] = $e->getMessage();
+            $_SESSION['mensagemcadasuser'] = $e->getMessage();
+            header('Location: ../view/cadatraruser.php');
             exit();
-            header('Location: ./view/cadatraruser.php');
         }
     }
-} else if ($submit == 'Listar_funcionario') {
+}
+
+else if ($submit == 'Listar_funcionario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
     $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
@@ -192,30 +190,42 @@ if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
 
 // ATUALIZA INFORMAÇÕES DO USUÁRIO
 else if ($submit == 'Buscar_funcionario') {
-    // try{
-    // if($usuario->getGrupo == 'auxiliar' || $usuario->getGrupo() == 'gerente'){
-    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
-    $user = new UserDAO();
-    $buscuser = $user->getbyName($nome);
-    if (!empty($buscuser)) {
-        $buscuser = serialize($buscuser);
-        $userbuscado = [
-            'messagem' => 'Usuário encontrado com sucesso!',
-            'userb' => $buscuser
+    try {
+        $usuario = unserialize($_SESSION['user']);
+        if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+            $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $user = new UserDAO();
+            $buscuser = $user->getbyName($nome);
+            
+            if (!empty($buscuser)) {
+                $buscuser = serialize($buscuser);
+                $userbuscado = [
+                    'mensagem' => 'Usuário encontrado com sucesso!',
+                    'userb' => $buscuser
+                ];
+            } else {
+                $userbuscado = [
+                    'mensagem' => 'Usuário não encontrado!',
+                ];
+            }
+
+            $_SESSION['buscuser'] = $userbuscado;
+            header('Location: ../view/buscarfuncionario.php');
+            exit; 
+
+        } else {
+            throw new Exception("Sem permissão para modificar!");
+        }
+    } catch (Exception $e) {
+        $_SESSION['buscuser'] = [
+            'mensagem' => $e->getMessage()
         ];
-        $_SESSION['buscuser'] = $userbuscado;
         header('Location: ../view/buscarfuncionario.php');
-    } else {
-        $userbuscado = [
-            'messagem' => 'Usuário não encontrado!',
-        ];
-        $_SESSION['buscuser'] = $userbuscado;
-        header('Location: ../view/buscarfuncionario.php');
+        exit;
     }
-    // }else{
-    // throw new Exception("Sem permissão para modificar!");
-    // LOGIN DE USUÁRIO
-} else if ($submit == 'login') {
+}
+
+else if ($submit == 'login') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
     $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra a senha recebida
     try {
@@ -245,32 +255,43 @@ else if ($submit == 'Buscar_funcionario') {
         echo $e->getMessage(); // Em caso de exceção, imprime a mensagem de erro
     }
 } else if ($submit == 'Buscar_cargos') {
-    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
-    $trabalhoDAO = new TrabalhoDAO();
-    $trabalho = $trabalhoDAO->buscarPorNome($nome);
-    $ntrab = serialize($trabalho);
-    if (!empty($trabalho)) {
-        $response = [
-            'success' => true,
-            'messagem' => 'Obtido com sucesso',
-            'cargos' => $ntrab
+    try {
+        $usuario = unserialize($_SESSION['user']);
+        if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+            $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $trabalhoDAO = new TrabalhoDAO();
+            $trabalho = $trabalhoDAO->buscarPorNome($nome);
+            $ntrab = serialize($trabalho);
+            if (!empty($trabalho)) {
+                $response = [
+                    'success' => true,
+                    'messagem' => 'Cargo encontrado com sucesso!',
+                    'cargos' => $ntrab
+                ];
+                $_SESSION['buscar'] = $response;
+                header('Location: ../view/buscacargo.php');
+            } else {
+                $response = [
+                    'success' => false,
+                    'messagem' => 'Cargo não encontrado!',	
+                    'erro' => null
+                ];
+                $_SESSION['buscar'] = $response;
+                header('Location: ../view/buscacargo.php');
+            }
+        }
+    }catch (Exception $e) {
+        $_SESSION['buscar'] = [
+            'mensagem' => $e->getMessage()
         ];
-        $_SESSION['buscar'] = $response;
         header('Location: ../view/buscacargo.php');
-    } else {
-        $response = [
-            'success' => false,
-            'messagem' => 'Sem sucesso',
-            'erro' => null
-        ];
-        $_SESSION['buscar'] = $response;
-        header('Location: ../view/buscacargo.php');
+        exit;
     }
 
 
-    // LISTA CARGOS
+}
 
-} else if ($submit == 'Listar_cargos') {
+else if ($submit == 'Listar_cargos') {
     $trabalhoDAO = new TrabalhoDAO();
     $lista_cargos = $trabalhoDAO->listarCargo();
     $lista_cargos = serialize($lista_cargos);
@@ -334,7 +355,7 @@ else if ($submit == "Atualizar_trabalho") {
     $TrabalhoDAO = new TrabalhoDAO();
     $trabatualizado = $TrabalhoDAO->salvar($trabalho);
     if (!empty($trabatualizado)) {
-        $_SESSION['data'] = "Atualizado com sucesso";
+        $_SESSION['data'] = "Cargo criado com sucesso";
         header('Location: ../view/Criatrab.php');
     } else {
         $_SESSION['data'] = "Erro ao criar trabalho";

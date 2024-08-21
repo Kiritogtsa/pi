@@ -38,12 +38,15 @@ if (!empty($_SESSION['buscar'])) {
                 </form>
             </div>
 
-            <?php if (!empty($response)) { ?>
+            <?php if (!empty($messagem)){ ?>
+              <h1>  <?php echo $messagem; ?>  </h1>
+            <?php } 
+            if (!empty($response)) { ?>
                 <div class="formulario-exibicao-cargo">
                     <form method="POST" action="../controller/main.php">
                         <table>
                             <tr>
-                                <td><input type="number" name="id" value="<?php echo ($cargos->getIdCargo()); ?>"></td>
+                                <td><input type="text" name="id" value="<?php echo ($cargos->getIdCargo()); ?>"></td>
                                 <td><input type="text" name="nome" value="<?php echo ($cargos->getNome()); ?>"></td>
                                 <td><input type="text" name="descricao" value="<?php echo ($cargos->getDescricao()); ?>"></td>
                                 <td>

@@ -26,11 +26,11 @@ if(!empty($_SESSION['listar'])){
         <h1>Lista de Trabalhos</h1>
     </header>
     <div class="container">
+    <?php if ($status == true) { 
+                 ?> <h1 style='text-align: center';><?php echo $messagem;?>
         <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
             <button type="submit" name="submit" value="Listar_cargos" class="Bcargo">Listar trabalhos</button>
-            <?php if ($status == true) { ?>
             <div class="formulario-exibicao-cargo">
-                <?php echo $messagem; ?>
         </form>
 
       

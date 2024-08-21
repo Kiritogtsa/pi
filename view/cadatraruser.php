@@ -3,11 +3,18 @@ require_once("../models/trabalho.php");
 $cargosdao = new TrabalhoDAO();
 $cargos = $cargosdao->listarCargo();
 if (empty($cargos)) {
-    echo "sem dados";
+    echo "Nenhum trabalho cadastrado";
 }
+if (!empty($_SESSION['mensagemcadasuser'])){
+    echo "Aqui";
+    $sucessocadastro = $_SESSION['mensagemcadasuser'];
+}else{
+    $sucessocadastro = null;
+}
+
 ?>
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='pt-br'>
 
 <head>
     <meta charset='UTF-8'>
@@ -19,8 +26,11 @@ if (empty($cargos)) {
 <body>
     <header>
         <img src="imagens/RH.png" alt="Logo RH Connect">
-        <h1>Cadastrar Usuario</h1>
+        <h1>Cadastrar funcionário</h1>
     </header>
+    <?php if($sucessocadastro != null){
+        echo $sucessocadastro;
+    } ?>
     <div class="form-container">
         <form id='form' method='POST' action='../controller/main.php'>
             <div class="Cpessoa">
@@ -88,5 +98,4 @@ if (empty($cargos)) {
         </a>
         <a href="welcomeadmins.php"class="back-button">Voltar</a>
 </body>
-
 </html>
