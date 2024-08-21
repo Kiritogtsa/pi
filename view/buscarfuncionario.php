@@ -54,7 +54,7 @@ if (!empty($_SESSION['buscuser'])) {
                         <td><input type="text" name="id" value="<?= $user->getId(); ?>" readonly></td>
                         <td><input type="text" name="nome" value="<?= $user->getNome(); ?>"></td>
                         <td><input type="text" name="email" value="<?= $user->getEmail(); ?>"></td>
-                        <td><input type="text" name="datanascimento" value="<?= $user->getDataNascimento(); ?>"></td> <!-- Este -->
+                        <td><label for="idatanascimento">Data de Nascimento:</label></td> <!-- Este -->
                         <td><input type="text" name="dataadmissao" value="<?= $user->getDataAdmissao(); ?>"></td>
                         <td><input type="text" name="telefone" value="<?= $user->getTelefone(); ?>"></td>
                         <td><input type="text" name="cpf" value="<?= $user->getCpf(); ?>"></td> <!-- Este -->
