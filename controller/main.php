@@ -104,12 +104,35 @@ else if ($submit == 'Listar_funcionario') {
                 'message' => 'foi deletado o usuario',
             ];
             $_SESSION['reponse'] = $response;
+            header('Location: ../view/buscarfuncionario.php');
+            exit();
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
+            header('Location: ../view/buscarfuncionario.php');
+            exit();
         }
     }
-
-    // ATUALIZA USUARIO
+else if ($submit == 'Desativar_usuariolist') {
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
+    if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null && $id != 1) {
+        try {
+            $userDAO = new UserDAO();
+            echo $userDAO->delete($id);
+            $response = [
+                'success' => true,
+                'message' => 'Usuário deletado com sucesso!',
+            ];
+            $_SESSION['reponse'] = $response;
+            header('Location: ../view/listarusers.php');
+            exit();
+        } catch (Exception $e) {
+            $_SESSION['mensagem'] = $e->getMessage();
+            header('Location: ../view/listarusers.php');
+            exit();
+        }
+    }
+}
 } else if ($submit == 'Atualizar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $userDAO = new UserDAO(); 
@@ -164,16 +187,41 @@ else if ($submit == 'Listar_funcionario') {
             $userDAO->aiivacao($id);
             $response = [
                 'success' => true,
-                'message' => 'foi um susseso',
+                'message' => 'Usuário ativado com sucesso!',
             ];
-
             $_SESSION['reponse'] = $response;
+            header('Location: ../view/buscarfuncionario.php');
+            exit();
         } catch (Exception $e) {
             $_SESSION['mensagem'] = $e->getMessage();
+            header('Location: ../view/buscarfuncionario.php');
+            exit();
         }
     }
 }
 
+else if ($submit == 'Ativar_usuariolist') {
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
+    echo $id;
+    if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
+        try {
+            // adiconem
+            $userDAO = new UserDAO();
+            $userDAO->aiivacao($id);
+            $response = [
+                'success' => true,
+                'message' => 'Usuário ativado com sucesso!',
+            ];
+            header('Location: ../view/listarusers.php');
+            exit();
+            $_SESSION['reponse'] = $response;
+        } catch (Exception $e) {
+            $_SESSION['mensagem'] = $e->getMessage();
+            header('Location: ../view/listarusers.php');
+        }
+    }
+}
 
 else if ($submit == 'Buscar_funcionario') {
     try {
