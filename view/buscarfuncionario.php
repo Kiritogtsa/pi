@@ -5,7 +5,9 @@ require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
 
 if (!empty($_SESSION['buscuser'])) {
-    $user = unserialize($_SESSION['buscuser']['userb']);
+    if(!empty($_SESSION['buscuser']['userb'])){
+        $user = unserialize($_SESSION['buscuser']['userb']);
+    }
     $salario = $user->getissalario();
     $menssagem = $_SESSION['buscuser']['mensagem'];
     echo $menssagem;
@@ -61,15 +63,14 @@ if (!empty($_SESSION['buscuser'])) {
                         <td><label for="isexo"><?php echo $user->getSexo(); ?></label></td> <!-- Este -->
                     </tr>
                     <tr>
-                        <th>Trabalho</th>
                         <th>Grupo</th>
                         <th>Salário bruto</th>
                         <th>IR</th>
                         <th>INSS</th>
                         <th>Adicional</th>
                         <th>Salário líquido</th>
+                        <input type="text" hidden name="trabalho" value="<?= $user->getTrabalho(); ?>">
                     </tr>
-                    <td><input type="text" name="trabalho" value="<?= $user->getTrabalho(); ?>"></td>
                     <td><label for="igrupo"><?php echo $user->getGrupo(); ?></label></td> <!-- Este -->
                     <input type='number' hidden name ='id' value = '<? $salario->getId();?>'>
                     <td><input type='number' name="bruto" value="<?= $salario->getSalariobruto(); ?>"></td>

@@ -51,7 +51,7 @@ if(!empty($_SESSION['listauser'])){
                                 <td>
                                     <form action="../controller/main.php" method="POST">
                                         <button type="submit" value="Desativar_usuario" name="submit">Desativar funcionário</button>
-                                        <button type="submit" value="Ativar_usuario" name="submit">Ativar funcionário</button>
+                                        <button type="submit" value="Ativar_usuariolist" name="submit">Ativar funcionário</button>
                                     </form>
                                 </td>
                             </tr>
