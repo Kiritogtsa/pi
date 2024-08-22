@@ -6,18 +6,14 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 
-// Recebe os valores vindos por POST OU GET 
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $submit = filter_var($_POST['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 } else if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $submit = filter_var($_GET['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
-
-
-// adicione os metodos do salario dao, para ficar melhor e mais modular depois, e tb mais facil de adicionar novas coisas, so precisa criar o dao
-// que eu faço o resto no usuario dao para chamar o salario, dai o usuario controla o solario, sem mudar muitas coisas, isso e uma idei
-if ($submit == 'Cadatrar_user') { // Cadastra os colaboradores na tabela users
+if ($submit == 'Cadatrar_user') { 
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $userDAO = new UserDAO();
     if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
@@ -95,16 +91,10 @@ else if ($submit == 'Listar_funcionario') {
     }
 
 
-    // DESATIVA DESATIVA FUNCIONARIO
 } else if ($submit == 'Desativar_usuario') {
     echo 'chaga aqui';
-    // arrumei o comportamento
-    // ta funcionado agora, tava faltado pegar o id do POST
-    // adicione a deserialize o usuario para verificar o grupo
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;
-    // teste corretemente agora, o if nao ta comparando os literais com nada
-    // depois coloca os headers de volta pelo momento
     if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null && $id != 1) {
         try {
             // adiconem
@@ -123,8 +113,8 @@ else if ($submit == 'Listar_funcionario') {
     // ATUALIZA USUARIO
 } else if ($submit == 'Atualizar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    $userDAO = new UserDAO(); // Instancia o DAO de usuário
-    try { // analisar se é getente ou auxiliar_gerente
+    $userDAO = new UserDAO(); 
+    try { 
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
             $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -164,10 +154,7 @@ else if ($submit == 'Listar_funcionario') {
     }
 
 
-    // ATIVA USUARIO
 } else if ($submit == 'Ativar_usuario') {
-    // se a gente vai usar o um javascript do meu jeito, a gente meio que pode remover o redirecionamento de algumas coisas
-    // ta funcionado agora, tava faltado pegar o id do POS, a verificaçao tava meio incompleta
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;
     echo $id;
@@ -188,7 +175,7 @@ else if ($submit == 'Listar_funcionario') {
     }
 }
 
-// ATUALIZA INFORMAÇÕES DO USUÁRIO
+
 else if ($submit == 'Buscar_funcionario') {
     try {
         $usuario = unserialize($_SESSION['user']);
@@ -226,33 +213,33 @@ else if ($submit == 'Buscar_funcionario') {
 }
 
 else if ($submit == 'login') {
-    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Filtra e valida o email recebido
-    $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS); // Filtra a senha recebida
+    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); 
+    $senha = filter_var($_POST['senha'], FILTER_SANITIZE_SPECIAL_CHARS); 
     try {
-        $userDAO = new UserDAO(); // Instancia o DAO de usuário
-        $user = $userDAO->getByEmail($email); // Obtém o usuário pelo email fornecido
+        $userDAO = new UserDAO(); 
+        $user = $userDAO->getByEmail($email); 
         if (password_verify($senha, $user->getSenha())) {
             if ($user->getGrupo() == 'gerente' || $user->getGrupo() == 'auxiliar' && $user->getDeletedAt() ==null) {
-                $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
-                $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-                header('Location: ../view/welcomeadmins.php'); // Redireciona para o perfil do usuário
+                $_SESSION['user'] = serialize($user); 
+                $_SESSION['autenticacao'] = true; 
+                header('Location: ../view/welcomeadmins.php'); 
                 exit();
             } else if($user->getDeletedAt()==null) {
-                $_SESSION['user'] = serialize($user); // Armazena o usuário na sessão
-                $_SESSION['autenticacao'] = true; // Define a autenticação como verdadeira
-                header('Location: ../view/welcome.php'); // Redireciona para o perfil do usuário
+                $_SESSION['user'] = serialize($user); 
+                $_SESSION['autenticacao'] = true; 
+                header('Location: ../view/welcome.php'); 
                 exit();
             }else{
-                $_SESSION['autenticacao'] =  false; // Define a autenticação como verdadeira
+                $_SESSION['autenticacao'] =  false;
                 header('Location: ../view/login.php');
             }
         } else {
-            $_SESSION['autenticacao'] =  false; // Define a autenticação como verdadeira
-            header('Location: ../view/login.php'); // Redireciona para o perfil do usuário=
+            $_SESSION['autenticacao'] =  false;
+            header('Location: ../view/login.php'); 
             exit();
         }
     } catch (Exception $e) {
-        echo $e->getMessage(); // Em caso de exceção, imprime a mensagem de erro
+        echo $e->getMessage(); 
     }
 } else if ($submit == 'Buscar_cargos') {
     try {
@@ -362,7 +349,6 @@ else if ($submit == "Atualizar_trabalho") {
         header('Location: ../view/Criatrab.php');
     }
 }
-// DELETA TRABALHO
 
 else if ($submit == "Deletar_trabalho") {
     try {

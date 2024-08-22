@@ -413,7 +413,6 @@ class UserDAO implements crud
         $stmt->bindParam(":adicional", $adicional);
         $stmt->bindParam(":liquido", $liquido);
         $stmt->execute();
-        echo "correto";
         return $salario;
     }
     // ele atualiza um usuario
@@ -439,7 +438,6 @@ class UserDAO implements crud
         $sexo = $user->getSexo();
         $salario = $user->getslario()->getId();
         $stmt = $this->conn->prepare($sql);
-        echo "update prepara o sql" . "\n";
         $stmt->bindParam(":id", $id);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
@@ -455,8 +453,7 @@ class UserDAO implements crud
 
     // a funçao que decide qual metodo e chamado
     public function persit(User $user): User
-    {
-        echo "Chega no persit" . "\n";
+    { 
         if (!$user->getId()) {
             return $this->insert($user);
         } else {
@@ -470,11 +467,8 @@ class UserDAO implements crud
     {
         $sql = "SELECT * FROM users u inner join salario s on u.SALARIO_ID = s.ID WHERE NOME = :nome";
         $stmt = $this->conn->prepare($sql);
-        echo "getemail prepara o sql" . "\n";
-        echo "<br>";
         $stmt->bindParam(':nome', $nome);
         $stmt->execute();
-        echo "getemail executa o sql" . "\n";
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$dados) {
@@ -496,7 +490,6 @@ class UserDAO implements crud
         $user->setId($dados["ID"]);
         $user->setDeletedAt($dados["DELETE_AT"]);
         $user->setGrupo($dados["GRUPO"]);
-        echo "getemail termina retornado uma instacia" . "\n";
         return $user;
     }
     public function getByEmail($email): User
@@ -504,11 +497,8 @@ class UserDAO implements crud
         // deois de confimar como vamo fazer o sql adicionar aqui o salario
         $sql = "SELECT * FROM users u inner join salario s on u.SALARIO_ID = s.ID WHERE EMAIL = :email";
         $stmt = $this->conn->prepare($sql);
-        echo "getemail prepara o sql" . "\n";
-        echo "<br>";
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-        echo "getemail executa o sql" . "\n";
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$dados) {
@@ -526,7 +516,6 @@ class UserDAO implements crud
         $user->setId($dados["ID"]);
         $user->setDeletedAt($dados["DELETE_AT"]);
         $user->setGrupo($dados["GRUPO"]);
-        echo "getemail termina retornado uma instacia" . "\n";
         return $user;
     }
     // ele desativa o usuario
@@ -554,17 +543,13 @@ class UserDAO implements crud
         try {
             // foi corrigindo o sql
             $this->conn->beginTransaction();
-            echo "chega no delete" . "\n";
             $sql = "UPDATE users SET DELETE_AT = null WHERE ID = :id";
             $stmt = $this->conn->prepare($sql);
-            echo "prepara o sql" . "\n";
             $stmt->bindParam(":id", $id);
             $result = $stmt->execute();
-            echo "executa o sql" . "\n";
             $this->conn->commit();
             return $result;
         } catch (Exception $e) {
-            echo "deu um erro" . "\n";
             $this->conn->rollBack();
             throw $e;
         }
@@ -616,9 +601,7 @@ class UserDAO implements crud
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':min' => $min, ':max' => $max]);
-        echo "executa o sql" . "\n";
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo "obtem os dados" . "\n";
         $users = [];
         foreach ($results as $row) {
             $salario = new Salario(
@@ -650,29 +633,6 @@ class UserDAO implements crud
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
-        echo "retorna os dados" . "\n";
-        return $users;    // Retornar o array de objetos User
+        return $users;   
     }
 }
-
-// exemplo de como receber um json
-
-// header('Content-Type: application/json');
-
-// // Obtendo o conteúdo JSON do corpo da solicitação
-// $inputJSON = file_get_contents('php://input');
-
-// // Convertendo o JSON para um array associativo PHP
-// $inputData = json_decode($inputJSON, true);
-
-// // Exemplo de uso dos dados recebidos
-// $nome = $inputData['nome'] ?? 'Desconhecido';
-// $email = $inputData['email'] ?? 'email@example.com';
-
-// $response = [
-//     'success' => true,
-//     'message' => 'Dados recebidos com sucesso!',
-//     'received' => $inputData
-// ];
-
-// echo json_encode($response);
