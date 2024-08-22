@@ -30,10 +30,9 @@ if(!empty($_SESSION['listar'])){
                  ?> <h1 style='text-align: center';><?php echo $messagem;?>
         <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
             <button type="submit" name="submit" value="Listar_cargos" class="Bcargo">Listar trabalhos</button>
+          
             <div class="formulario-exibicao-cargo">
         </form>
-
-      
                 <table>
                     <tr>
                         <th>ID</th>
@@ -47,10 +46,12 @@ if(!empty($_SESSION['listar'])){
                             <td><?php echo $cg->getDescricao(); ?></td>
                         </tr>
                     <?php } ?>
+               
                 </table>
             </div>
         <?php } ?>
-    </div>
+        
+        </div>
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">
     </a>

@@ -40,7 +40,11 @@ if(!empty($_SESSION['listauser'])){
                 <table>
                     <?php if (!empty($dados)) {
                         foreach ($dados as $d) { ?>
-                            <tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>NOME</th>
+                        <th>TRABALHO</th>
+                    </tr>
                                 <td><?php echo $d->getId(); ?></td>
                                 <td><?php echo $d->getNome(); ?></td>
                                 <td><?php echo $d->getTrabalho(); ?></td>
