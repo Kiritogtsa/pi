@@ -92,7 +92,6 @@ else if ($submit == 'Listar_funcionario') {
 
 
 } else if ($submit == 'Desativar_usuario') {
-    echo 'chaga aqui';
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;
     if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null && $id != 1) {
