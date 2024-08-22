@@ -73,10 +73,10 @@ if (!empty($_SESSION['buscuser'])) {
                     <td><label for="igrupo"><?php echo $user->getGrupo(); ?></label></td> <!-- Este -->
                     <input type='number' hidden name ='id' value = '<? $salario->getId();?>'>
                     <td><input type='number' name="bruto" value="<?= $salario->getSalariobruto(); ?>"></td>
-                    <td><label for="isalario"><?php echo $user->getIr(); ?></label></td> <!-- Este -->
-                    <td><label for="iinss"><?php echo $user->getInss(); ?></label></td> <!-- Este -->
+                    <td><label for="isalario"><?php echo $salario->getIr(); ?></label></td> <!-- Este -->
+                    <td><label for="iinss"><?php echo $salario->getInss(); ?></label></td> <!-- Este -->
                     <td><input type='number' name="adicional" value="<?= $salario->getAdicional(); ?>"></td>
-                    <td><label for="isalarioliquido"><?php echo $user->getSalarioliquido(); ?></label></td> <!-- Este -->
+                    <td><label for="isalarioliquido"><?php echo $salario->getSalarioliquido(); ?></label></td> <!-- Este -->
                     <tr>
                         <td colspan="18">
                             <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
