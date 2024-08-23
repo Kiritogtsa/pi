@@ -94,24 +94,39 @@ else if ($submit == 'Listar_funcionario') {
 } else if ($submit == 'Desativar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;
+    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
     if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null && $id != 1) {
         try {
-            // adiconem
             $userDAO = new UserDAO();
-            echo $userDAO->delete($id);
-            $response = [
-                'success' => true,
-                'message' => 'foi deletado o usuario',
-            ];
-            $_SESSION['reponse'] = $response;
-            header('Location: ../view/buscarfuncionario.php');
-            exit();
+            $userDAO->delete($id);
+            $user = $userDAO->getbyName($nome);
+            if(!empty($user)){
+                $user = serialize($user);
+                $response = [
+                    'success' => true,
+                    'message' => 'Usuário desativado com sucesso!',
+                    'user'=> $user
+                ];
+                $_SESSION['desativado'] = $response;
+                header('Location: ../view/buscarfuncionario.php');
+                exit();
+        }
         } catch (Exception $e) {
-            $_SESSION['mensagem'] = $e->getMessage();
+            $_SESSION['desativado'] = $e->getMessage();
             header('Location: ../view/buscarfuncionario.php');
             exit();
         }
+    }else{
+        $response = [
+            'success' => true,
+            'message' => 'Usuário logado não pode se desativar',
+            'user'=> $user
+        ];
+        $_SESSION['desativado'] = $response;
+        header('Location: ../view/buscarfuncionario.php');
+        exit();
     }
+}
 else if ($submit == 'Desativar_usuariolist') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;
@@ -121,7 +136,7 @@ else if ($submit == 'Desativar_usuariolist') {
             echo $userDAO->delete($id);
             $response = [
                 'success' => true,
-                'message' => 'Usuário deletado com sucesso!',
+                'message' => 'Usuário desativado com sucesso!',
             ];
             $_SESSION['reponse'] = $response;
             header('Location: ../view/listarusers.php');
@@ -132,7 +147,6 @@ else if ($submit == 'Desativar_usuariolist') {
             exit();
         }
     }
-}
 } else if ($submit == 'Atualizar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $userDAO = new UserDAO(); 
@@ -156,16 +170,21 @@ else if ($submit == 'Desativar_usuariolist') {
             $salario->setId($id);
             $salario->descIR($salario->getSalariobruto());
             $salario->descINSS($salario->getSalariobruto());
-            var_dump($salario);
             $user = new User($nome, $email, $trabalho, $cpf, "", $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
             $user->setId($id);
             $user->setGrupo($grupo);
-            $userDAO->persit($user);
-            $response = [
-                "success" => true,
-                "messagem" => "foi modificado"
-            ];
-            $_SESSION['reponse'] = $response;
+            $user =  $userDAO->persit($user);
+            if(!empty($user)){
+                $user = serialize($user);
+                $response = [
+                    "success" => true,
+                    "messagem" => "Usuário atualizado com sucesso!",
+                    'user_atuali' => $user
+                ];
+                $_SESSION['user_atualiz'] = $response;
+                header('Location: ../view/buscarfuncionario.php');
+                exit();
+            }
         } else {
             $response = ["success" => false, "messagem" => "nao e auteticado"];
             header('Location: ./view/welcome');
@@ -179,21 +198,25 @@ else if ($submit == 'Desativar_usuariolist') {
 } else if ($submit == 'Ativar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;
-    echo $id;
+    $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
     if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
         try {
-            // adiconem
             $userDAO = new UserDAO();
             $userDAO->aiivacao($id);
+            $user = $userDAO->getbyName($nome);
+            if(!empty($user)){
+            $user = serialize($user);
             $response = [
                 'success' => true,
                 'message' => 'Usuário ativado com sucesso!',
+                'usera'=> $user
             ];
-            $_SESSION['reponse'] = $response;
+            $_SESSION['ativado'] = $response;
             header('Location: ../view/buscarfuncionario.php');
             exit();
+        }
         } catch (Exception $e) {
-            $_SESSION['mensagem'] = $e->getMessage();
+            $_SESSION['ativado'] = $e->getMessage();
             header('Location: ../view/buscarfuncionario.php');
             exit();
         }
@@ -282,6 +305,7 @@ else if ($submit == 'login') {
             }
         } else {
             $_SESSION['autenticacao'] =  false;
+            $_SESSION['loginfalha'] = 'Usuário ou senha incorretos!';
             header('Location: ../view/login.php'); 
             exit();
         }
@@ -370,7 +394,9 @@ else if ($submit == "Atualizar_trabalho") {
             ];
             $_SESSION['buscar'] = $response;
             header('Location: ../view/buscacargo.php');
-        } else {
+        }else{
+            $_SESSION['buscar'] = 'Sem permissão para atualizar!';
+            header('Location: ../view/buscacargo.php');
         }
     } catch (Exception $e) {
         $response = [

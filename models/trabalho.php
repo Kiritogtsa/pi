@@ -118,6 +118,23 @@ class TrabalhoDAO
         }
     }
 
+    public function buscarPorId($id)
+    {
+        // a busca ta buscando por uma coluna que nao existe na tabela
+        // tinha um erro aqui no sql, o erro era  id_cargo =, agora ta correto
+        $sql = "SELECT * FROM trabalhos WHERE ID = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) {
+            return null; // Retorna nulo se não encontrar o trabalho
+        } else {
+            $nome = $result['NOME'];
+            return $nome;
+        }
+    }
+
     // Deleta um trabalho pelo ID no banco de dados
     public function deletar($id_cargo)
     {

@@ -1,16 +1,9 @@
 <?php
-//primeiro = len() | count() 
-//maximo = primeiro + 6
 
-//for($id=0;$id<21;$i++){
-
-//  }
-
-
-// USUARIO 1= ID = 1
-// USUARIO 2 = ID = 5
-// USUARIO 3 = ID = 21
-
+session_start();
+if(!empty($_SESSION['loginfalha'])){
+    $menssagem = $_SESSION['loginfalha'];
+}
 ?> 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,6 +19,9 @@
         <h1>RH Connect</h1>
     </header>
     <main class="login">
+    <?php if(!empty($menssagem)){
+        ?><h1><?php echo $menssagem ?></h1>
+    <?php } ?>
         <form action="../controller/main.php" method="post">
             <div class="input-container">
                 <img src="imagens/perfil.png" alt="Ícone de Email" class="input-icon">

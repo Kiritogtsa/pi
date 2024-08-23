@@ -1,9 +1,11 @@
 <?php
 require_once('../models/users.php');
+require_once('../models/trabalho.php');
 require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
 $min = 1;
 $max = 5;
+$trabalho = new TrabalhoDAO();
 if(!empty($_SESSION['listauser'])){
     $dados = $_SESSION['listauser']['cargos'];
 
@@ -40,10 +42,14 @@ if(!empty($_SESSION['listauser'])){
                 <table>
                     <?php if (!empty($dados)) {
                         foreach ($dados as $d) { ?>
-                            <tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>NOME</th>
+                        <th>TRABALHO</th>
+                    </tr>
                                 <td><?php echo $d->getId(); ?></td>
                                 <td><?php echo $d->getNome(); ?></td>
-                                <td><?php echo $d->getTrabalho(); ?></td>
+                                <td><?php echo $trabalho->buscarPorId($d->getTrabalho()); ?></td>
                                 <td>
                                     <form action="../controller/main.php" method="POST">
                                         <button type="submit" value="Desativar_usuario" name="submit">Desativar funcionário</button>

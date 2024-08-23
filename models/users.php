@@ -396,7 +396,6 @@ class UserDAO implements crud
     }
     private function updatesalario(Salario $salario): Salario
     {
-        var_dump($salario);
         $sql = "UPDATE salario SET salariobruto=:bruto,ir=:ir,inss=:inss,adicional=:adicional,salarioliquido=:liquido WHERE ID=:id";
         $id = $salario->getId();
         $bruto = $salario->getSalariobruto();
@@ -482,7 +481,6 @@ class UserDAO implements crud
             $dados["ir"],
             $dados["inss"],
         );
-        var_dump($dados);
         $salario->setId($dados["SALARIO_ID"]);
 
 
@@ -541,6 +539,7 @@ class UserDAO implements crud
     public function aiivacao($id): bool
     {
         try {
+            echo "vem";
             // foi corrigindo o sql
             $this->conn->beginTransaction();
             $sql = "UPDATE users SET DELETE_AT = null WHERE ID = :id";
@@ -548,6 +547,7 @@ class UserDAO implements crud
             $stmt->bindParam(":id", $id);
             $result = $stmt->execute();
             $this->conn->commit();
+            echo "aqui";
             return $result;
         } catch (Exception $e) {
             $this->conn->rollBack();

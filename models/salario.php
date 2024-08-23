@@ -88,6 +88,8 @@ class Salario
     }
     public function descIR($salariobruto)
     {
+        $adicional = $this->adicional;
+        $salariobruto = $salariobruto + $adicional;
         if ($salariobruto < 2259.20) {
             return $this->ir = 0;
         } else if ($salariobruto >= 2259.21 && $salariobruto <= 2826.65) {
@@ -104,6 +106,8 @@ class Salario
     }
     public function descINSS($salariobruto)
     {
+        $adicional = $this->adicional;
+        $salariobruto = $salariobruto + $adicional;
         if ($salariobruto <= 1412.00) {
             return $this->inss = $salariobruto * 0.075;
         } else if ($salariobruto >= 1412.01 && $salariobruto <= 2666.68) {
@@ -121,7 +125,7 @@ class Salario
 
     public function calcsalarLiquid($salariobruto, $ir, $inss, $adicional)
     {
-        $salarioComAdicional = $salariobruto + ($salariobruto * ($adicional / 100));
+        $salarioComAdicional = $salariobruto + $adicional;
         $salarioliquido = $salarioComAdicional - $ir - $inss;
         return $this->salarioliquido = $salarioliquido;
     }

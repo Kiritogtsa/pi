@@ -7,10 +7,34 @@ require_once('../controller/privilegios.php');
 if (!empty($_SESSION['buscuser'])) {
     if(!empty($_SESSION['buscuser']['userb'])){
         $user = unserialize($_SESSION['buscuser']['userb']);
+        $salario = $user->getissalario();
     }
-    $salario = $user->getissalario();
     $menssagem = $_SESSION['buscuser']['mensagem'];
     echo $menssagem;
+}
+
+if(!empty($_SESSION['user_atualiz'])){
+    if(!empty($_SESSION['user_atualiz']["user_atuali"])){
+        $user = unserialize($_SESSION['user_atualiz']["user_atuali"]);
+        $salario = $user->getissalario();
+    }
+    $menssagem = $_SESSION['user_atualiz']["messagem"];
+}
+
+if(!empty($_SESSION['ativado'])){
+    if(!empty($_SESSION['ativado']["usera"])){
+        $user = unserialize($_SESSION['ativado']["usera"]);
+        $salario = $user->getissalario();
+        $menssagem = $_SESSION['ativado']["message"];
+    }
+}
+
+if(!empty($_SESSION['desativado'])){
+    if(!empty($_SESSION['desativado']["user"])){
+        $user = unserialize($_SESSION['desativado']['user']);
+        $salario = $user->getissalario();
+        $menssagem = $_SESSION['desativado']['message'];
+    }
 }
 ?>
 
@@ -40,52 +64,57 @@ if (!empty($_SESSION['buscuser'])) {
     <div class="IBuscaF">
         <?php if (!empty($user) && !empty($salario)) { ?>
             <form method="POST" action="../controller/main.php">
-                <table>
-                    <!-- Dados do Funcionário -->
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Data de Nascimento</th>
-                        <th>Data de Admissão</th>
-                        <th>Telefone</th>
-                        <th>CPF</th>
-                        <th>Sexo</th>
-                    </tr>
-                    <tr>
-                        <td><input type="text" name="id" value="<?= $user->getId(); ?>" readonly></td>
-                        <td><input type="text" name="nome" value="<?= $user->getNome(); ?>"></td>
-                        <td><input type="text" name="email" value="<?= $user->getEmail(); ?>"></td>
-                        <td><label for="idatanascimento"><?php echo $user->getDataNascimento(); ?></label></td> <!-- Este -->
-                        <td><input type="text" name="dataadmissao" value="<?= $user->getDataAdmissao(); ?>"></td>
-                        <td><input type="text" name="telefone" value="<?= $user->getTelefone(); ?>"></td>
-                        <td><label for="icpf"><?php echo $user->getCpf(); ?></label></td> <!-- Este -->
-                        <td><label for="isexo"><?php echo $user->getSexo(); ?></label></td> <!-- Este -->
-                    </tr>
-                    <tr>
-                        <th>Grupo</th>
-                        <th>Salário bruto</th>
-                        <th>IR</th>
-                        <th>INSS</th>
-                        <th>Adicional</th>
-                        <th>Salário líquido</th>
-                        <input type="text" hidden name="trabalho" value="<?= $user->getTrabalho(); ?>">
-                    </tr>
-                    <td><label for="igrupo"><?php echo $user->getGrupo(); ?></label></td> <!-- Este -->
-                    <input type='number' hidden name ='id' value = '<? $salario->getId();?>'>
-                    <td><input type='number' name="bruto" value="<?= $salario->getSalariobruto(); ?>"></td>
-                    <td><label for="isalario"><?php echo $salario->getIr(); ?></label></td> <!-- Este -->
-                    <td><label for="iinss"><?php echo $salario->getInss(); ?></label></td> <!-- Este -->
-                    <td><input type='number' name="adicional" value="<?= $salario->getAdicional(); ?>"></td>
-                    <td><label for="isalarioliquido"><?php echo $salario->getSalarioliquido(); ?></label></td> <!-- Este -->
-                    <tr>
-                        <td colspan="18">
-                            <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
-                            <button type="submit" value="Desativar_usuario" name="submit">Desativar</button>
-                            <button type="submit" value="Ativar_usuario" name="submit">Ativar</button>
-                        </td>
-                    </tr>
-                </table>
+            <table>
+    <!-- Dados do Funcionário -->
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Data de Nascimento</th>
+        <th>Data de Admissão</th>
+        <th>Telefone</th>
+        <th>CPF</th>
+        <th>Sexo</th>
+    </tr>
+    <tr>
+        <td><input type="text" name="id" value="<?= $user->getId(); ?>" readonly></td>
+        <td><input type="text" name="nome" value="<?= $user->getNome(); ?>"></td>
+        <td><input type="text" name="email" value="<?= $user->getEmail(); ?>"></td>
+        <td><input type="text" name="datanascimento" value="<?= $user->getDataNascimento(); ?>" readonly></td>
+        <td><input type="text" name="dataadmissao" value="<?= $user->getDataAdmissao(); ?>"></td>
+        <td><input type="text" name="telefone" value="<?= $user->getTelefone(); ?>"></td>
+        <td><input type="text" name="cpf" value="<?= $user->getCpf(); ?>" readonly></td>
+        <td><input type="text" name="sexo" value="<?= $user->getSexo(); ?>" readonly ></td>
+    </tr>
+    <tr>
+        <th>Grupo</th>
+        <th>Salário bruto</th>
+        <th>IR</th>
+        <th>INSS</th>
+        <th>Adicional</th>
+        <th>Salário líquido</th>
+        <th>Desativado</th>
+        <input type="text" hidden name="trabalho" value="<?= $user->getTrabalho(); ?>">
+    </tr>
+    <tr>
+        <td><input type="text" name="grupo" value="<?= $user->getGrupo(); ?>" readonly></td>
+        <input type='number' hidden name='id' value='<?= $salario->getId(); ?>'>
+        <td><input type='number' name="bruto" value="<?= $salario->getSalariobruto(); ?>"></td>
+        <td><input type="text"  name="ir" value="<?= $salario->getIr(); ?>" readonly></td>
+        <td><input type="text"  name="inss" value="<?= $salario->getInss(); ?>" readonly></td>
+        <td><input type='number' name="adicional" value="<?= $salario->getAdicional(); ?>"></td>
+        <td><input type="text"  name ="salarioliquido" value="<?= $salario->getSalarioliquido(); ?>" readonly></td>
+        <td><input type="text"  name ="deletado" value="<?php if($user->getDeletedAt() == null){ echo '';} else{ echo $user->getDeletedAt();} ?>" readonly></td>
+    </tr>
+    <tr>
+        <td colspan="18">
+            <button type="submit" value="Atualizar_usuario" name="submit">Atualizar</button>
+            <button type="submit" value="Desativar_usuario" name="submit">Desativar</button>
+            <button type="submit" value="Ativar_usuario" name="submit">Ativar</button>
+        </td>
+    </tr>
+</table>
+
             </form>
         <?php } ?>
     </div>
