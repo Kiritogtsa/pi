@@ -19,7 +19,7 @@ $data = $_SESSION['data'];
 <body>
 <header>
     <img src="imagens/RH.png" alt="Logo RH Connect">
-    <h1>Cadastrar Trabalho</h1>
+    <h1>Cadastrar cargo</h1>
 </header>
 <div class="Ctab2">  
 <form method="POST" action="../controller/main.php" class="Ctab" >

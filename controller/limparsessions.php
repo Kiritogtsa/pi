@@ -1,6 +1,9 @@
 <?php
 require_once('../controller/autenticado.php');
-session_start();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Inicia a sessão apenas se ainda não estiver iniciada
+}
 
 if(!empty($_SESSION['mensagemcadasuser'])){
     unset($_SESSION['mensagemcadasuser']);
