@@ -128,7 +128,7 @@ class TrabalhoDAO
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$result) {
-            return null; // Retorna nulo se não encontrar o trabalho
+            return 'Cargo excluído do sistema!'; // Retorna nulo se não encontrar o trabalho
         } else {
             $nome = $result['NOME'];
             return $nome;
@@ -142,7 +142,7 @@ class TrabalhoDAO
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
-        return "Deletado com sucesso";
+        return " Trabalho deletado com sucesso";
     }
 
     // Lista todos os trabalhos presentes no banco de dados

@@ -430,7 +430,10 @@ else if ($submit == "Deletar_trabalho") {
         $trabalhoDAO = new TrabalhoDAO();
         $trabdel = $trabalhoDAO->deletar($id);
         if (!empty($trabdel)) {
-            $_SESSION['message'] = $trabdel;
+            $response = [
+                'message' => $trabdel
+            ];
+            $_SESSION['buscar'] = $response;
             header('Location: ../view/buscacargo.php');
         } else {
             $_SESSION['message'] = "Erro ao deletar trabalho!";
