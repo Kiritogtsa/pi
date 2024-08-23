@@ -28,10 +28,16 @@ if(!empty($_SESSION['listar'])){
     <div class="container">
     <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
             <button type="submit" name="submit" value="Listar_cargos" class="Bcargo">Listar trabalhos</button>
+<<<<<<< HEAD
             </form>
     <?php if ($status == true) { 
                  ?> <h1 style='text-align: center';><?php echo $messagem;?></h1>
             <div class="formulario-exibicao-cargo">
+=======
+          
+            <div class="formulario-exibicao-cargo">
+        </form>
+>>>>>>> a40600eca775635c75378707d011a02d3686a06a
                 <table>
                     <tr>
                         <th>ID</th>
