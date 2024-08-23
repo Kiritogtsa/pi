@@ -1,15 +1,11 @@
 <?php
+require_once('../controller/privilegios.php');
+require_once('../controller/autenticado.php');
 require_once("../models/trabalho.php");
 $cargosdao = new TrabalhoDAO();
 $cargos = $cargosdao->listarCargo();
 if (empty($cargos)) {
     echo "Nenhum trabalho cadastrado";
-}
-if (!empty($_SESSION['mensagemcadasuser'])){
-    echo "Aqui";
-    $sucessocadastro = $_SESSION['mensagemcadasuser'];
-}else{
-    $sucessocadastro = null;
 }
 
 ?>
@@ -28,11 +24,11 @@ if (!empty($_SESSION['mensagemcadasuser'])){
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>Cadastrar funcionário</h1>
     </header>
-    <?php if($sucessocadastro != null){
-        echo $sucessocadastro;
-    } ?>
     <div class="form-container">
-        <form id='form' method='POST' action='../controller/main.php'>
+    <?php if(!empty($_SESSION['mensagemcadasuser'])){?>
+        <h1> <?php echo $_SESSION['mensagemcadasuser'];?></h1>
+    <?php } ?>
+    <form id='form' method='POST' action='../controller/main.php'>
             <div class="Cpessoa">
 
                 <h1>Dados pessoais</h1>

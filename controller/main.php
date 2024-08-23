@@ -107,6 +107,7 @@ else if ($submit == 'Listar_funcionario') {
                     'message' => 'Usuário desativado com sucesso!',
                     'user'=> $user
                 ];
+                require_once("../controller/limparsessions.php");
                 $_SESSION['desativado'] = $response;
                 header('Location: ../view/buscarfuncionario.php');
                 exit();
@@ -152,6 +153,17 @@ else if ($submit == 'Desativar_usuariolist') {
     $userDAO = new UserDAO(); 
     try { 
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+            $deletado = filter_var($_POST['deletado'], FILTER_SANITIZE_SPECIAL_CHARS);
+            if($deletado != null){
+                $response = [
+                    "success" => true,
+                    "messagem" => "Não pode atualizar um usuário desativado!" 
+                ];
+                require_once("../controller/limparsessions.php");
+                $_SESSION['user_atualiz'] = $response;
+                header('Location: ../view/buscarfuncionario.php');
+                exit();
+            }
             $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -181,6 +193,7 @@ else if ($submit == 'Desativar_usuariolist') {
                     "messagem" => "Usuário atualizado com sucesso!",
                     'user_atuali' => $user
                 ];
+                require_once("../controller/limparsessions.php");
                 $_SESSION['user_atualiz'] = $response;
                 header('Location: ../view/buscarfuncionario.php');
                 exit();
@@ -211,6 +224,7 @@ else if ($submit == 'Desativar_usuariolist') {
                 'message' => 'Usuário ativado com sucesso!',
                 'usera'=> $user
             ];
+            require_once("../controller/limparsessions.php");
             $_SESSION['ativado'] = $response;
             header('Location: ../view/buscarfuncionario.php');
             exit();
@@ -250,6 +264,7 @@ else if ($submit == 'Buscar_funcionario') {
     try {
         $usuario = unserialize($_SESSION['user']);
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+            require_once("../controller/limparsessions.php");
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $user = new UserDAO();
             $buscuser = $user->getbyName($nome);
@@ -265,7 +280,6 @@ else if ($submit == 'Buscar_funcionario') {
                     'mensagem' => 'Usuário não encontrado!',
                 ];
             }
-
             $_SESSION['buscuser'] = $userbuscado;
             header('Location: ../view/buscarfuncionario.php');
             exit; 
@@ -277,6 +291,7 @@ else if ($submit == 'Buscar_funcionario') {
         $_SESSION['buscuser'] = [
             'mensagem' => $e->getMessage()
         ];
+        require_once("../controller/limparsessions.php");
         header('Location: ../view/buscarfuncionario.php');
         exit;
     }

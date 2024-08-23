@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../models/trabalho.php');
 require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
@@ -47,7 +48,11 @@ if (!empty($_SESSION['buscar'])) {
                 <div class="formulario-exibicao-cargo">
                     <form method="POST" action="../controller/main.php">
                         <table>
-                            <tr>
+                             <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                                </tr>
                                 <td><input type="text" name="id" value="<?php echo ($cargos->getIdCargo()); ?>"></td>
                                 <td><input type="text" name="nome" value="<?php echo ($cargos->getNome()); ?>"></td>
                                 <td><input type="text" name="descricao" value="<?php echo ($cargos->getDescricao()); ?>"></td>

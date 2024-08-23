@@ -10,7 +10,6 @@ if (!empty($_SESSION['buscuser'])) {
         $salario = $user->getissalario();
     }
     $menssagem = $_SESSION['buscuser']['mensagem'];
-    echo $menssagem;
 }
 
 if(!empty($_SESSION['user_atualiz'])){
