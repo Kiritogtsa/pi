@@ -331,14 +331,15 @@ else if ($submit == 'login') {
     try {
         $usuario = unserialize($_SESSION['user']);
         if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+            require_once("../controller/limparsessions.php");
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $trabalhoDAO = new TrabalhoDAO();
             $trabalho = $trabalhoDAO->buscarPorNome($nome);
-            $ntrab = serialize($trabalho);
             if (!empty($trabalho)) {
+                $ntrab = serialize($trabalho);
                 $response = [
                     'success' => true,
-                    'messagem' => 'Cargo encontrado com sucesso!',
+                    'message' => 'Cargo encontrado com sucesso!',
                     'cargos' => $ntrab
                 ];
                 $_SESSION['buscar'] = $response;
@@ -346,8 +347,7 @@ else if ($submit == 'login') {
             } else {
                 $response = [
                     'success' => false,
-                    'messagem' => 'Cargo não encontrado!',	
-                    'erro' => null
+                    'message' => 'Cargo não encontrado!',
                 ];
                 $_SESSION['buscar'] = $response;
                 header('Location: ../view/buscacargo.php');
@@ -394,6 +394,7 @@ else if ($submit == "Atualizar_trabalho") {
     try {
         $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
         if ($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente") {
+            require_once("../controller/limparsessions.php");
             $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
             $nome  = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -401,6 +402,7 @@ else if ($submit == "Atualizar_trabalho") {
             $trabalho->setIdCargo($id);
             $trabalhoDAO = new TrabalhoDAO();
             $trabatu = $trabalhoDAO->atualizar($trabalho);
+            if(!empty($trabatu)){
             $trabatu = serialize($trabatu);
             $response = [
                 'success' => true,
@@ -409,6 +411,7 @@ else if ($submit == "Atualizar_trabalho") {
             ];
             $_SESSION['buscar'] = $response;
             header('Location: ../view/buscacargo.php');
+        }
         }else{
             $_SESSION['buscar'] = 'Sem permissão para atualizar!';
             header('Location: ../view/buscacargo.php');
