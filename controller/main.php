@@ -394,7 +394,6 @@ else if ($submit == "Atualizar_trabalho") {
     try {
         $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
         if ($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente") {
-            require_once("../controller/limparsessions.php");
             $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
             $nome  = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -403,12 +402,11 @@ else if ($submit == "Atualizar_trabalho") {
             $trabalhoDAO = new TrabalhoDAO();
             $trabatu = $trabalhoDAO->atualizar($trabalho);
             if(!empty($trabatu)){
-            $trabatu = serialize($trabatu);
             $response = [
                 'success' => true,
                 'message' => 'Atualizado com sucesso!',
-                'trabalho' => $trabatu,
             ];
+            require_once("../controller/limparsessions.php");
             $_SESSION['buscar'] = $response;
             header('Location: ../view/buscacargo.php');
         }
@@ -420,7 +418,7 @@ else if ($submit == "Atualizar_trabalho") {
         $response = [
             'success' => false,
             'message' => 'erro ao atualizar',
-            'trabalho' => $e->getMessage()
+            'cargos' => $e->getMessage()
         ];
         $_SESSION['buscar'] = $response;
         header('Location: ../view/buscacargo.php');

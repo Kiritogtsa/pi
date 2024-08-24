@@ -50,7 +50,7 @@ if (!empty($_SESSION['buscar'])) {
                             <th>Nome</th>
                             <th>Descrição</th>
                                 </tr>
-                                <td><input type="text" name="id" value="<?php echo ($cargos->getIdCargo()); ?>"></td>
+                                <td><input type="text" name="id" value="<?php echo ($cargos->getIdCargo()); ?>" readonly></td>
                                 <td><input type="text" name="nome" value="<?php echo ($cargos->getNome()); ?>"></td>
                                 <td><input type="text" name="descricao" value="<?php echo ($cargos->getDescricao()); ?>"></td>
                                 <td>

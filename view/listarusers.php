@@ -46,10 +46,12 @@ if(!empty($_SESSION['listauser'])){
                         <th>ID</th>
                         <th>NOME</th>
                         <th>TRABALHO</th>
+                        <th>Desativado</th>
                     </tr>
                                 <td><?php echo $d->getId(); ?></td>
                                 <td><?php echo $d->getNome(); ?></td>
                                 <td><?php echo $trabalho->buscarPorId($d->getTrabalho()); ?></td>
+                                <td><?php echo $d->getDeletedAt(); ?></td>
                                 <td>
                                     <form action="../controller/main.php" method="POST">
                                         <button type="submit" value="Desativar_usuario" name="submit">Desativar funcionário</button>

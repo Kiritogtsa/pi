@@ -109,10 +109,7 @@ class TrabalhoDAO
         $stmt->bindParam(":descricao", $descricao);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $trabalho_atualziado = new Trabalho($result['NOME'], $result['DESCRICAO']);
-        $trabalho->setIdCargo($result['ID']);
-        return $trabalho; 
+        return 'Trabalho atualizado com sucesso!';
         }catch(Exception $e){
             echo $e->getMessage();
         }
