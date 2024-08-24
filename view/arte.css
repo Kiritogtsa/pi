@@ -24,6 +24,17 @@ body {
     flex-direction: column; /* Organiza o conteúdo na coluna */
     font-family: 'Poppins', sans-serif; /* Aplica a fonte Poppins */
 }
+.cadastrauser{
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    height: calc(100vh - 120px); 
+    z-index: 1000;
+    width: 100%;
+    padding-right: 7%;
+    margin-top: 700px;
+}
+
 
 /* Header */
 header {
