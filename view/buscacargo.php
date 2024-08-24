@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once('../models/trabalho.php');
 require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
@@ -9,7 +8,9 @@ if (!empty($_SESSION['buscar'])) {
     if(!empty ($response['cargos'])){
     $cargos = unserialize($response['cargos']);
     }
+    if(!empty($_SESSION['buscar']['message'])){
     $messagem = $response['message'];
+    }
 }
 ?>
 
@@ -23,15 +24,15 @@ if (!empty($_SESSION['buscar'])) {
     <title>Buscar Cargo</title>
 
 </head>
-
 <body>
 <header>
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>Buscar Cargo</h1>
     </header>
-
-
         <div class="container">
+        <?php if (!empty($messagem)){ ?>
+              <h1>  <?php echo $messagem; ?>  </h1>
+            <?php } ?>
             <div class="formulario-busca-cargo">
                 <form method="POST" action="../controller/main.php">
                     <label for="nome">Nome trabalho:</label>
@@ -40,11 +41,7 @@ if (!empty($_SESSION['buscar'])) {
 
                 </form>
             </div>
-
-            <?php if (!empty($messagem)){ ?>
-              <h1>  <?php echo $messagem; ?>  </h1>
-            <?php } 
-            if (!empty($response)) { ?>
+           <?php if (!empty($response)) { ?>
                 <div class="formulario-exibicao-cargo">
                     <form method="POST" action="../controller/main.php">
                         <table>
