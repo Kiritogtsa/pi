@@ -24,10 +24,14 @@ if (empty($cargos)) {
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>Cadastrar funcionário</h1>
     </header>
-    <div class="form-container">
+<div class="cadastrauser">
+
     <?php if(!empty($_SESSION['mensagemcadasuser'])){?>
         <h1> <?php echo $_SESSION['mensagemcadasuser'];?></h1>
     <?php } ?>
+    </div>
+    <div class="form-container">
+   
     <form id='form' method='POST' action='../controller/main.php'>
             <div class="Cpessoa">
 
@@ -89,9 +93,11 @@ if (empty($cargos)) {
             <button type='submit' name='submit' value='Cadatrar_user' class="Bcada">Cadastrar</button>
         </form>
     </div>
+
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">
         </a>
         <a href="welcomeadmins.php"class="back-button">Voltar</a>
+</nav>
 </body>
 </html>
