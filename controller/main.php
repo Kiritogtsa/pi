@@ -404,11 +404,14 @@ else if ($submit == "Atualizar_trabalho") {
             $trabalho = new Trabalho($nome, $descricao);
             $trabalho->setIdCargo($id);
             $trabalhoDAO = new TrabalhoDAO();
-            $trabatu = $trabalhoDAO->atualizar($trabalho);
+            $trabalhoDAO->atualizar($trabalho);
+            $nome = $trabalhoDAO->buscarPorId($id);
+            $trabatu = $trabalhoDAO->buscarPorNome($nome);
             if(!empty($trabatu)){
             $response = [
                 'success' => true,
                 'message' => 'Atualizado com sucesso!',
+                'cargos' => serialize($trabatu)
             ];
             require_once("../controller/limparsessions.php");
             $_SESSION['buscar'] = $response;

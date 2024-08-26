@@ -109,7 +109,6 @@ class TrabalhoDAO
         $stmt->bindParam(":descricao", $descricao);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
-        return 'Trabalho atualizado com sucesso!';
         }catch(Exception $e){
             echo $e->getMessage();
         }
