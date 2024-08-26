@@ -139,15 +139,18 @@ else if ($submit == 'Desativar_usuariolist') {
                 'success' => true,
                 'message' => 'Usuário desativado com sucesso!',
             ];
-            $_SESSION['reponse'] = $response;
+            require_once("../controller/limparsessions.php");
+            $_SESSION['desastiv_list'] = $response;
             header('Location: ../view/listarusers.php');
             exit();
         } catch (Exception $e) {
-            $_SESSION['mensagem'] = $e->getMessage();
+            require_once("../controller/limparsessions.php");
+            $_SESSION['desastiv_list'] = $e->getMessage();
             header('Location: ../view/listarusers.php');
             exit();
         }
     }
+
 } else if ($submit == 'Atualizar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $userDAO = new UserDAO(); 
@@ -239,23 +242,24 @@ else if ($submit == 'Desativar_usuariolist') {
 
 else if ($submit == 'Ativar_usuariolist') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
-    $id = isset($_POST['id']) ? $_POST['id'] : null;
-    echo $id;
+    $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
     if ($usuario->getGrupo() == 'gerente' && $usuario->getId() != $id && $id != null) {
         try {
-            // adiconem
             $userDAO = new UserDAO();
             $userDAO->aiivacao($id);
             $response = [
                 'success' => true,
                 'message' => 'Usuário ativado com sucesso!',
             ];
+            require_once("../controller/limparsessions.php");
+            $_SESSION['ativar_list'] = $response;
             header('Location: ../view/listarusers.php');
             exit();
-            $_SESSION['reponse'] = $response;
         } catch (Exception $e) {
-            $_SESSION['mensagem'] = $e->getMessage();
+            require_once("../controller/limparsessions.php");
+            $_SESSION['ativar_list'] = $e->getMessage();
             header('Location: ../view/listarusers.php');
+            exit();
         }
     }
 }
@@ -426,16 +430,26 @@ else if ($submit == "Atualizar_trabalho") {
     }
 } else if ($submit == "Criar_cargo") {
     $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
-    $descricao = filter_var($_POST['descricao']);
-    $trabalho = new Trabalho($nome, $descricao);
+    $descricao = filter_var($_POST['descricao'], FILTER_SANITIZE_SPECIAL_CHARS);
+
     $TrabalhoDAO = new TrabalhoDAO();
-    $trabatualizado = $TrabalhoDAO->salvar($trabalho);
-    if (!empty($trabatualizado)) {
-        $_SESSION['data'] = "Cargo criado com sucesso";
+    $busctrab = $TrabalhoDAO->buscarPorNome($nome);
+
+    if ($busctrab != null) { 
+        $_SESSION['data'] = "Cargo já existente na base de dados!";
         header('Location: ../view/Criatrab.php');
+        exit();
     } else {
-        $_SESSION['data'] = "Erro ao criar trabalho";
+        $trabalho = new Trabalho($nome, $descricao);
+        $trabatualizado = $TrabalhoDAO->salvar($trabalho);
+        if (!empty($trabatualizado)) {
+            $_SESSION['data'] = "Cargo criado com sucesso";
+        } else {
+            $_SESSION['data'] = "Erro ao criar trabalho";
+        }
+
         header('Location: ../view/Criatrab.php');
+        exit();
     }
 }
 

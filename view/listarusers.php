@@ -8,8 +8,19 @@ $max = 5;
 $trabalho = new TrabalhoDAO();
 if(!empty($_SESSION['listauser'])){
     $dados = $_SESSION['listauser']['cargos'];
-
+    if(!empty($_SESSION['listauser']['message'])){
+        $mensagem = $_SESSION['listauser']['message'];
+    }
 }
+
+if(!empty($_SESSION['desastiv_list'])){
+    $mensagem = $_SESSION['desastiv_list']['message'];
+}
+
+if(!empty($_SESSION['ativar_list'])){
+    $mensagem = $_SESSION['ativar_list']['message'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +40,6 @@ if(!empty($_SESSION['listauser'])){
 <br>
 <br>
 <br>
-    <!-- Formulário para buscar o funcionário -->
     <div class="container">
         <div class="formulario-exibicao-cargo">
             <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
@@ -37,24 +47,24 @@ if(!empty($_SESSION['listauser'])){
                 <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
                 <button type="submit" value="Listar_funcionario" name="submit">Listar funcionários</button>
             </form>
-            
             <div class="IBuscaF">
+            <?php if(!empty($mensagem)){?>
+        <h1> <?php echo $mensagem;?></h1>
+    <?php } ?>
                 <table>
                     <?php if (!empty($dados)) {
                         foreach ($dados as $d) { ?>
                     <tr>
-                        <th>ID</th>
                         <th>NOME</th>
                         <th>TRABALHO</th>
                         <th>Desativado</th>
-                    </tr>
-                                <td><?php echo $d->getId(); ?></td>
+                    </tr>   <form action="../controller/main.php" method="POST">
+                                <input type="hidden" name="id" readonly value="<?php echo $d->getId(); ?> ">
                                 <td><?php echo $d->getNome(); ?></td>
                                 <td><?php echo $trabalho->buscarPorId($d->getTrabalho()); ?></td>
                                 <td><?php echo $d->getDeletedAt(); ?></td>
                                 <td>
-                                    <form action="../controller/main.php" method="POST">
-                                        <button type="submit" value="Desativar_usuario" name="submit">Desativar funcionário</button>
+                                        <button type="submit" value="Desativar_usuariolist" name="submit">Desativar funcionário</button>
                                         <button type="submit" value="Ativar_usuariolist" name="submit">Ativar funcionário</button>
                                     </form>
                                 </td>
