@@ -1,8 +1,12 @@
 <?php
+require_once('../models/trabalho.php');
 require_once('../models/users.php');
 require_once('../models/salario.php');
 require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
+
+$trabalhosdao = new TrabalhoDAO();
+$cargos=$trabalhosdao->listarCargo();
 
 if (!empty($_SESSION['buscuser'])) {
     if(!empty($_SESSION['buscuser']['userb'])){
@@ -86,6 +90,7 @@ if(!empty($_SESSION['desativado'])){
         <td><input type="text" name="sexo" value="<?= $user->getSexo(); ?>" readonly ></td>
     </tr>
     <tr>
+        <th>Cargo</th>
         <th>Grupo</th>
         <th>Salário bruto</th>
         <th>IR</th>
@@ -93,9 +98,16 @@ if(!empty($_SESSION['desativado'])){
         <th>Adicional</th>
         <th>Salário líquido</th>
         <th>Desativado</th>
-        <input type="text" hidden name="trabalho" value="<?= $user->getTrabalho(); ?>">
     </tr>
-    <tr>
+    <td>
+    <select name='trabalho' required>
+                    <?php
+                    foreach ($cargos as $cargo) {
+                    ?><option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option><?php
+                                                                                                }
+                                                                                                    ?>
+                </select>
+    </td>
         <td><input type="text" name="grupo" value="<?= $user->getGrupo(); ?>" readonly></td>
         <input type='number' hidden name='id' value='<?= $salario->getId(); ?>'>
         <td><input type='number' name="bruto" value="<?= $salario->getSalariobruto(); ?>"></td>
