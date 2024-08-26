@@ -43,4 +43,3 @@ $data = $_SESSION['data'];
         <a href="welcomeadmins.php"class="back-button">Voltar</a>
 </body>
 </html>
-

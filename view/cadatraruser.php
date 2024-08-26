@@ -44,8 +44,10 @@ if (empty($cargos)) {
                 <input type='text' min="11" max="14" id='cpf' name='cpf' required>
 
                 <label for='sexo'>Sexo:</label>
-                <input type='text' id='sexo' name='sexo' required>
-
+                <select name="sexo" id="sexo">
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                </select>
                 <label for='email'>Email:</label>
                 <input type='email' id='email' name='email' required>
 

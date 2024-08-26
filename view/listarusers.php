@@ -9,6 +9,15 @@ $trabalho = new TrabalhoDAO();
 if (!empty($_SESSION['listauser'])) {
     $dados = $_SESSION['listauser']['cargos'];
 }
+
+if (!empty($_SESSION['desastiv_list'])) {
+    $mensagem = $_SESSION['desastiv_list']['message'];
+}
+
+if (!empty($_SESSION['ativar_list'])) {
+    $mensagem = $_SESSION['ativar_list']['message'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -38,8 +47,10 @@ if (!empty($_SESSION['listauser'])) {
                 <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
                 <button type="submit" value="Listar_funcionario" name="submit">Listar funcionários</button>
             </form>
-
             <div class="IBuscaF">
+                <?php if (!empty($mensagem)) { ?>
+                    <h1> <?php echo $mensagem; ?></h1>
+                <?php } ?>
                 <table>
                     <?php if (!empty($dados)) {
                         foreach ($dados as $d) { ?>
@@ -55,6 +66,7 @@ if (!empty($_SESSION['listauser'])) {
                             <td><?php echo $d->getDeletedAt(); ?></td>
                             <td>
                                 <form action="../controller/main.php" method="POST">
+                                    <input type="number" hidden name="id" value="<?= $d->getId() ?>">
                                     <?php if ($d->getDeletedAt() == null) { ?>
                                         <button type="submit" value="Desativar_usuario" name="submit">Desativar funcionário</button>
                                     <?php } else { ?>

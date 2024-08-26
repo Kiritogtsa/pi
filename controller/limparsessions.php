@@ -14,8 +14,8 @@ if(!empty($_SESSION['mensagemcadasuser'])){
 } else if(!empty($_SESSION['desativado'])){
     unset($_SESSION['desativado']);
 
-} else if(!empty($_SESSION['desativadol'])){
-    unset($_SESSION['desativadol']);
+} else if(!empty($_SESSION['desastiv_list'])){
+    unset($_SESSION['desastiv_list']);
 
 } else if(!empty($_SESSION['user_atualiz'])){
     unset($_SESSION['user_atualiz']);
@@ -23,8 +23,8 @@ if(!empty($_SESSION['mensagemcadasuser'])){
 } else if(!empty($_SESSION['ativado'])){
     unset($_SESSION['ativado']);
 
-} else if(!empty($_SESSION['ativadol'])){
-    unset($_SESSION['ativadol']);
+} else if(!empty($_SESSION['ativar_list'])){
+    unset($_SESSION['ativar_list']);
 
 } else if(!empty($_SESSION['buscuser'])){
     unset($_SESSION['buscuser']);
