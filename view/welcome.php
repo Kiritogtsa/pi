@@ -1,8 +1,12 @@
 <?php
 require_once("../controller/autenticado.php");
-require_once("../controller/privilegios.php");
+
 if (!empty($_SESSION['user'])){
     $user = unserialize($_SESSION['user']);
+}
+
+if(!empty($_SESSION['naopermitido'])){
+    $mensagem = $_SESSION['naopermitido'];
 }
 ?>
 
@@ -20,7 +24,8 @@ if (!empty($_SESSION['user'])){
         <h1>RH Connect</h1>
     </header>
     <div class="content">
-    <h2>BEM-VINDO <?php if (!empty($user)) {echo $user->getNome(); }?>!</h2>
+    <h2><?php if (!empty($user)) {echo 'BEM-VINDO',' ', $user->getNome(); }?>!</h2>
+    <h2><?php if(!empty($mensagem)) { echo $mensagem; } ?></h2>
     </div>
 
 

@@ -24,6 +24,7 @@ if(!empty($_SESSION['mensagemcadasuser'])){
     unset($_SESSION['ativado']);
 
 } else if(!empty($_SESSION['ativar_list'])){
+    echo ($_SESSION['ativar_list']);
     unset($_SESSION['ativar_list']);
 
 } else if(!empty($_SESSION['buscuser'])){
@@ -37,6 +38,8 @@ if(!empty($_SESSION['mensagemcadasuser'])){
     
 } else if(!empty($_SESSION['data'])){
     unset($_SESSION['data']);
+}else if (!empty($_SESSION['naopermitido'])){
+    unset($_SESSION['naopermitido']);
 }
 
 ?>

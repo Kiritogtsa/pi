@@ -69,6 +69,7 @@ $salario = $user->getissalario();
     <?php if($user->getGrupo() == 'gerente' || $user->getGrupo() == 'auxiliar'){ ?>
         <a href="welcomeadmins.php"class="back-button">Voltar</a>
     <?php }else{ ?>
+       <?php require_once("../controller/limparsessions.php"); ?>
         <a href="welcome.php"class="back-button">Voltar</a>
     <?php } ?>
 </body>

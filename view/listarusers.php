@@ -8,6 +8,7 @@ $max = 5;
 $trabalho = new TrabalhoDAO();
 if (!empty($_SESSION['listauser'])) {
     $dados = $_SESSION['listauser']['cargos'];
+    $mensagem = $_SESSION['listauser']['message'];
 }
 
 if (!empty($_SESSION['desastiv_list'])) {
@@ -68,7 +69,7 @@ if (!empty($_SESSION['ativar_list'])) {
                                 <form action="../controller/main.php" method="POST">
                                     <input type="number" hidden name="id" value="<?= $d->getId() ?>">
                                     <?php if ($d->getDeletedAt() == null) { ?>
-                                        <button type="submit" value="Desativar_usuario" name="submit">Desativar funcionário</button>
+                                        <button type="submit" value="Desativar_usuariolist" name="submit">Desativar funcionário</button>
                                     <?php } else { ?>
                                         <button type="submit" value="Ativar_usuariolist" name="submit">Ativar funcionário</button>
                                     <?php } ?>

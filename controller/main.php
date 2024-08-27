@@ -73,17 +73,17 @@ else if ($submit == 'Listar_funcionario') {
                 'message' => 'Dados recebidos com sucesso!',
                 'cargos' => $dados
             ];
+            require_once("../controller/limparsessions.php");
             $_SESSION['listauser'] = $response;
             header('Location: ../view/listarusers.php');
             exit();
         } catch (Exception $e) {
-            $_SESSION['mensagem'] = $e->getMessage();
+            require_once("../controller/limparsessions.php");
             $response = [
                 'success' => true,
                 'message' => 'deu algum erro!',
                 'erro' => $e->getMessage()
             ];
-
             $_SESSION['listauser'] = $response;
             header('Location: ./view/listarusers.php');
             exit();
