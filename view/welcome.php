@@ -1,5 +1,5 @@
 <?php
-require_once("../controller/autenticado.php");
+
 
 if (!empty($_SESSION['user'])){
     $user = unserialize($_SESSION['user']);

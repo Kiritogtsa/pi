@@ -1,14 +1,26 @@
 <?php
 require_once('../models/users.php');
 require_once('../models/trabalho.php');
-require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
-$min = 1;
-$max = 5;
+if(!isset($_SESSION["incremento"])){
+    $incremento=5;
+}else{
+    $incremento = $_SESSION["incremento"];
+}
+if(!isset($_SESSION["min"])){
+    $min=5;
+}else{
+    $min = $_SESSION["min"];
+}
+
+$max = $min + $incremento;
+
 $trabalho = new TrabalhoDAO();
 if (!empty($_SESSION['listauser'])) {
     $dados = $_SESSION['listauser']['cargos'];
     $mensagem = $_SESSION['listauser']['message'];
+    $min = $max;
+    $incre = 5;
 }
 
 if (!empty($_SESSION['desastiv_list'])) {

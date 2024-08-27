@@ -1,6 +1,6 @@
 <?php
 require_once('../controller/privilegios.php');
-require_once('../controller/autenticado.php');
+
 require_once("../models/trabalho.php");
 $cargosdao = new TrabalhoDAO();
 $cargos = $cargosdao->listarCargo();

@@ -2,7 +2,6 @@
 require_once('../models/trabalho.php');
 require_once('../models/users.php');
 require_once('../models/salario.php');
-require_once('../controller/autenticado.php');
 require_once('../controller/privilegios.php');
 
 $trabalhosdao = new TrabalhoDAO();

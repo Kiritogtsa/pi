@@ -1,7 +1,7 @@
 <?php
 
 require_once('../models/trabalho.php');
-require_once('../controller/autenticado.php');
+
 require_once('../controller/privilegios.php');
 if (!empty($_SESSION['data'])){
 $data = $_SESSION['data'];
