@@ -138,7 +138,7 @@ class TrabalhoDAO
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id_cargo", $id_cargo);
         $stmt->execute();
-        return " Trabalho deletado com sucesso";
+        return " Trabalho deletado com sucesso!";
     }
 
     // Lista todos os trabalhos presentes no banco de dados

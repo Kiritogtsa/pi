@@ -44,7 +44,7 @@ if ($submit == 'Cadatrar_user') {
             $userDAO->conn->rollBack();
             $response = [
                 'success' => true,
-                'message' => 'deu algum erro',
+                'message' => 'deu algum erro!',
                 'erro' => $e->getMessage()
             ];
             $_SESSION['mensagemcadasuser'] = $e->getMessage();
@@ -80,7 +80,7 @@ else if ($submit == 'Listar_funcionario') {
             $_SESSION['mensagem'] = $e->getMessage();
             $response = [
                 'success' => true,
-                'message' => 'deu algum erro',
+                'message' => 'deu algum erro!',
                 'erro' => $e->getMessage()
             ];
 
@@ -120,7 +120,7 @@ else if ($submit == 'Listar_funcionario') {
     }else{
         $response = [
             'success' => true,
-            'message' => 'Usuário logado não pode se desativar',
+            'message' => 'Usuário logado não pode se desativar!',
             'user'=> $user
         ];
         $_SESSION['desativado'] = $response;
@@ -446,9 +446,9 @@ else if ($submit == "Atualizar_trabalho") {
         $trabalho = new Trabalho($nome, $descricao);
         $trabatualizado = $TrabalhoDAO->salvar($trabalho);
         if (!empty($trabatualizado)) {
-            $_SESSION['data'] = "Cargo criado com sucesso";
+            $_SESSION['data'] = "Cargo criado com sucesso!";
         } else {
-            $_SESSION['data'] = "Erro ao criar trabalho";
+            $_SESSION['data'] = "Erro ao criar trabalho!";
         }
 
         header('Location: ../view/Criatrab.php');
