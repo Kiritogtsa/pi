@@ -1,5 +1,5 @@
 <?php
-
+require_once("../controller/limparsessions.php");
 
 if (!empty($_SESSION['user'])){
     $user = unserialize($_SESSION['user']);
@@ -24,7 +24,7 @@ if(!empty($_SESSION['naopermitido'])){
         <h1>RH Connect</h1>
     </header>
     <div class="content">
-    <h2><?php if (!empty($user)) {echo 'BEM-VINDO',' ', $user->getNome(); }?>!</h2>
+    <h2><?php if (!empty($user)) {echo 'BEM-VINDO',' ', $user->getNome(); }?></h2>
     <h2><?php if(!empty($mensagem)) { echo $mensagem; } ?></h2>
     </div>
 

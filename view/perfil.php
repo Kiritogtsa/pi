@@ -1,7 +1,6 @@
 <?php
 require_once("../controller/autenticado.php");
 
-require_once('../controller/privilegios.php');
 $user = unserialize($_SESSION["user"]);
 $salario = $user->getissalario();
 ?>

@@ -455,23 +455,27 @@ else if ($submit == "Atualizar_trabalho") {
         exit();
     }
 }
-
 else if ($submit == "Deletar_trabalho") {
     try {
-        // if($usuario->getGrupo() == "auxiliar" || $usuario->getGrupo() == "gerente"){
         $id = filter_var($_POST['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $trabalhoDAO = new TrabalhoDAO();
         $trabdel = $trabalhoDAO->deletar($id);
-        if (!empty($trabdel)) {
-            $response = [
-                'message' => $trabdel
+        $listtrab = $trabalhoDAO->listarCargo();
+
+        require_once("../controller/limparsessions.php");
+
+        if ($trabdel) {
+            $_SESSION['buscar'] = [
+                'message' => 'Cargo deletado com sucesso!',
             ];
-            $_SESSION['buscar'] = $response;
-            header('Location: ../view/buscacargo.php');
         } else {
-            $_SESSION['message'] = "Erro ao deletar trabalho!";
-            header('Location: ../view/buscacargo.php');
+            $_SESSION['buscar'] = [
+                'message' => 'Erro ao deletar trabalho!',
+            ];
         }
+
+        header('Location: ../view/buscacargo.php');
+        exit();
     } catch (Exception $e) {
         echo $e->getMessage();
     }
