@@ -426,6 +426,7 @@ else if ($submit == "Atualizar_trabalho") {
         }else{
             $_SESSION['buscar'] = 'Sem permissão para atualizar!';
             header('Location: ../view/buscacargo.php');
+            exit();
         }
     } catch (Exception $e) {
         $response = [
@@ -436,6 +437,7 @@ else if ($submit == "Atualizar_trabalho") {
         $_SESSION['buscar'] = $response;
         header('Location: ../view/buscacargo.php');
         $e->getMessage();
+        exit();
     }
 } else if ($submit == "Criar_cargo") {
     $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
