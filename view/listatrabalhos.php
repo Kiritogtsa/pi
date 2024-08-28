@@ -26,13 +26,11 @@ if(!empty($_SESSION['listar'])){
         <h1>Lista de Trabalhos</h1>
     </header>
     <div class="container">
-    <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
+    <form method="POST" action="../controller/main.php">
             <button type="submit" name="submit" value="Listar_cargos" class="Bcargo">Listar trabalhos</button>
             </form>
     <?php if ($status == true) { 
                  ?> <h1 style='text-align: center';><?php echo $messagem;?></h1>
-            <div class="formulario-exibicao-cargo">
-          
             <div class="formulario-exibicao-cargo">
         </form>
                 <table>
@@ -52,8 +50,6 @@ if(!empty($_SESSION['listar'])){
                 </table>
             </div>
         <?php } ?>
-        
-        </div>
     <a href="../controller/logout.php" class="logout-icon">
         <img src="imagens/saida.png" alt="Logout">
     </a>

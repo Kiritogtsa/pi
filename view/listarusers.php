@@ -2,20 +2,23 @@
 require_once('../models/users.php');
 require_once('../models/trabalho.php');
 require_once('../controller/privilegios.php');
-if(!isset($_SESSION["incremento"])){
-    $incremento=5;
-}else{
+
+if (!isset($_SESSION["incremento"])) {
+    $incremento = 5;
+} else {
     $incremento = $_SESSION["incremento"];
 }
-if(!isset($_SESSION["min"])){
-    $min=5;
-}else{
+
+if (!isset($_SESSION["min"])) {
+    $min = 5;
+} else {
     $min = $_SESSION["min"];
 }
 
 $max = $min + $incremento;
 
 $trabalho = new TrabalhoDAO();
+
 if (!empty($_SESSION['listauser'])) {
     $dados = $_SESSION['listauser']['cargos'];
     $mensagem = $_SESSION['listauser']['message'];
@@ -30,7 +33,6 @@ if (!empty($_SESSION['desastiv_list'])) {
 if (!empty($_SESSION['ativar_list'])) {
     $mensagem = $_SESSION['ativar_list']['message'];
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -48,10 +50,8 @@ if (!empty($_SESSION['ativar_list'])) {
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>RH Connect</h1>
     </header>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br><br><br><br>
+    
     <!-- Formulário para buscar o funcionário -->
     <div class="container">
         <div class="formulario-exibicao-cargo">
@@ -60,38 +60,44 @@ if (!empty($_SESSION['ativar_list'])) {
                 <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
                 <button type="submit" value="Listar_funcionario" name="submit">Listar funcionários</button>
             </form>
-            <div class="IBuscaF">
-                <?php if (!empty($mensagem)) { ?>
-                    <h1> <?php echo $mensagem; ?></h1>
-                <?php } ?>
-                <table>
-                    <?php if (!empty($dados)) {
-                        foreach ($dados as $d) { ?>
+
+            <?php if (!empty($mensagem)) { ?>
+                <h1><?php echo $mensagem; ?></h1>
+            <?php } ?>
+
+            <table>
+                <?php if (!empty($dados)) { ?>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NOME</th>
+                            <th>TRABALHO</th>
+                            <th>Desativado</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($dados as $d) { ?>
                             <tr>
-                                <th>ID</th>
-                                <th>NOME</th>
-                                <th>TRABALHO</th>
-                                <th>Desativado</th>
+                                <td><?php echo $d->getId(); ?></td>
+                                <td><?php echo $d->getNome(); ?></td>
+                                <td><?php echo $trabalho->buscarPorId($d->getTrabalho()); ?></td>
+                                <td><?php echo $d->getDeletedAt(); ?></td>
+                                <td>
+                                    <form action="../controller/main.php" method="POST">
+                                        <input type="number" hidden name="id" value="<?= $d->getId() ?>">
+                                        <?php if ($d->getDeletedAt() == null) { ?>
+                                            <button type="submit" value="Desativar_usuariolist" name="submit">Desativar funcionário</button>
+                                        <?php } else { ?>
+                                            <button type="submit" value="Ativar_usuariolist" name="submit">Ativar funcionário</button>
+                                        <?php } ?>
+                                    </form>
+                                </td>
                             </tr>
-                            <td><?php echo $d->getId(); ?></td>
-                            <td><?php echo $d->getNome(); ?></td>
-                            <td><?php echo $trabalho->buscarPorId($d->getTrabalho()); ?></td>
-                            <td><?php echo $d->getDeletedAt(); ?></td>
-                            <td>
-                                <form action="../controller/main.php" method="POST">
-                                    <input type="number" hidden name="id" value="<?= $d->getId() ?>">
-                                    <?php if ($d->getDeletedAt() == null) { ?>
-                                        <button type="submit" value="Desativar_usuariolist" name="submit">Desativar funcionário</button>
-                                    <?php } else { ?>
-                                        <button type="submit" value="Ativar_usuariolist" name="submit">Ativar funcionário</button>
-                                    <?php } ?>
-                                </form>
-                            </td>
-                            </tr>
-                    <?php }
-                    } ?>
-                </table>
-            </div>
+                        <?php } ?>
+                    </tbody>
+                <?php } ?>
+            </table>
         </div>
     </div>
 

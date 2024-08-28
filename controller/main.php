@@ -18,8 +18,15 @@ if ($submit == 'Cadatrar_user') {
     $userDAO = new UserDAO();
     if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
         try {
-            // foi adicionados as variaveis para obter um salario minimo
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $buscado = $userDAO->getbyName($nome);
+            if(!empty($buscado)){
+                require_once("../controller/limparsessions.php");
+                $response = 'Usuário já cadastrado na base de dados!';
+                $_SESSION['mensagemcadasuser'] = $response;
+                header('Location: ../view/cadatraruser.php'); 
+                exit();   
+            }
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
             $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
@@ -58,7 +65,6 @@ else if ($submit == 'Listar_funcionario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
     $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
-
     if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
         echo "entra aqui";
         try {
