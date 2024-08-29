@@ -38,5 +38,4 @@ if(!empty($_SESSION['mensagemcadasuser'])){
     unset($_SESSION['naopermitido']);
 }
 
-
 ?>

@@ -3,29 +3,17 @@ require_once('../models/users.php');
 require_once('../models/trabalho.php');
 require_once('../controller/privilegios.php');
 
-if (!isset($_SESSION["incremento"])) {
-    $incremento = 5;
-} else {
-    $incremento = $_SESSION["incremento"];
-}
-
-if (!isset($_SESSION["min"])) {
-    $min = 5;
-} else {
-    $min = $_SESSION["min"];
-}
-
-$max = $min + $incremento;
-
+$min = 0;
+$max = 5;
 $trabalho = new TrabalhoDAO();
 
 if (!empty($_SESSION['listauser'])) {
     $dados = $_SESSION['listauser']['cargos'];
     $mensagem = $_SESSION['listauser']['message'];
-    $min = $max;
-    $incre = 5;
+    $min = $_SESSION['listauser']['min'];
+    $max = $_SESSION['listauser']['max'];
+    $max += 5;
 }
-
 if (!empty($_SESSION['desastiv_list'])) {
     $mensagem = $_SESSION['desastiv_list']['message'];
 }
@@ -42,7 +30,7 @@ if (!empty($_SESSION['ativar_list'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar Funcionário</title>
-    <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />    
 </head>
 
 <body>
@@ -50,9 +38,6 @@ if (!empty($_SESSION['ativar_list'])) {
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>RH Connect</h1>
     </header>
-    <br><br><br><br>
-    
-    <!-- Formulário para buscar o funcionário -->
     <div class="container">
         <div class="formulario-exibicao-cargo">
             <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">

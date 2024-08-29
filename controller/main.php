@@ -66,18 +66,22 @@ else if ($submit == 'Listar_funcionario') {
     $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
     $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
     if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
-        echo "entra aqui";
         try {
             $userDAO = new UserDAO();
             $users = $userDAO->getbyall($min, $max);
             $dados = array();
+            $min = $max;
+            echo $min;
+            echo $max;
             foreach ($users as $user) {
                 $dados[] = $user;
             }
             $response = [
                 'success' => true,
                 'message' => 'Dados recebidos com sucesso!',
-                'cargos' => $dados
+                'cargos' => $dados,
+                'min'=> $min,
+                'max'=>$max
             ];
             require_once("../controller/limparsessions.php");
             $_SESSION['listauser'] = $response;
@@ -95,8 +99,6 @@ else if ($submit == 'Listar_funcionario') {
             exit();
         }
     }
-
-
 } else if ($submit == 'Desativar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;
