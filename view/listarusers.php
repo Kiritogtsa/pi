@@ -79,7 +79,17 @@ if (!empty($_SESSION['ativar_list'])) {
                                     </form>
                                 </td>
                             </tr>
-                        <?php } ?>
+                        <?php } 
+                        ?>                                    <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
+                        <input type="number" id="min" name="min" value="<?php echo $min ?>" hidden>
+                        <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
+                        <button type="submit" value="Listar_funcionario" name="submit">Avançar</button>
+                    </form>
+                    <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
+                        <input type="number" id="min" name="min" value="<?php echo $min ?>" hidden>
+                        <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
+                        <button type="submit" value="Listar_funcionario" name="submit">Voltar</button>
+                    </form>
                     </tbody>
                 <?php } ?>
             </table>
