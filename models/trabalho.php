@@ -167,4 +167,23 @@ class TrabalhoDAO
         }
         return $listaTrabalhos; // Retorna a lista de objetos Trabalho
     }
+
+    public function listarCargosemgerente()
+    {
+        $sql = "SELECT * FROM trabalhos WHERE ID > 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $trabalhos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $listaTrabalhos = [];
+        foreach ($trabalhos as $trabalho) {
+            if ($trabalho["NOME"] != "axiliar gerente") {
+                $t = new Trabalho($trabalho['NOME'], $trabalho['DESCRICAO']);
+                $t->setIdCargo($trabalho['ID']); // Define o ID do trabalho
+                $listaTrabalhos[] = $t; // Adiciona o objeto à lista de trabalhos
+            }
+        }
+        return $listaTrabalhos; // Retorna a lista de objetos Trabalho
+    }
+
 }

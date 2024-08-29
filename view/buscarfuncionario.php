@@ -5,7 +5,7 @@ require_once('../models/salario.php');
 require_once('../controller/privilegios.php');
 
 $trabalhosdao = new TrabalhoDAO();
-$cargos=$trabalhosdao->listarCargo();
+$cargos=$trabalhosdao->listarCargosemgerente();
 
 if (!empty($_SESSION['buscuser'])) {
     if(!empty($_SESSION['buscuser']['userb'])){
