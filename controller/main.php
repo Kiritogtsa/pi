@@ -362,7 +362,11 @@ else if ($submit == 'login') {
             exit();
         }
     } catch (Exception $e) {
-        echo $e->getMessage(); 
+        $e->getMessage();
+        $_SESSION['loginfalha'] = "Usuário não cadastrado no sistema!";
+        header('Location: ../view/login.php'); 
+        exit();
+
     }
 } else if ($submit == 'Buscar_cargos') {
     try {
