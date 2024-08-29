@@ -2,17 +2,16 @@
 require_once('../models/users.php');
 require_once('../models/trabalho.php');
 require_once('../controller/privilegios.php');
-
 $min = 0;
 $max = 5;
 $trabalho = new TrabalhoDAO();
+$limite = $trabalho->lastID();
 
 if (!empty($_SESSION['listauser'])) {
     $dados = $_SESSION['listauser']['cargos'];
     $mensagem = $_SESSION['listauser']['message'];
     $min = $_SESSION['listauser']['min'];
     $max = $_SESSION['listauser']['max'];
-    $max += 5;
 }
 if (!empty($_SESSION['desastiv_list'])) {
     $mensagem = $_SESSION['desastiv_list']['message'];
@@ -79,20 +78,23 @@ if (!empty($_SESSION['ativar_list'])) {
                                     </form>
                                 </td>
                             </tr>
-                        <?php } 
-                        ?>                                    <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
-                        <input type="number" id="min" name="min" value="<?php echo $min ?>" hidden>
-                        <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
-                        <button type="submit" value="Listar_funcionario" name="submit">Avançar</button>
-                    </form>
+                        <?php } ?>
+                    </tbody>
+                </table>
+
+                <div class="pagination-buttons">
                     <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
                         <input type="number" id="min" name="min" value="<?php echo $min ?>" hidden>
                         <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
-                        <button type="submit" value="Listar_funcionario" name="submit">Voltar</button>
+                        <button type="submit" value="Voltar" name="submit" <?php echo $min <= 0 ? 'disabled' : ''; ?>>Voltar</button>
                     </form>
-                    </tbody>
-                <?php } ?>
-            </table>
+                    <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
+                        <input type="number" id="min" name="min" value="<?php echo $min ?>" hidden>
+                        <input type="number" id="max" name="max" value="<?php echo $max; ?>" hidden>
+                        <button type="submit" value="Avancar" name="submit" <?php echo $max >= $limite['ID'] ? 'disabled' : ''; ?>>Avançar</button>
+                    </form>
+                </div>
+            <?php } ?>
         </div>
     </div>
 

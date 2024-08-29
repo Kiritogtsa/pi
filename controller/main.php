@@ -13,6 +13,42 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $submit = filter_var($_GET['submit'], FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
+function listar($usuario, $min, $max){
+    if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
+        try {
+            $userDAO = new UserDAO();
+            $users = $userDAO->getbyall($min, $max);
+            $dados = array();
+            foreach ($users as $user) {
+                $dados[] = $user;
+            }
+            $response = [
+                'success' => true,
+                'message' => 'Dados recebidos com sucesso!',
+                'cargos' => $dados,
+                'min'=> $min,
+                'max'=>$max
+            ];
+            require_once("../controller/limparsessions.php");
+            $_SESSION['listauser'] = $response;
+            header('Location: ../view/listarusers.php');
+            return;
+        } catch (Exception $e) {
+            require_once("../controller/limparsessions.php");
+            $response = [
+                'success' => true,
+                'message' => 'deu algum erro!',
+                'erro' => $e->getMessage()
+            ];
+            $_SESSION['listauser'] = $response;
+            header('Location: ./view/listarusers.php');
+            exit();
+            return;
+        }
+    }
+}
+
+
 if ($submit == 'Cadatrar_user') { 
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $userDAO = new UserDAO();
@@ -65,40 +101,29 @@ else if ($submit == 'Listar_funcionario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
     $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
-    if ($usuario->getGrupo() == 'auxiliar' || $usuario->getGrupo() == 'gerente') {
-        try {
-            $userDAO = new UserDAO();
-            $users = $userDAO->getbyall($min, $max);
-            $dados = array();
-            $min = $max;
-            echo $min;
-            echo $max;
-            foreach ($users as $user) {
-                $dados[] = $user;
-            }
-            $response = [
-                'success' => true,
-                'message' => 'Dados recebidos com sucesso!',
-                'cargos' => $dados,
-                'min'=> $min,
-                'max'=>$max
-            ];
-            require_once("../controller/limparsessions.php");
-            $_SESSION['listauser'] = $response;
-            header('Location: ../view/listarusers.php');
-            exit();
-        } catch (Exception $e) {
-            require_once("../controller/limparsessions.php");
-            $response = [
-                'success' => true,
-                'message' => 'deu algum erro!',
-                'erro' => $e->getMessage()
-            ];
-            $_SESSION['listauser'] = $response;
-            header('Location: ./view/listarusers.php');
-            exit();
-        }
-    }
+    listar($usuario, $min, $max);
+
+
+
+} else if($submit == 'Avancar'){
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
+    $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
+    $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
+    $min = $max;
+    $max += 5;
+    listar($usuario, $min, $max);
+}
+
+else if($submit == 'Voltar'){
+    $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
+    $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
+    $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
+    $max = $min;
+    $min = max(0, $max - 5);
+    listar($usuario, $min, $max);
+
+
+
 } else if ($submit == 'Desativar_usuario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $id = isset($_POST['id']) ? $_POST['id'] : null;

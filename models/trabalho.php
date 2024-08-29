@@ -141,6 +141,14 @@ class TrabalhoDAO
         return " Trabalho deletado com sucesso!";
     }
 
+    public function lastID(){
+        $sql = 'SELECT * FROM `users` ORDER BY `ID` DESC LIMIT 1';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $valor = $stmt->fetch(PDO::FETCH_ASSOC); 
+        return $valor;
+    }
+
     // Lista todos os trabalhos presentes no banco de dados
     public function listarCargo()
     {
