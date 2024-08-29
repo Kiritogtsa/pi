@@ -81,7 +81,6 @@ if (empty($cargos)) {
                 </select>
                 <label for='grupo'>Selecione um Grupo:</label>
                 <select name="grupo" id="grupo">
-                    <option value="gerente">gerente</option>
                     <option value="auxiliar">auxiliar</option>
                     <option value="user">user</option>
                 </select>
