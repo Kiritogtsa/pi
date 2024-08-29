@@ -86,7 +86,7 @@ if (empty($cargos)) {
                     <option value="user">user</option>
                 </select>
                 <label for="telefone">Telefone:</label>
-                <input type="text" id="telefone" name="telefone" required  pattern="\(\d{2}\)\s\d{4,5}-\d{4}" title="O formato esperado é: (55) 93112-4241">
+                <input type="text" id="telefone" name="telefone" required  pattern="\(\d{2}\)\s\d{4,5}-\d{4}" title="O formato esperado é: (55) 93112-4241" placeholder="(XX) XXXX-XXXX">
 
 
                 <label for='Salario'>Salário bruto:</label>
