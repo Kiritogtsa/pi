@@ -155,3 +155,50 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- Inserção na tabela `salario`
+INSERT INTO `salario` (`ID`, `salariobruto`, `ir`, `inss`, `adicional`, `salarioliquido`) VALUES
+(1, 5000, 500, 400, 100, 4000),
+(2, 1200, NULL, NULL, NULL, NULL),
+(3, 2500, 250, 200, 50, 2000),
+(4, 3200, 320, 256, 64, 2560),
+(5, 4000, 400, 320, 80, 3200),
+(6, 1500, 150, 120, 30, 1200),
+(7, 3500, 350, 280, 70, 2800),
+(8, 4500, 450, 360, 90, 3600),
+(9, 2200, 220, 176, 44, 1760),
+(10, 2800, 280, 224, 56, 2240);
+
+-- Inserção na tabela `trabalhos`
+INSERT INTO `trabalhos` (`ID`, `DESCRICAO`, `NOME`) VALUES
+(1, 'ajuda o gerente', 'gerente'),
+(2, 'ajuda o gerente', 'auxiliar gerente'),
+(3, 'teste', 'teste'),
+(4, 'responsável pelo suporte', 'suporte técnico'),
+(5, 'gerencia projetos', 'gerente de projetos'),
+(6, 'administra redes', 'administrador de redes'),
+(7, 'analista de sistemas', 'analista de sistemas'),
+(8, 'desenvolve software', 'desenvolvedor'),
+(9, 'testa software', 'analista de testes'),
+(10, 'gerencia TI', 'gerente de TI');
+
+-- Inserção na tabela `users`
+INSERT INTO `users` (`ID`, `NOME`, `CPF`, `EMAIL`, `DATA_NASCIMENTO`, `TELEFONE`, `DATA_ADMISSAO`, `SEXO`, `SENHA`, `GRUPO`, `DELETE_AT`, `TR_ID`, `SALARIO_ID`) VALUES
+(1, 'FULANO', '05346585498', 'MATHEUS@GMAIL.COM', '9999-05-24', '55981447752', '5555-09-24', 'MASCULINO', '$2y$10$yWbj3ojEM.BChIuHyiGwZe8EFfY/qDsPMhNCO5HS4jaTSCciHbhp2', 'gerente', NULL, 1, 1),
+(2, 'teste1', '123', '', '2001-03-21', '213', '2001-03-21', 'masculino', '$2y$10$kxf4Z3vsQrWevLiLXTEUJeNNFVB15C7UYw4RSrJWYSOWt.kdVjFeq', 'auxiliar', '2024-08-04 20:10:38', 2, 2),
+(3, 'JOÃO SILVA', '00123456789', 'JOAO.SILVA@EMAIL.COM', '1995-07-15', '55912345678', '2020-01-10', 'MASCULINO', '$2y$10$L1r6HG7on4XXRMYzkdKco.', 'user', NULL, 3, 3),
+(4, 'MARIA OLIVEIRA', '98765432100', 'MARIA.OLIVEIRA@EMAIL.COM', '1987-11-23', '55987654321', '2019-05-12', 'FEMININO', '$2y$10$abcdeFGHIJKLmnopQrstuv', 'gerente', NULL, 4, 4),
+(5, 'CARLOS SANTOS', '12345678901', 'CARLOS.SANTOS@EMAIL.COM', '1990-02-18', '55876543210', '2018-07-24', 'MASCULINO', '$2y$10$UVWXYZ0123456789abcd', 'auxiliar', NULL, 5, 5),
+(6, 'ANA PEREIRA', '23456789012', 'ANA.PEREIRA@EMAIL.COM', '1993-05-04', '55823456789', '2017-03-14', 'FEMININO', '$2y$10$mnopqRSTUVwxyzABcdef', 'user', NULL, 6, 6),
+(7, 'PEDRO LIMA', '34567890123', 'PEDRO.LIMA@EMAIL.COM', '1992-10-19', '55765432109', '2021-08-09', 'MASCULINO', '$2y$10$hijklmNOPQRstuvWXyz01', 'gerente', NULL, 7, 7),
+(8, 'JULIA COSTA', '45678901234', 'JULIA.COSTA@EMAIL.COM', '1985-01-12', '55654321098', '2016-06-21', 'FEMININO', '$2y$10$bcdefGHIJKLmnoPQRSTUV', 'auxiliar', NULL, 8, 8),
+(9, 'ROBERTO ALVES', '56789012345', 'ROBERTO.ALVES@EMAIL.COM', '1998-12-03', '55543210987', '2022-11-15', 'MASCULINO', '$2y$10$WXYZabcdefGHIJKLMnopqr', 'user', NULL, 9, 9),
+(10, 'LARISSA MENDES', '67890123456', 'LARISSA.MENDES@EMAIL.COM', '1996-09-27', '55432109876', '2020-09-05', 'FEMININO', '$2y$10$CDEFGHIJKLMNOPQRSTUV', 'gerente', NULL, 10, 10),
+(11, 'FERNANDO GOMES', '78901234567', 'FERNANDO.GOMES@EMAIL.COM', '1988-04-14', '55321098765', '2018-02-22', 'MASCULINO', '$2y$10$stuvwxYZabcdEFGHIJKLM', 'auxiliar', NULL, 11, 11),
+(12, 'BRUNA SOUZA', '89012345678', 'BRUNA.SOUZA@EMAIL.COM', '1994-11-30', '55210987654', '2019-08-18', 'FEMININO', '$2y$10$NOPQrstuvWXYZabcdefG', 'user', NULL, 12, 12),
+(13, 'RICARDO LOPES', '90123456789', 'RICARDO.LOPES@EMAIL.COM', '1991-07-21', '55109876543', '2021-12-01', 'MASCULINO', '$2y$10$hijklmNOPQRSTUVwxyz01', 'gerente', NULL, 13, 13),
+(14, 'VANESSA TEIXEIRA', '01234567890', 'VANESSA.TEIXEIRA@EMAIL.COM', '1989-03-09', '55098765432', '2017-11-03', 'FEMININO', '$2y$10$bcdefGHIJKLmnoPQRSTUV', 'auxiliar', NULL, 14, 14),
+(15, 'MARCOS FERREIRA', '11234567890', 'MARCOS.FERREIRA@EMAIL.COM', '1997-02-26', '55987654321', '2020-04-10', 'MASCULINO', '$2y$10$UVWXYZ0123456789abcd', 'user', NULL, 15, 15),
+(16, 'PATRÍCIA RAMOS', '22234567890', 'PATRICIA.RAMOS@EMAIL.COM', '1993-08-13', '55876543210', '2018-09-19', 'FEMININO', '$2y$10$r1/6HG7on4XXRMYzkdKco.', 'gerente', NULL, 16, 16),
+(17, 'RAFAEL MARTINS', '33234567890', 'RAFAEL.MARTINS@EMAIL.COM', '1990-05-28', '55765432109', '2016-01-15', 'MASCULINO', '$2y$10$abcdeFGHIJKLmnopQrstuv', 'auxiliar', NULL, 17, 17);
