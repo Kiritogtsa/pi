@@ -172,7 +172,7 @@ INSERT INTO `salario` (`ID`, `salariobruto`, `ir`, `inss`, `adicional`, `salario
 
 -- Inserção na tabela `trabalhos`
 INSERT INTO `trabalhos` (`ID`, `DESCRICAO`, `NOME`) VALUES
-(1, 'ajuda o gerente', 'gerente'),
+(1, 'chefe de setor', 'gerente'),
 (2, 'ajuda o gerente', 'auxiliar gerente'),
 (3, 'teste', 'teste'),
 (4, 'responsável pelo suporte', 'suporte técnico'),
