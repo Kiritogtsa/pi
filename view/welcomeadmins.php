@@ -38,7 +38,7 @@ if (!empty($_SESSION['user'])){
    
 
     <a href="../controller/logout.php" class="logout-icon">
-        <img src="imagens/saida.png" alt="Logout">
+        <img src="imagens/sair.png" alt="Logout">
     </a>
 </body>
 </html>

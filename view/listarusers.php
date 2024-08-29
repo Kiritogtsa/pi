@@ -30,6 +30,11 @@ if (!empty($_SESSION['ativar_list'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar Funcionário</title>
     <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />    
+    <style>
+        a.back-button {
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -99,7 +104,7 @@ if (!empty($_SESSION['ativar_list'])) {
     </div>
 
     <a href="../controller/logout.php" class="logout-icon">
-        <img src="imagens/saida.png" alt="Logout">
+        <img src="imagens/sair.png" alt="Logout">
     </a>
     <a href="welcomeadmins.php" class="back-button">Voltar</a>
 </body>

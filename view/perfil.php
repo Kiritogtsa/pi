@@ -11,6 +11,11 @@ $salario = $user->getissalario();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
     <title>Perfil usuário</title>
+    <style>
+        a.back-button {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -64,7 +69,7 @@ $salario = $user->getissalario();
     </div>
 
     <a href="../controller/logout.php" class="logout-icon">
-        <img src="imagens/saida.png" alt="Logout">
+        <img src="imagens/sair.png" alt="Logout">
     </a>
     <?php if($user->getGrupo() == 'gerente' || $user->getGrupo() == 'auxiliar'){ ?>
         <a href="welcomeadmins.php"class="back-button">Voltar</a>

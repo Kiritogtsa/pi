@@ -24,6 +24,11 @@ if(!empty($_SESSION['listar'])){
 <header>
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>Lista de Trabalhos</h1>
+        <style>
+        a.back-button {
+            text-decoration: none;
+        }
+    </style>
     </header>
     <div class="container">
     <form method="POST" action="../controller/main.php">
@@ -51,7 +56,7 @@ if(!empty($_SESSION['listar'])){
             </div>
         <?php } ?>
     <a href="../controller/logout.php" class="logout-icon">
-        <img src="imagens/saida.png" alt="Logout">
+        <img src="imagens/sair.png" alt="Logout">
     </a>
     <a href="welcomeadmins.php"class="back-button">Voltar</a>
 </body>
