@@ -575,4 +575,13 @@ select{
         }
 
 
-    
+        .pagination-buttons {
+            display: flex; /* Usa Flexbox para organizar os botões lado a lado */
+            gap: 10px; /* Espaço entre os botões */
+            justify-content: center; /* Centraliza os botões horizontalmente */
+            margin-top: 20px; /* Adiciona espaço acima dos botões */
+        }
+        
+        .pagination-buttons form {
+            margin: 0; /* Remove a margem padrão dos formulários */
+        }
