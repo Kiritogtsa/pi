@@ -15,7 +15,7 @@ interface crud
 {
     public function persit(user $user): user;
     public function getbyemail(string $email): user;
-    public function getbyName(string $nome): User;
+    public function getbyName(string $nome): User|null;
     public function getbyall(int $min, int $max): array;
     public function delete(int $id): bool;
     public function insertgrupo(User $user): User;
@@ -452,7 +452,7 @@ class UserDAO implements crud
 
     // a funçao que decide qual metodo e chamado
     public function persit(User $user): User
-    { 
+    {
         if (!$user->getId()) {
             return $this->insert($user);
         } else {
@@ -462,8 +462,9 @@ class UserDAO implements crud
 
     // obtem uma instancia de User com base no email fonercido
     // getbyName
-    public function getbyName($nome): User
+    public function getbyName($nome): User | null
     {
+
         $sql = "SELECT * FROM users u inner join salario s on u.SALARIO_ID = s.ID WHERE NOME = :nome";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':nome', $nome);
@@ -471,7 +472,7 @@ class UserDAO implements crud
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$dados) {
-            throw new Exception("Usuário não encontrado com o nome: " . $nome);
+            return null;
         }
 
         $salario = new Salario(
@@ -527,7 +528,7 @@ class UserDAO implements crud
             $stmt->bindParam(":id", $id);
             $result = $stmt->execute();
             $this->conn->commit();
-        
+
             return $result;
         } catch (Exception $e) {
             $this->conn->rollBack();
@@ -633,6 +634,6 @@ class UserDAO implements crud
             $user->setGrupo($row["GRUPO"]);
             $users[] = $user;
         }
-        return $users;   
+        return $users;
     }
 }
