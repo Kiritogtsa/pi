@@ -29,16 +29,16 @@ if (!empty($_SESSION['user'])){
         <a href="Criatrab.php">Cadastrar cargo</a>
         <a href="buscarfuncionario.php">Buscar Funcionário</a>
         <a href="buscacargo.php">Buscar Cargo</a>
+        <a href="listarusers.php">Lista de Funcionário</a>
         <a href="listatrabalhos.php">Lista de Trabalhos</a>
         <a href="perfil.php">Meus Dados</a>
-        <a href="listarusers.php">Lista de Funcionário</a>
 
     </div>
     
    
 
     <a href="../controller/logout.php" class="logout-icon">
-        <img src="imagens/saida.png" alt="Logout">
+        <img src="imagens/sair.png" alt="Logout">
     </a>
 </body>
 </html>

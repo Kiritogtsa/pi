@@ -17,6 +17,7 @@ if(!empty($_SESSION['naopermitido'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de RH - Bem-vindo</title>
     <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
+
 </head>
 <body>
 <header>
@@ -36,7 +37,7 @@ if(!empty($_SESSION['naopermitido'])){
    
 
     <a href="../controller/logout.php" class="logout-icon">
-        <img src="imagens/saida.png" alt="Logout">
+        <img src="imagens/sair.png" alt="Logout">
     </a>
 </body>
 </html>

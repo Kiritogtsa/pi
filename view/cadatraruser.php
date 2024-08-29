@@ -17,6 +17,11 @@ if (empty($cargos)) {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <link rel="stylesheet" type="text/css" href="arte.css" media="screen" />
     <title>Cadastro</title>
+    <style>
+        a.back-button {
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -76,12 +81,11 @@ if (empty($cargos)) {
                 </select>
                 <label for='grupo'>Selecione um Grupo:</label>
                 <select name="grupo" id="grupo">
-                    <option value="gerente">gerente</option>
                     <option value="auxiliar">auxiliar</option>
                     <option value="user">user</option>
                 </select>
                 <label for="telefone">Telefone:</label>
-                <input type="text" id="telefone" name="telefone" required  pattern="\(\d{2}\)\s\d{4,5}-\d{4}" title="O formato esperado é: (55) 93112-4241">
+                <input type="text" id="telefone" name="telefone" required  pattern="\(\d{2}\)\s\d{4,5}-\d{4}" title="O formato esperado é: (55) 93112-4241" placeholder="(XX) XXXX-XXXX">
 
 
                 <label for='Salario'>Salário bruto:</label>
@@ -97,7 +101,7 @@ if (empty($cargos)) {
     </div>
 
     <a href="../controller/logout.php" class="logout-icon">
-        <img src="imagens/saida.png" alt="Logout">
+        <img src="imagens/sair.png" alt="Logout">
         </a>
         <a href="welcomeadmins.php"class="back-button">Voltar</a>
 </nav>
