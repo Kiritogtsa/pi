@@ -425,9 +425,10 @@ class UserDAO implements crud
             TELEFONE = :telefone,
             DATA_ADMISSAO = :data_ad,
             SEXO = :sexo,
-        CPF = :cpf,
-        SALARIO_ID = :salarioid
-        WHERE ID = :id";
+            CPF = :cpf,
+            SALARIO_ID = :salarioid,
+            TR_ID= :tr_id
+            WHERE ID = :id";
         $id = $user->getId();
         $nome = $user->getNome();
         $email = $user->getEmail();
@@ -435,6 +436,7 @@ class UserDAO implements crud
         $telefone = $user->getTelefone();
         $cpf = $user->getCpf();
         $sexo = $user->getSexo();
+        $tr_id = $user->getTrabalho();
         $salario = $user->getslario()->getId();
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id", $id);
@@ -445,6 +447,7 @@ class UserDAO implements crud
         $stmt->bindParam(":sexo", $sexo);
         $stmt->bindParam(":data_ad", $data_adimisao);
         $stmt->bindParam(":salarioid", $salario);
+        $stmt->bindParam("tr_id", $tr_id);
         $stmt->execute();
         $this->conn->commit();
         return $user;
