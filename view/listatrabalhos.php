@@ -34,9 +34,9 @@ if(!empty($_SESSION['listar'])){
     <form method="POST" action="../controller/main.php">
             <button type="submit" name="submit" value="Listar_cargos" class="Bcargo">Listar trabalhos</button>
             </form>
-    <?php if ($status == true) { 
-                 ?> <h1 style='text-align: center';><?php echo $messagem;?></h1>
+    <?php if ($status == true) {  ?>
             <div class="formulario-exibicao-cargo">
+         <h1 style='text-align: center';><?php echo $messagem;?></h1>
         </form>
                 <table>
                     <tr>

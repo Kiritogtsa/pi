@@ -62,6 +62,7 @@ if ($submit == 'Cadatrar_user') {
                 exit();   
             }
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $cpf = preg_replace('/[^0-9]/is', '', $cpf);
             $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $data_nascimento = filter_var($_POST['datanascimento'], FILTER_SANITIZE_NUMBER_INT);
@@ -201,6 +202,7 @@ else if ($submit == 'Desativar_usuariolist') {
             $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
             $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
             $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $cpf = preg_replace('/[^0-9]/is', '', $cpf);
             $sexo = filter_var($_POST['sexo'], FILTER_SANITIZE_SPECIAL_CHARS);
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
