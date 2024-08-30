@@ -47,8 +47,6 @@ function listar($usuario, $min, $max){
         }
     }
 }
-
-
 if ($submit == 'Cadatrar_user') { 
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $userDAO = new UserDAO();
