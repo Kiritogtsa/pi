@@ -42,15 +42,17 @@ if (!empty($_SESSION['ativar_list'])) {
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>RH Connect</h1>
     </header>
-    <br><br>
-    <div class="container">
-        <div class="formulario-exibicao-cargo">
+  
+    
+    <div class="container" style="padding-top: 10%";>
+        <div class="formulario-exibicao-cargo" >
+        <?php if(empty($dados)){ ?>
             <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
                 <input type="number" id="min" name="min" value="<?php echo $min ?>" hidden>
                 <input type="number" id="max" name="max" value="<?php echo $max ?>" hidden>
                 <button type="submit" value="Listar_funcionario" name="submit">Listar funcionários</button>
             </form>
-
+      <?php  } ?>
             <?php if (!empty($mensagem)) { ?>
                 <h1><?php echo $mensagem; ?></h1>
             <?php } ?>

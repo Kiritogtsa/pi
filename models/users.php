@@ -94,6 +94,7 @@ abstract class UserAbstract implements UserIT
         // if (!$this->validarEmail($email)) {
         //     return "Email inválido";
         // }
+        
         if (!$salario = null) {
             return "nao existe um salario";
         }

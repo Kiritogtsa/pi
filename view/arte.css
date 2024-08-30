@@ -33,6 +33,7 @@ body {
     width: 100%;
     padding-right: 7%;
     margin-top: 700px;
+    
 }
 
 
@@ -45,7 +46,7 @@ header {
     padding: 10px; /* Ajuste o padding conforme necessário */
     box-sizing: border-box; 
     text-align: center;
-    position: fixed; /* Fixa o header na parte superior */
+    position: fixed;
     top: 0; /* Posiciona o header no topo */
     left: 0; /* Alinha o header à esquerda */
     z-index: 1000; /* Garante que o header fique acima do resto do conteúdo */
@@ -53,6 +54,7 @@ header {
     align-items: center; /* Alinha o conteúdo verticalmente */
     justify-content: center; /* Centraliza o conteúdo horizontalmente */
     gap: 10px; /* Espaçamento entre a imagem e o texto */
+    padding-bottom: 0.01%
 }
 
 /* Logo do Header */
@@ -451,10 +453,10 @@ select{
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
-    margin: 20px;
+    margin: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 600px; /* Ajuste conforme necessário */
+    max-width: 650px; /* Ajuste conforme necessário */
 }
 
 .formulario-exibicao-cargo table {
@@ -573,8 +575,6 @@ select{
         .back-button:hover {
             background-color: #0056b3;
         }
-
-
         .pagination-buttons {
             display: flex; /* Usa Flexbox para organizar os botões lado a lado */
             gap: 10px; /* Espaço entre os botões */

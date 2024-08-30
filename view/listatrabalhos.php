@@ -21,7 +21,7 @@ if(!empty($_SESSION['listar'])){
     <link rel="stylesheet" href="arte.css"> <!-- Link para o arquivo CSS -->
 </head>
 <body>
-<header>
+<header style="padding-bottom: 0.01%";>
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>Lista de Trabalhos</h1>
         <style>
@@ -29,7 +29,7 @@ if(!empty($_SESSION['listar'])){
             text-decoration: none;
         }
     </style>
-    </header>
+    </header >
     <div class="container">
     <form method="POST" action="../controller/main.php">
             <button type="submit" name="submit" value="Listar_cargos" class="Bcargo">Listar trabalhos</button>

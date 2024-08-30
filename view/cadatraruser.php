@@ -75,7 +75,9 @@ if (empty($cargos)) {
                 <select name='trabalho' required>
                     <?php
                     foreach ($cargos as $cargo) {
-                    ?><option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option><?php
+                        if($cargo->getIdCargo() != 1){ ?>
+                            ?><option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option><?php
+                        }
                                                                                                 }
                                                                                                     ?>
                 </select>
