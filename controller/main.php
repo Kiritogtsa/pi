@@ -47,8 +47,6 @@ function listar($usuario, $min, $max){
         }
     }
 }
-
-
 if ($submit == 'Cadatrar_user') { 
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $userDAO = new UserDAO();
@@ -109,8 +107,8 @@ else if ($submit == 'Listar_funcionario') {
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
     $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
-    $min = $max;
-    $max += 5;
+    $min = $max+1;
+    $max += 5;      
     listar($usuario, $min, $max);
 }
 
@@ -118,7 +116,7 @@ else if($submit == 'Voltar'){
     $usuario = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     $min = filter_var($_POST['min'], FILTER_SANITIZE_NUMBER_INT);
     $max = filter_var($_POST['max'], FILTER_SANITIZE_NUMBER_INT);
-    $max = $min;
+    $max = $min-1;
     $min = max(0, $max - 5);
     listar($usuario, $min, $max);
 
