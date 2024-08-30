@@ -42,6 +42,7 @@ if (!empty($_SESSION['ativar_list'])) {
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>RH Connect</h1>
     </header>
+    <br><br>
     <div class="container">
         <div class="formulario-exibicao-cargo">
             <form method="POST" action="../controller/main.php" class="formulario-busca-cargo">
@@ -53,7 +54,6 @@ if (!empty($_SESSION['ativar_list'])) {
             <?php if (!empty($mensagem)) { ?>
                 <h1><?php echo $mensagem; ?></h1>
             <?php } ?>
-
             <table>
                 <?php if (!empty($dados)) { ?>
                     <thead>

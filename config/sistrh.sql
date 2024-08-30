@@ -40,9 +40,6 @@ CREATE TABLE `salario` (
 -- Despejando dados para a tabela `salario`
 --
 
-INSERT INTO `salario` (`ID`, `salariobruto`, `ir`, `inss`, `adicional`, `salarioliquido`) VALUES
-(1, 5000, 500, 400, 100, 4000),
-(2, 1200, NULL, NULL, NULL, NULL);
 --
 -- Estrutura para tabela `trabalhos`
 --
@@ -56,11 +53,6 @@ CREATE TABLE `trabalhos` (
 --
 -- Despejando dados para a tabela `trabalhos`
 --
-
-INSERT INTO `trabalhos` (`ID`, `DESCRICAO`, `NOME`) VALUES
-(1, 'ajuda o gerente', 'gerente'),
-(2, 'ajuda o gerente', 'auxiliar gerente'),
-(3,"teste","teste");-- --------------------------------------------------------
 
 --
 -- Estrutura para tabela `users`
@@ -85,10 +77,6 @@ CREATE TABLE `users` (
 --
 -- Despejando dados para a tabela `users`
 --
-
-INSERT INTO `users` (`ID`, `NOME`, `CPF`, `EMAIL`, `DATA_NASCIMENTO`, `TELEFONE`, `DATA_ADMISSAO`, `SEXO`, `SENHA`, `GRUPO`, `DELETE_AT`, `TR_ID`, `SALARIO_ID`) VALUES
-(1, 'FULANO', '05346585498', 'MATHEUS@GMAIL.COM', '9999-05-24', '55981447752', '5555-09-24', 'MASCULINO', '$2y$10$yWbj3ojEM.BChIuHyiGwZe8EFfY/qDsPMhNCO5HS4jaTSCciHbhp2', 'gerente', NULL, 1, 1),
-(2, 'teste1', '123', '', '2001-03-21', '213', '2001-03-21', 'masculino', '$2y$10$kxf4Z3vsQrWevLiLXTEUJeNNFVB15C7UYw4RSrJWYSOWt.kdVjFeq', 'auxiliar', '2024-08-04 20:10:38', 2, 2);
 
 --
 -- Índices para tabelas despejadas
