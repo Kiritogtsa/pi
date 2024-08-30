@@ -44,6 +44,7 @@ if (!empty($_SESSION['desativado'])) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -113,7 +114,7 @@ if (!empty($_SESSION['desativado'])) {
                         <td>
                             <?php if ($user->getGrupo() == 'gerente') { ?>
                                 <select name='trabalho' required>
-                                    <option value="<?= $user->getTrabalho() ?>" selected> <?= $cargost[$user->getTrabalho()]->getNome() ?></option>
+                                    <option value="<?= $user->getTrabalho() ?>" selected> <?= $cargost[$user->getTrabalho()-1]->getNome() ?></option>
                                     <?php foreach ($cargost as $cargot) { 
                                         if ($cargot->getIdCargo() != $user->getTrabalho()) { ?>
                                             <option value="<?= $cargot->getIdCargo() ?>"> <?= $cargot->getNome() ?></option>
