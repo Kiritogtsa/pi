@@ -38,7 +38,7 @@ if (!empty($_SESSION['ativar_list'])) {
 </head>
 
 <body>
-    <header>
+    <header style="padding-bottom: 0.01%">
         <img src="imagens/RH.png" alt="Logo RH Connect">
         <h1>RH Connect</h1>
     </header>
