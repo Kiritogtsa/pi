@@ -6,17 +6,17 @@ require_once('../controller/privilegios.php');
 
 $trabalhosdao = new TrabalhoDAO();
 $cargos = $trabalhosdao->listarCargosemgerente();
-var_dump($cargos);
+$cargost = $trabalhosdao->listarCargo();
 $user = null;
 $salario = null;
-$menssagem = null;
+$mensagem = null;
 
 if (!empty($_SESSION['buscuser'])) {
     if (!empty($_SESSION['buscuser']['userb'])) {
         $user = unserialize($_SESSION['buscuser']['userb']);
         $salario = $user->getissalario();
     }
-    $menssagem = $_SESSION['buscuser']['mensagem'];
+    $mensagem = $_SESSION['buscuser']['mensagem'];
 }
 
 if (!empty($_SESSION['user_atualiz'])) {
@@ -24,14 +24,14 @@ if (!empty($_SESSION['user_atualiz'])) {
         $user = unserialize($_SESSION['user_atualiz']["user_atuali"]);
         $salario = $user->getissalario();
     }
-    $menssagem = $_SESSION['user_atualiz']["messagem"];
+    $mensagem = $_SESSION['user_atualiz']["messagem"];
 }
 
 if (!empty($_SESSION['ativado'])) {
     if (!empty($_SESSION['ativado']["usera"])) {
         $user = unserialize($_SESSION['ativado']["usera"]);
         $salario = $user->getissalario();
-        $menssagem = $_SESSION['ativado']["message"];
+        $mensagem = $_SESSION['ativado']["message"];
     }
 }
 
@@ -39,7 +39,7 @@ if (!empty($_SESSION['desativado'])) {
     if (!empty($_SESSION['desativado']["user"])) {
         $user = unserialize($_SESSION['desativado']['user']);
         $salario = $user->getissalario();
-        $menssagem = $_SESSION['desativado']['message'];
+        $mensagem = $_SESSION['desativado']['message'];
     }
 }
 ?>
@@ -70,8 +70,8 @@ if (!empty($_SESSION['desativado'])) {
         <button type="submit" value="Buscar_funcionario" name="submit">Buscar Funcionário</button>
     </form>
 
-    <?php if (!empty($menssagem)) { ?>
-        <h1 style='text-align: center;'><?php echo $menssagem; ?></h1>
+    <?php if (!empty($mensagem)) { ?>
+        <h1 style='text-align: center;'><?php echo $mensagem; ?></h1>
     <?php } ?>
 
     <?php if (!empty($user) && !empty($salario)) { ?>
@@ -111,14 +111,24 @@ if (!empty($_SESSION['desativado'])) {
                     </tr>
                     <tr>
                         <td>
-                            <select name='trabalho' required>
-                                <option value="<?= $user->getTrabalho() ?>"> <?= $cargos[$user->getTrabalho()-2]->getNome() ?></option>
-                                <?php foreach ($cargos as $cargo) {
-                                    if ($cargo->getIdCargo() != $user->getTrabalho()) { ?>
-                                        <option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option>
-                                    <?php }
-                                } ?>
-                            </select>
+                            <?php if ($user->getGrupo() == 'gerente') { ?>
+                                <select name='trabalho' required>
+                                    <option value="<?= $user->getTrabalho() ?>" selected> <?= $cargost[$user->getTrabalho()]->getNome() ?></option>
+                                    <?php foreach ($cargost as $cargot) { 
+                                        if ($cargot->getIdCargo() != $user->getTrabalho()) { ?>
+                                            <option value="<?= $cargot->getIdCargo() ?>"> <?= $cargot->getNome() ?></option>
+                                    <?php } } ?>
+                                </select>
+                            <?php } else { ?>
+                                <select name='trabalho' required>
+                                    <option value="<?= $user->getTrabalho() ?>"> <?= $cargos[$user->getTrabalho() - 2]->getNome() ?></option>
+                                    <?php foreach ($cargos as $cargo) {
+                                        if ($cargo->getIdCargo() != $user->getTrabalho()) { ?>
+                                            <option value="<?= $cargo->getIdCargo() ?>"> <?= $cargo->getNome() ?></option>
+                                        <?php }
+                                    } ?>
+                                </select>
+                            <?php } ?>
                         </td>
                         <td><input type="text" name="grupo" value="<?= $user->getGrupo(); ?>" readonly></td>
                         <input type='number' hidden name='id' value='<?= $salario->getId(); ?>'>
