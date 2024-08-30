@@ -220,6 +220,7 @@ else if ($submit == 'Desativar_usuariolist') {
             $user->setId($id);
             $user->setGrupo($grupo);
             $user =  $userDAO->persit($user);
+            echo $user->getTrabalho();
             if(!empty($user)){
                 $user = serialize($user);
                 $response = [
