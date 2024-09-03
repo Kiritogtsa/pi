@@ -4,7 +4,7 @@ require_once('../controller/autenticado.php');
 
 if (isset($_SESSION['user'])) {
     $user = unserialize($_SESSION['user']);
-    if ($user->getGrupo() != 'auxiliar_gerente' && $user->getGrupo() != 'gerente') {
+    if ($user->getGrupo() != 'auxiliar' && $user->getGrupo() != 'gerente') {
         $_SESSION['naopermitido'] = 'Você não possui permissões para acessar';
         header('Location: ../view/welcome.php');
         exit();
