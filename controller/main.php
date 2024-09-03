@@ -74,7 +74,8 @@ if ($submit == 'Cadatrar_user') {
             $grupo = filter_var($_POST['grupo'], FILTER_SANITIZE_SPECIAL_CHARS);
             $salario_bruto = filter_var($_POST['bruto'], FILTER_SANITIZE_NUMBER_FLOAT);
             $salario = new Salario($salario_bruto, $adicional);
-            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario, $adicional, $grupo);
+            $user = new User($nome, $email, $trabalho, $cpf, $senha, $data_nascimento, $data_admissao, $telefone, $sexo, $salario);
+            $user->setGrupo($grupo);
             $user = $userDAO->persit($user);
             if(!empty($user)){
                 $response = 'Usuário cadastrado com sucesso!';
